@@ -1,0 +1,82 @@
+# ===========================
+# OS & IDE
+# ===========================
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# ===========================
+# CST Studio Suite
+# ===========================
+*/Result/
+*/Cache/
+*.rsp
+*.log
+*.bak
+*_backup/
+Model/3D/
+*.m3d.bak
+
+# ===========================
+# AWR Microwave Office
+# ===========================
+*.emp_lock
+*.workspace
+*_AWR_Backup/
+*.awr.bak
+
+# ===========================
+# Autodesk Inventor
+# ===========================
+*.old
+*.bak
+OldVersions/
+*.log
+
+# ===========================
+# Python
+# ===========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+venv/
+env/
+.venv/
+*.ipynb_checkpoints/
+.jupyter/
+
+# ===========================
+# GNU Radio
+# ===========================
+*.pyc
+*_epy_block_*.py
+
+# ===========================
+# Large data files (track with Git LFS if needed)
+# ===========================
+# *.raw
+# *.bin
+# *.fits
+
+# ===========================
+# 3D Printing
+# ===========================
+*.gcode
+*.3mf.bak
+
+# ===========================
+# Temporary & build artifacts
+# ===========================
+*.tmp
+*.temp
+*.cache
