@@ -39,6 +39,7 @@ mergen-21/
 │   └── awr/              # AWR Microwave Office cascade/matching sims
 ├── mechanical/
 │   ├── inventor/          # Autodesk Inventor source files (.ipt, .iam)
+│   ├── drawings/          # 2D engineering drawings (PDF, dimensioned views)
 │   ├── dxf/              # Laser-cutting DXF exports
 │   ├── stl/              # 3D print STL files
 │   └── 3d-print/         # Print profiles & settings
