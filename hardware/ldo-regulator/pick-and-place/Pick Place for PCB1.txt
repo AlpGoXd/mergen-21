@@ -1,0 +1,32 @@
+Altium Designer Pick and Place Locations
+C:\Users\Public\Documents\Altium\LDO_RF\Project Outputs for LDO_RF\Pick Place\Pick Place for PCB1.txt
+
+========================================================================================================================
+File Design Information:
+
+Date:       16.12.25
+Time:       19:09
+Revision:   Not in VersionControl
+Variant:    No variations
+Units used: mil
+
+Designator Comment                Layer    Footprint                  Center-X(mil) Center-Y(mil) Rotation Description                                                                               
+J4         M22-2510205            TopLayer FP-M22-2510205-MFG         3582.677      2283.465      180      "CONN HEADER VERT 2POS 2MM"                                                               
+J3         1843606                TopLayer FP-1843606-MFG             3912.402      2165.354      270      "1843606 Phoenix Contact 1843606 MCV 1, 5/ 2-G-3, 5 2 Way Terminal Block Header 8A 3.5mm" 
+U2         TPS7A4701RGWT          TopLayer FP-RGW0020A-MFG            3326.771      2125.984      180      "IC REG LINEAR POS ADJ 1A 20VQFN"                                                         
+U1         TPS7A4701RGWT          TopLayer FP-RGW0020A-MFG            3326.772      1732.283      180      "IC REG LINEAR POS ADJ 1A 20VQFN"                                                         
+R1         "8.2k Ohm"             TopLayer FP-RMCF1206-IPC_A          2736.220      1515.748      180      "8.2k Ohm 1206"                                                                           
+J2         1843606                TopLayer FP-1843606-MFG             3912.402      1574.803      270      "1843606 Phoenix Contact 1843606 MCV 1, 5/ 2-G-3, 5 2 Way Terminal Block Header 8A 3.5mm" 
+J1         1843606                TopLayer FP-1843606-MFG             2780.512      2086.614      90       "1843606 Phoenix Contact 1843606 MCV 1, 5/ 2-G-3, 5 2 Way Terminal Block Header 8A 3.5mm" 
+F1         "200mA/500mA 1206 PTC" TopLayer FP-nanoSMD400LR-IPC_A      2736.220      1791.339      0        "PTC RESET FUSE 6V 4A 1206"                                                               
+D1         150120BS75000          TopLayer WL-SMCW_1206_150120xx75000 2736.220      1653.543      0        "WL-SMCW SMT Mono-Color Chip LED Waterclear"                                              
+C10        "1uF 50VDC"            TopLayer CAPC1206(3216)170_M        3051.181      2165.354      0        "CC1206KKX7R7BB1051uF 50VDC"                                                              
+C9         "47uF 10VDC"           TopLayer CAPC1206(3216)170_M        3641.732      1948.819      90       "CL31A476MPHNNN 47uF 10V"                                                                 
+C8         "47uF 10VDC"           TopLayer CAPC1206(3216)170_M        3523.622      1948.819      90       "CL31A476MPHNNN 47uF 10V"                                                                 
+C7         "10uF 16VDC"           TopLayer CAPC1206(3216)170_M        3110.236      1988.189      90       "CL31B106KOHNNNE10uF 16VDC"                                                               
+C6         "10uF 16VDC"           TopLayer CAPC1206(3216)170_M        2992.126      1988.189      90       "CL31B106KOHNNNE10uF 16VDC"                                                               
+C5         "1uF 50VDC"            TopLayer CAPC1206(3216)170_M        3051.181      1771.653      0        "CC1206KKX7R7BB1051uF 50VDC"                                                              
+C4         "47uF 10VDC"           TopLayer CAPC1206(3216)170_M        3641.732      1555.118      90       "CL31A476MPHNNN 47uF 10V"                                                                 
+C3         "47uF 10VDC"           TopLayer CAPC1206(3216)170_M        3523.622      1555.118      90       "CL31A476MPHNNN 47uF 10V"                                                                 
+C2         "10uF 16VDC"           TopLayer CAPC1206(3216)170_M        3110.236      1594.488      90       "CL31B106KOHNNNE10uF 16VDC"                                                               
+C1         "10uF 16VDC"           TopLayer CAPC1206(3216)170_M        2992.126      1594.488      90       "CL31B106KOHNNNE10uF 16VDC"                                                               
