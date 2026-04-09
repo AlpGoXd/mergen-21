@@ -1,0 +1,1286 @@
+options:
+  parameters:
+    author: OpenAI
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: Simulation-only branch RMS measurement and required gain calculator for
+      the Topo 3 hydrogen-line synthesizer. Uses RMS so required Multiply Const =
+      target_rms / measured_rms.
+    copyright: ''
+    description: Measure raw branch RMS after LPFs and directly show required Multiply
+      Const values.
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: topo3_required_constants
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: Topo 3 Required Constants Meter
+    window_size: ''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: fft_size
+  id: variable
+  parameters:
+    comment: ''
+    value: '4096'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 72]
+    rotation: 0
+    state: enabled
+- name: guard_offset_hz
+  id: variable
+  parameters:
+    comment: ''
+    value: '250000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [264, 184.0]
+    rotation: 0
+    state: enabled
+- name: probe_alpha
+  id: variable
+  parameters:
+    comment: ''
+    value: 1e-7
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [616, 184.0]
+    rotation: 0
+    state: enabled
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '3080000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 20]
+    rotation: 0
+    state: enabled
+- name: target_floor_rms
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: '[5,0,1,1]'
+    label: target_floor_rms
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0.0001'
+    step: '0.0001'
+    stop: '0.05'
+    value: '0.002'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [240, 264.0]
+    rotation: 0
+    state: true
+- name: target_local_rms
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: '[0,0,1,1]'
+    label: target_local_rms
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0.01'
+    step: '0.01'
+    stop: '2.0'
+    value: '1.00'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [240, 12]
+    rotation: 0
+    state: true
+- name: target_outer_rms
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: '[3,0,1,1]'
+    label: target_outer_rms
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0.01'
+    step: '0.01'
+    stop: '2.0'
+    value: '0.45'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [240, 192]
+    rotation: 0
+    state: true
+- name: target_perseus_rms
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: '[1,0,1,1]'
+    label: target_perseus_rms
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0.01'
+    step: '0.01'
+    stop: '2.0'
+    value: '0.70'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [240, 72]
+    rotation: 0
+    state: true
+- name: target_sgr_rms
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: '[2,0,1,1]'
+    label: target_sgr_rms
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0.01'
+    step: '0.01'
+    stop: '2.0'
+    value: '0.60'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [240, 132]
+    rotation: 0
+    state: true
+- name: target_warm_rms
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: '[4,0,1,1]'
+    label: target_warm_rms
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0.01'
+    step: '0.01'
+    stop: '2.0'
+    value: '0.25'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [240, 252]
+    rotation: 0
+    state: true
+- name: blocks_throttle2_0
+  id: blocks_throttle2
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    ignoretag: 'True'
+    limit: auto
+    maximum: '0.1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: samp_rate
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1808, 440.0]
+    rotation: 0
+    state: enabled
+- name: div_floor_k
+  id: blocks_divide_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [920, 820]
+    rotation: 0
+    state: true
+- name: div_local_k
+  id: blocks_divide_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [920, 420]
+    rotation: 0
+    state: true
+- name: div_outer_k
+  id: blocks_divide_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [920, 660]
+    rotation: 0
+    state: true
+- name: div_perseus_k
+  id: blocks_divide_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [920, 500]
+    rotation: 0
+    state: true
+- name: div_sgr_k
+  id: blocks_divide_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [920, 580]
+    rotation: 0
+    state: true
+- name: div_warm_k
+  id: blocks_divide_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [920, 740]
+    rotation: 0
+    state: true
+- name: lpf_local
+  id: fir_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_delay: '0'
+    taps: firdes.low_pass(1, samp_rate, 30191, 17775, window.WIN_HAMMING, 6.76)
+    type: ccf
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [248, 420]
+    rotation: 0
+    state: true
+- name: lpf_outer
+  id: fir_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_delay: '0'
+    taps: firdes.low_pass(1, samp_rate, 50318, 29625, window.WIN_HAMMING, 6.76)
+    type: ccf
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [248, 660]
+    rotation: 0
+    state: true
+- name: lpf_perseus
+  id: fir_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_delay: '0'
+    taps: firdes.low_pass(1, samp_rate, 40254, 23700, window.WIN_HAMMING, 6.76)
+    type: ccf
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [248, 500]
+    rotation: 0
+    state: true
+- name: lpf_sgr
+  id: fir_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_delay: '0'
+    taps: firdes.low_pass(1, samp_rate, 36220, 21325, window.WIN_HAMMING, 6.76)
+    type: ccf
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [248, 580]
+    rotation: 0
+    state: true
+- name: lpf_warm
+  id: fir_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_delay: '0'
+    taps: firdes.low_pass(1, samp_rate, 80509, 47400, window.WIN_HAMMING, 6.76)
+    type: ccf
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [248, 740]
+    rotation: 0
+    state: true
+- name: mult_floor
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: '1.0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1128, 820]
+    rotation: 0
+    state: true
+- name: mult_local
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: '1.0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1128, 420]
+    rotation: 0
+    state: true
+- name: mult_outer
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: '1.0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1128, 660]
+    rotation: 0
+    state: true
+- name: mult_perseus
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: '1.0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1128, 500]
+    rotation: 0
+    state: true
+- name: mult_sgr
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: '1.0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1128, 580]
+    rotation: 0
+    state: true
+- name: mult_warm
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: '1.0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1128, 740]
+    rotation: 0
+    state: true
+- name: noise_floor
+  id: analog_noise_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '0.002'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    noise_type: analog.GR_GAUSSIAN
+    seed: '42'
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 820]
+    rotation: 0
+    state: true
+- name: noise_local
+  id: analog_noise_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '1.0'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    noise_type: analog.GR_GAUSSIAN
+    seed: '0'
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 420]
+    rotation: 0
+    state: true
+- name: noise_outer
+  id: analog_noise_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '0.3'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    noise_type: analog.GR_GAUSSIAN
+    seed: '2'
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 660]
+    rotation: 0
+    state: true
+- name: noise_perseus
+  id: analog_noise_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '0.6'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    noise_type: analog.GR_GAUSSIAN
+    seed: '1'
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 500]
+    rotation: 0
+    state: true
+- name: noise_sgr
+  id: analog_noise_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '0.5'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    noise_type: analog.GR_GAUSSIAN
+    seed: '3'
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 580]
+    rotation: 0
+    state: true
+- name: noise_warm
+  id: analog_noise_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '0.15'
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    noise_type: analog.GR_GAUSSIAN
+    seed: '4'
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 740]
+    rotation: 0
+    state: true
+- name: qtgui_freq_sink_0
+  id: qtgui_freq_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'True'
+    average: '0.2'
+    axislabels: 'True'
+    bw: samp_rate
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
+    comment: ''
+    ctrlpanel: 'False'
+    fc: '0'
+    fftsize: fft_size
+    freqhalf: 'True'
+    grid: 'True'
+    gui_hint: '[0,6,8,4]'
+    label: Relative Gain
+    label1: '"sum"'
+    label10: '""'
+    label2: '""'
+    label3: '""'
+    label4: '""'
+    label5: '""'
+    label6: '""'
+    label7: '""'
+    label8: '""'
+    label9: '""'
+    legend: 'False'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '"Synthetic sky quick-look"'
+    nconnections: '1'
+    norm_window: 'False'
+    showports: 'False'
+    tr_chan: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_tag: '""'
+    type: complex
+    units: dB
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    wintype: window.WIN_BLACKMAN_hARRIS
+    ymax: '10'
+    ymin: '-100'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2056, 560]
+    rotation: 0
+    state: true
+- name: qtgui_number_sink_k
+  id: qtgui_number_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    autoscale: 'True'
+    avg: '0'
+    color1: ("black", "black")
+    color10: ("black", "black")
+    color2: ("blue", "red")
+    color3: ("black", "red")
+    color4: ("black", "white")
+    color5: ("white", "black")
+    color6: ("black", "black")
+    color7: ("black", "black")
+    color8: ("black", "black")
+    color9: ("black", "black")
+    comment: ''
+    factor1: '1'
+    factor10: '1'
+    factor2: '1'
+    factor3: '1'
+    factor4: '1'
+    factor5: '1'
+    factor6: '1'
+    factor7: '1'
+    factor8: '1'
+    factor9: '1'
+    graph_type: qtgui.NUM_GRAPH_HORIZ
+    gui_hint: '[4,2,4,4]'
+    label1: '"local k"'
+    label10: ''
+    label2: '"perseus k"'
+    label3: '"sgr k"'
+    label4: '"outer k"'
+    label5: '"warm k"'
+    label6: '"floor k"'
+    label7: ''
+    label8: ''
+    label9: ''
+    max: '10'
+    min: '0'
+    name: '"Required Multiply Const values"'
+    nconnections: '6'
+    type: float
+    unit1: '""'
+    unit10: ''
+    unit2: '""'
+    unit3: '""'
+    unit4: '""'
+    unit5: '""'
+    unit6: '""'
+    unit7: ''
+    unit8: ''
+    unit9: ''
+    update_time: '0.10'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1544, 20]
+    rotation: 0
+    state: true
+- name: qtgui_number_sink_raw
+  id: qtgui_number_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    autoscale: 'True'
+    avg: '0'
+    color1: ("black", "black")
+    color10: ("black", "black")
+    color2: ("blue", "red")
+    color3: ("black", "red")
+    color4: ("black", "white")
+    color5: ("white", "black")
+    color6: ("black", "black")
+    color7: ("black", "black")
+    color8: ("black", "black")
+    color9: ("black", "black")
+    comment: ''
+    factor1: '1'
+    factor10: '1'
+    factor2: '1'
+    factor3: '1'
+    factor4: '1'
+    factor5: '1'
+    factor6: '1'
+    factor7: '1'
+    factor8: '1'
+    factor9: '1'
+    graph_type: qtgui.NUM_GRAPH_HORIZ
+    gui_hint: '[0,2,4,4]'
+    label1: '"local raw rms"'
+    label10: ''
+    label2: '"perseus raw rms"'
+    label3: '"sgr raw rms"'
+    label4: '"outer raw rms"'
+    label5: '"warm raw rms"'
+    label6: '"floor raw rms"'
+    label7: ''
+    label8: ''
+    label9: ''
+    max: '2'
+    min: '0'
+    name: '"Measured raw RMS after LPFs"'
+    nconnections: '6'
+    type: float
+    unit1: '""'
+    unit10: ''
+    unit2: '""'
+    unit3: '""'
+    unit4: '""'
+    unit5: '""'
+    unit6: '""'
+    unit7: ''
+    unit8: ''
+    unit9: ''
+    update_time: '0.10'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1168, 20]
+    rotation: 0
+    state: true
+- name: rms_floor
+  id: blocks_rms_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha: probe_alpha
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 820]
+    rotation: 0
+    state: true
+- name: rms_local
+  id: blocks_rms_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha: probe_alpha
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 420]
+    rotation: 0
+    state: true
+- name: rms_outer
+  id: blocks_rms_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha: probe_alpha
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 660]
+    rotation: 0
+    state: true
+- name: rms_perseus
+  id: blocks_rms_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha: probe_alpha
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 500]
+    rotation: 0
+    state: true
+- name: rms_sgr
+  id: blocks_rms_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha: probe_alpha
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 580]
+    rotation: 0
+    state: true
+- name: rms_warm
+  id: blocks_rms_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha: probe_alpha
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 740]
+    rotation: 0
+    state: true
+- name: rot_guard
+  id: blocks_rotator_cc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    phase_inc: (2.0 * 3.141592653589793 * guard_offset_hz / samp_rate)
+    tag_inc_update: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1672, 620]
+    rotation: 0
+    state: true
+- name: rot_local
+  id: blocks_rotator_cc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    phase_inc: (2.0 * 3.141592653589793 * 0.0 / samp_rate)
+    tag_inc_update: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1312, 420]
+    rotation: 0
+    state: true
+- name: rot_outer
+  id: blocks_rotator_cc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    phase_inc: (2.0 * 3.141592653589793 * 379200.0 / samp_rate)
+    tag_inc_update: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1312, 660]
+    rotation: 0
+    state: true
+- name: rot_perseus
+  id: blocks_rotator_cc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    phase_inc: (2.0 * 3.141592653589793 * 189600.0 / samp_rate)
+    tag_inc_update: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1312, 500]
+    rotation: 0
+    state: true
+- name: rot_sgr
+  id: blocks_rotator_cc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    phase_inc: (2.0 * 3.141592653589793 * -94800.0 / samp_rate)
+    tag_inc_update: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1312, 580]
+    rotation: 0
+    state: true
+- name: rot_warm
+  id: blocks_rotator_cc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    phase_inc: (2.0 * 3.141592653589793 * -23700.0 / samp_rate)
+    tag_inc_update: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1312, 740]
+    rotation: 0
+    state: true
+- name: sum_all
+  id: blocks_add_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '6'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1496, 620]
+    rotation: 0
+    state: true
+- name: target_floor_src
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '0'
+    comment: ''
+    freq: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: target_floor_rms
+    phase: '0'
+    samp_rate: samp_rate
+    showports: 'False'
+    type: float
+    waveform: analog.GR_CONST_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [696, 780]
+    rotation: 0
+    state: true
+- name: target_local_src
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '0'
+    comment: ''
+    freq: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: target_local_rms
+    phase: '0'
+    samp_rate: samp_rate
+    showports: 'False'
+    type: float
+    waveform: analog.GR_CONST_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [696, 380]
+    rotation: 0
+    state: true
+- name: target_outer_src
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '0'
+    comment: ''
+    freq: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: target_outer_rms
+    phase: '0'
+    samp_rate: samp_rate
+    showports: 'False'
+    type: float
+    waveform: analog.GR_CONST_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [696, 620]
+    rotation: 0
+    state: true
+- name: target_perseus_src
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '0'
+    comment: ''
+    freq: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: target_perseus_rms
+    phase: '0'
+    samp_rate: samp_rate
+    showports: 'False'
+    type: float
+    waveform: analog.GR_CONST_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [696, 460]
+    rotation: 0
+    state: true
+- name: target_sgr_src
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '0'
+    comment: ''
+    freq: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: target_sgr_rms
+    phase: '0'
+    samp_rate: samp_rate
+    showports: 'False'
+    type: float
+    waveform: analog.GR_CONST_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [696, 540]
+    rotation: 0
+    state: true
+- name: target_warm_src
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '0'
+    comment: ''
+    freq: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: target_warm_rms
+    phase: '0'
+    samp_rate: samp_rate
+    showports: 'False'
+    type: float
+    waveform: analog.GR_CONST_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [696, 700]
+    rotation: 0
+    state: true
+
+connections:
+- [blocks_throttle2_0, '0', qtgui_freq_sink_0, '0']
+- [div_floor_k, '0', qtgui_number_sink_k, '5']
+- [div_local_k, '0', qtgui_number_sink_k, '0']
+- [div_outer_k, '0', qtgui_number_sink_k, '3']
+- [div_perseus_k, '0', qtgui_number_sink_k, '1']
+- [div_sgr_k, '0', qtgui_number_sink_k, '2']
+- [div_warm_k, '0', qtgui_number_sink_k, '4']
+- [lpf_local, '0', mult_local, '0']
+- [lpf_local, '0', rms_local, '0']
+- [lpf_outer, '0', mult_outer, '0']
+- [lpf_outer, '0', rms_outer, '0']
+- [lpf_perseus, '0', mult_perseus, '0']
+- [lpf_perseus, '0', rms_perseus, '0']
+- [lpf_sgr, '0', mult_sgr, '0']
+- [lpf_sgr, '0', rms_sgr, '0']
+- [lpf_warm, '0', mult_warm, '0']
+- [lpf_warm, '0', rms_warm, '0']
+- [mult_floor, '0', sum_all, '5']
+- [mult_local, '0', rot_local, '0']
+- [mult_outer, '0', rot_outer, '0']
+- [mult_perseus, '0', rot_perseus, '0']
+- [mult_sgr, '0', rot_sgr, '0']
+- [mult_warm, '0', rot_warm, '0']
+- [noise_floor, '0', mult_floor, '0']
+- [noise_floor, '0', rms_floor, '0']
+- [noise_local, '0', lpf_local, '0']
+- [noise_outer, '0', lpf_outer, '0']
+- [noise_perseus, '0', lpf_perseus, '0']
+- [noise_sgr, '0', lpf_sgr, '0']
+- [noise_warm, '0', lpf_warm, '0']
+- [rms_floor, '0', div_floor_k, '1']
+- [rms_floor, '0', qtgui_number_sink_raw, '5']
+- [rms_local, '0', div_local_k, '1']
+- [rms_local, '0', qtgui_number_sink_raw, '0']
+- [rms_outer, '0', div_outer_k, '1']
+- [rms_outer, '0', qtgui_number_sink_raw, '3']
+- [rms_perseus, '0', div_perseus_k, '1']
+- [rms_perseus, '0', qtgui_number_sink_raw, '1']
+- [rms_sgr, '0', div_sgr_k, '1']
+- [rms_sgr, '0', qtgui_number_sink_raw, '2']
+- [rms_warm, '0', div_warm_k, '1']
+- [rms_warm, '0', qtgui_number_sink_raw, '4']
+- [rot_guard, '0', blocks_throttle2_0, '0']
+- [rot_local, '0', sum_all, '0']
+- [rot_outer, '0', sum_all, '3']
+- [rot_perseus, '0', sum_all, '1']
+- [rot_sgr, '0', sum_all, '2']
+- [rot_warm, '0', sum_all, '4']
+- [sum_all, '0', rot_guard, '0']
+- [target_floor_src, '0', div_floor_k, '0']
+- [target_local_src, '0', div_local_k, '0']
+- [target_outer_src, '0', div_outer_k, '0']
+- [target_perseus_src, '0', div_perseus_k, '0']
+- [target_sgr_src, '0', div_sgr_k, '0']
+- [target_warm_src, '0', div_warm_k, '0']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.12.0
