@@ -101,9 +101,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [424, 8.0]
+    coordinate: [344, 872.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: samp_rate
   id: variable
   parameters:
@@ -746,6 +746,35 @@ blocks:
     coordinate: [280, 1160.0]
     rotation: 0
     state: disabled
+- name: qtgui_sink_x_0
+  id: qtgui_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    bw: samp_rate
+    comment: ''
+    fc: '0'
+    fftsize: '2048'
+    gui_hint: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '""'
+    plotconst: 'True'
+    plotfreq: 'True'
+    plottime: 'True'
+    plotwaterfall: 'True'
+    rate: '10'
+    showports: 'False'
+    showrf: 'True'
+    type: complex
+    wintype: window.WIN_KAISER
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1824, 644.0]
+    rotation: 0
+    state: enabled
 - name: qtgui_vector_sink_f_0
   id: qtgui_vector_sink_f
   parameters:
@@ -972,6 +1001,7 @@ connections:
 - [rot_sgr, '0', tx_adder, '3']
 - [rot_warm, '0', tx_adder, '4']
 - [rot_warm_0, '0', iio_pluto_sink_0, '0']
+- [rot_warm_0, '0', qtgui_sink_x_0, '0']
 - [tx_adder, '0', rot_warm_0, '0']
 
 metadata:

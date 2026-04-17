@@ -223,8 +223,8 @@ class topo1_cw_tone(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_stream_to_vector_0, 0), (self.fft_vxx_0, 0))
         self.connect((self.fft_vxx_0, 0), (self.blocks_complex_to_mag_squared_0, 0))
         self.connect((self.pluto_rx, 0), (self.blocks_stream_to_vector_0, 0))
-        self.connect((self.pluto_rx, 0), (self.qtgui_freq_sink_0, 0))
         self.connect((self.tx_signal, 0), (self.iio_pluto_sink_0, 0))
+        self.connect((self.tx_signal, 0), (self.qtgui_freq_sink_0, 0))
 
 
     def closeEvent(self, event):

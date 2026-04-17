@@ -49,7 +49,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '1420000000'
+    value: '1420405000'
   states:
     bus_sink: false
     bus_source: false
@@ -118,7 +118,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '1000'
+    value: '50'
   states:
     bus_sink: false
     bus_source: false
@@ -402,6 +402,24 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [744, 1220.0]
+    rotation: 0
+    state: enabled
+- name: blocks_file_sink_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: C:\Users\alpgo\Desktop\gits\mergen-21\software\gnuradio\calibaartion40
+    type: float
+    unbuffered: 'False'
+    vlen: '2048'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [3096, 1056.0]
     rotation: 0
     state: enabled
 - name: blocks_integrate_xx_0
@@ -816,7 +834,7 @@ blocks:
     rfdc: 'True'
     samplerate: samp_rate
     type: fc32
-    uri: ip:192.168.20.1
+    uri: ip:192.168.10.1
   states:
     bus_sink: false
     bus_source: false
@@ -1179,6 +1197,7 @@ connections:
 - [blocks_multiply_const_vxx_0_1, '0', blocks_add_xx_0, '2']
 - [blocks_multiply_const_vxx_0_1_0, '0', blocks_add_xx_0, '6']
 - [blocks_multiply_const_vxx_0_2, '0', blocks_add_xx_0, '4']
+- [blocks_multiply_const_vxx_0_3, '0', blocks_file_sink_0, '0']
 - [blocks_multiply_const_vxx_0_3, '0', blocks_nlog10_ff_0, '0']
 - [blocks_nlog10_ff_0, '0', qtgui_vector_sink_f_0, '0']
 - [blocks_stream_to_vector_0, '0', blocks_multiply_const_vxx_0, '0']

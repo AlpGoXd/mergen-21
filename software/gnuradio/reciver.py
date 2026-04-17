@@ -11,13 +11,11 @@
 from PyQt5 import Qt
 from gnuradio import qtgui
 from PyQt5 import QtCore
-from gnuradio import analog
 from gnuradio import blocks
 from gnuradio import fft
 from gnuradio.fft import window
-from gnuradio import filter
-from gnuradio.filter import firdes
 from gnuradio import gr
+from gnuradio.filter import firdes
 import sys
 import signal
 from PyQt5 import Qt
@@ -69,27 +67,17 @@ class reciver(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate = 2048000
         self.fft_size = fft_size = 2048
         self.beta = beta = 8.6
-        self.tx_atten = tx_atten = 50
         self.rx_gain = rx_gain = 30
         self.rf_bandwidth = rf_bandwidth = 2000000
         self.kaiser_window = kaiser_window = firdes.low_pass(1.0, samp_rate, samp_rate/(4*fft_size), samp_rate/(4*fft_size), window.WIN_KAISER, beta)
-        self.integration_time = integration_time = 1000
-        self.fwhm_hz = fwhm_hz = 71100
-        self.doppler_hz = doppler_hz = 0
-        self.LO_freq = LO_freq = 1420000000
+        self.integration_time = integration_time = 50
+        self.LO_freq = LO_freq = 1420405000
         self.K = K = 8
 
         ##################################################
         # Blocks
         ##################################################
 
-        self._tx_atten_range = qtgui.Range(0, 89.75, 0.25, 50, 200)
-        self._tx_atten_win = qtgui.RangeWidget(self._tx_atten_range, self.set_tx_atten, "TX Attenuation [dB]", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_grid_layout.addWidget(self._tx_atten_win, 0, 0, 1, 2)
-        for r in range(0, 1):
-            self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(0, 2):
-            self.top_grid_layout.setColumnStretch(c, 1)
         self._rx_gain_range = qtgui.Range(0, 73, 1, 30, 200)
         self._rx_gain_win = qtgui.RangeWidget(self._rx_gain_range, self.set_rx_gain, "RX Gain [dB]", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_grid_layout.addWidget(self._rx_gain_win, 0, 2, 1, 2)
@@ -97,24 +85,6 @@ class reciver(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(2, 4):
             self.top_grid_layout.setColumnStretch(c, 1)
-        self._doppler_hz_range = qtgui.Range(-500000, 500000, 1000, 0, 200)
-        self._doppler_hz_win = qtgui.RangeWidget(self._doppler_hz_range, self.set_doppler_hz, "Doppler Offset [Hz]", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_grid_layout.addWidget(self._doppler_hz_win, 0, 4, 1, 4)
-        for r in range(0, 1):
-            self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(4, 8):
-            self.top_grid_layout.setColumnStretch(c, 1)
-        self.tx_rotator = blocks.rotator_cc((2.0 * 3.14159265 * doppler_hz / samp_rate), False)
-        self.tx_noise = analog.noise_source_c(analog.GR_GAUSSIAN, 0.3, 0)
-        self.tx_lpf = filter.fir_filter_ccf(
-            1,
-            firdes.low_pass(
-                1,
-                samp_rate,
-                (fwhm_hz / 2.355),
-                (fwhm_hz / 4),
-                window.WIN_HAMMING,
-                6.76))
         self.qtgui_vector_sink_f_0 = qtgui.vector_sink_f(
             fft_size,
             (-samp_rate/2),
@@ -204,7 +174,7 @@ class reciver(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setRowStretch(r, 1)
         for c in range(0, 8):
             self.top_grid_layout.setColumnStretch(c, 1)
-        self.pluto_rx = iio.fmcomms2_source_fc32('ip:192.168.20.1' if 'ip:192.168.20.1' else iio.get_pluto_uri(), [True, True], 32768)
+        self.pluto_rx = iio.fmcomms2_source_fc32('ip:192.168.10.1' if 'ip:192.168.10.1' else iio.get_pluto_uri(), [True, True], 32768)
         self.pluto_rx.set_len_tag_key('packet_len')
         self.pluto_rx.set_frequency(LO_freq)
         self.pluto_rx.set_samplerate(samp_rate)
@@ -214,13 +184,6 @@ class reciver(gr.top_block, Qt.QWidget):
         self.pluto_rx.set_rfdc(True)
         self.pluto_rx.set_bbdc(True)
         self.pluto_rx.set_filter_params('Auto', '', 0, 0)
-        self.iio_pluto_sink_0 = iio.fmcomms2_sink_fc32('ip:192.168.20.1' if 'ip:192.168.20.1' else iio.get_pluto_uri(), [True, True], 32768, False)
-        self.iio_pluto_sink_0.set_len_tag_key('')
-        self.iio_pluto_sink_0.set_bandwidth(rf_bandwidth)
-        self.iio_pluto_sink_0.set_frequency(LO_freq)
-        self.iio_pluto_sink_0.set_samplerate(samp_rate)
-        self.iio_pluto_sink_0.set_attenuation(0, tx_atten)
-        self.iio_pluto_sink_0.set_filter_params('Auto', '', 0, 0)
         self.fft_vxx_0 = fft.fft_vcc(fft_size, True, [], True, 2)
         self.blocks_stream_to_vector_0_2 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, fft_size)
         self.blocks_stream_to_vector_0_1_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, fft_size)
@@ -241,6 +204,8 @@ class reciver(gr.top_block, Qt.QWidget):
         self.blocks_multiply_const_vxx_0_0 = blocks.multiply_const_vcc(kaiser_window[6*fft_size:7*fft_size])
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc(kaiser_window[7*fft_size:8*fft_size])
         self.blocks_integrate_xx_0 = blocks.integrate_ff(integration_time, fft_size)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_float*2048, 'C:\\Users\\alpgo\\Desktop\\gits\\mergen-21\\software\\gnuradio\\calibaartion40', False)
+        self.blocks_file_sink_0.set_unbuffered(False)
         self.blocks_delay_0_0_1_0_0_0_0 = blocks.delay(gr.sizeof_gr_complex*1, (fft_size*7))
         self.blocks_delay_0_0_1_0_0_0 = blocks.delay(gr.sizeof_gr_complex*1, (fft_size*6))
         self.blocks_delay_0_0_1_0_0 = blocks.delay(gr.sizeof_gr_complex*1, (fft_size*5))
@@ -275,6 +240,7 @@ class reciver(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_multiply_const_vxx_0_1, 0), (self.blocks_add_xx_0, 2))
         self.connect((self.blocks_multiply_const_vxx_0_1_0, 0), (self.blocks_add_xx_0, 6))
         self.connect((self.blocks_multiply_const_vxx_0_2, 0), (self.blocks_add_xx_0, 4))
+        self.connect((self.blocks_multiply_const_vxx_0_3, 0), (self.blocks_file_sink_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0_3, 0), (self.blocks_nlog10_ff_0, 0))
         self.connect((self.blocks_nlog10_ff_0, 0), (self.qtgui_vector_sink_f_0, 0))
         self.connect((self.blocks_stream_to_vector_0, 0), (self.blocks_multiply_const_vxx_0, 0))
@@ -295,9 +261,6 @@ class reciver(gr.top_block, Qt.QWidget):
         self.connect((self.pluto_rx, 0), (self.blocks_delay_0_0_1_0_0_0, 0))
         self.connect((self.pluto_rx, 0), (self.blocks_delay_0_0_1_0_0_0_0, 0))
         self.connect((self.pluto_rx, 0), (self.qtgui_freq_sink_0, 0))
-        self.connect((self.tx_lpf, 0), (self.tx_rotator, 0))
-        self.connect((self.tx_noise, 0), (self.tx_lpf, 0))
-        self.connect((self.tx_rotator, 0), (self.iio_pluto_sink_0, 0))
 
 
     def closeEvent(self, event):
@@ -314,12 +277,9 @@ class reciver(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.set_kaiser_window(firdes.low_pass(1.0, self.samp_rate, self.samp_rate/(4*self.fft_size), self.samp_rate/(4*self.fft_size), window.WIN_KAISER, self.beta))
-        self.iio_pluto_sink_0.set_samplerate(self.samp_rate)
         self.pluto_rx.set_samplerate(self.samp_rate)
         self.qtgui_freq_sink_0.set_frequency_range(self.LO_freq, self.samp_rate)
         self.qtgui_vector_sink_f_0.set_x_axis((-self.samp_rate/2), (self.samp_rate/self.fft_size))
-        self.tx_lpf.set_taps(firdes.low_pass(1, self.samp_rate, (self.fwhm_hz / 2.355), (self.fwhm_hz / 4), window.WIN_HAMMING, 6.76))
-        self.tx_rotator.set_phase_inc((2.0 * 3.14159265 * self.doppler_hz / self.samp_rate))
 
     def get_fft_size(self):
         return self.fft_size
@@ -352,13 +312,6 @@ class reciver(gr.top_block, Qt.QWidget):
         self.beta = beta
         self.set_kaiser_window(firdes.low_pass(1.0, self.samp_rate, self.samp_rate/(4*self.fft_size), self.samp_rate/(4*self.fft_size), window.WIN_KAISER, self.beta))
 
-    def get_tx_atten(self):
-        return self.tx_atten
-
-    def set_tx_atten(self, tx_atten):
-        self.tx_atten = tx_atten
-        self.iio_pluto_sink_0.set_attenuation(0,self.tx_atten)
-
     def get_rx_gain(self):
         return self.rx_gain
 
@@ -371,7 +324,6 @@ class reciver(gr.top_block, Qt.QWidget):
 
     def set_rf_bandwidth(self, rf_bandwidth):
         self.rf_bandwidth = rf_bandwidth
-        self.iio_pluto_sink_0.set_bandwidth(self.rf_bandwidth)
 
     def get_kaiser_window(self):
         return self.kaiser_window
@@ -394,26 +346,11 @@ class reciver(gr.top_block, Qt.QWidget):
         self.integration_time = integration_time
         self.blocks_multiply_const_vxx_0_3.set_k((1.0/self.integration_time,) * self.fft_size)
 
-    def get_fwhm_hz(self):
-        return self.fwhm_hz
-
-    def set_fwhm_hz(self, fwhm_hz):
-        self.fwhm_hz = fwhm_hz
-        self.tx_lpf.set_taps(firdes.low_pass(1, self.samp_rate, (self.fwhm_hz / 2.355), (self.fwhm_hz / 4), window.WIN_HAMMING, 6.76))
-
-    def get_doppler_hz(self):
-        return self.doppler_hz
-
-    def set_doppler_hz(self, doppler_hz):
-        self.doppler_hz = doppler_hz
-        self.tx_rotator.set_phase_inc((2.0 * 3.14159265 * self.doppler_hz / self.samp_rate))
-
     def get_LO_freq(self):
         return self.LO_freq
 
     def set_LO_freq(self, LO_freq):
         self.LO_freq = LO_freq
-        self.iio_pluto_sink_0.set_frequency(self.LO_freq)
         self.pluto_rx.set_frequency(self.LO_freq)
         self.qtgui_freq_sink_0.set_frequency_range(self.LO_freq, self.samp_rate)
 

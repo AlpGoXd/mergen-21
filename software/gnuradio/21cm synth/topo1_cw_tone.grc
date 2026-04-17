@@ -165,7 +165,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [832, 660.0]
+    coordinate: [880, 644.0]
     rotation: 0
     state: enabled
 - name: blocks_integrate_xx_0
@@ -183,7 +183,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1072, 648.0]
+    coordinate: [1128, 632.0]
     rotation: 0
     state: enabled
 - name: blocks_nlog10_ff_0
@@ -201,7 +201,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1344, 644.0]
+    coordinate: [1352, 644.0]
     rotation: 0
     state: enabled
 - name: blocks_stream_to_vector_0
@@ -219,7 +219,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [336, 656.0]
+    coordinate: [344, 656.0]
     rotation: 0
     state: enabled
 - name: fft_vxx_0
@@ -240,7 +240,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [536, 612.0]
+    coordinate: [576, 596.0]
     rotation: 0
     state: enabled
 - name: iio_pluto_sink_0
@@ -297,7 +297,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [16, 592.0]
+    coordinate: [24, 592.0]
     rotation: 0
     state: enabled
 - name: qtgui_freq_sink_0
@@ -378,7 +378,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [336, 792.0]
+    coordinate: [1048, 456.0]
     rotation: 0
     state: enabled
 - name: qtgui_vector_sink_f_0
@@ -452,7 +452,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1616, 616.0]
+    coordinate: [1624, 616.0]
     rotation: 0
     state: enabled
 - name: tx_signal
@@ -475,7 +475,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [680, 216.0]
+    coordinate: [664, 232.0]
     rotation: 0
     state: enabled
 
@@ -486,8 +486,8 @@ connections:
 - [blocks_stream_to_vector_0, '0', fft_vxx_0, '0']
 - [fft_vxx_0, '0', blocks_complex_to_mag_squared_0, '0']
 - [pluto_rx, '0', blocks_stream_to_vector_0, '0']
-- [pluto_rx, '0', qtgui_freq_sink_0, '0']
 - [tx_signal, '0', iio_pluto_sink_0, '0']
+- [tx_signal, '0', qtgui_freq_sink_0, '0']
 
 metadata:
   file_format: 1
