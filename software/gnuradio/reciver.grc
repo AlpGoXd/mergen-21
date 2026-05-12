@@ -118,7 +118,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '50'
+    value: '500'
   states:
     bus_sink: false
     bus_source: false
@@ -142,6 +142,18 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [16, 376.0]
+    rotation: 0
+    state: enabled
+- name: log_dir
+  id: variable
+  parameters:
+    comment: ''
+    value: '"C:/Users/alpgo/Desktop/gits/mergen-21/software/gnuradio/logs"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1016, 72.0]
     rotation: 0
     state: enabled
 - name: rf_bandwidth
@@ -176,6 +188,18 @@ blocks:
     bus_structure: null
     coordinate: [8, 144.0]
     rotation: 0
+    state: disabled
+- name: rx_gain
+  id: variable
+  parameters:
+    comment: ''
+    value: '30'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [424, 168.0]
+    rotation: 0
     state: enabled
 - name: samp_rate
   id: variable
@@ -187,6 +211,18 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [224, 8.0]
+    rotation: 0
+    state: enabled
+- name: session_ts
+  id: variable
+  parameters:
+    comment: ''
+    value: datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1232, 80.0]
     rotation: 0
     state: enabled
 - name: tx_atten
@@ -411,7 +447,7 @@ blocks:
     alias: ''
     append: 'False'
     comment: ''
-    file: C:\Users\alpgo\Desktop\gits\mergen-21\software\gnuradio\calibaartion40
+    file: os.path.join(log_dir, "mergen21_spec_" + session_ts + ".dat")
     type: float
     unbuffered: 'False'
     vlen: '2048'
@@ -811,6 +847,21 @@ blocks:
     coordinate: [1536, 196.0]
     rotation: 0
     state: disabled
+- name: import_1
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: 'import datetime, os
+
+      '
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1048, 4.0]
+    rotation: 0
+    state: enabled
 - name: pluto_rx
   id: iio_pluto_source
   parameters:
@@ -997,6 +1048,67 @@ blocks:
     coordinate: [3104, 848.0]
     rotation: 0
     state: enabled
+- name: qtgui_waterfall_sink_x_0
+  id: qtgui_waterfall_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    axislabels: 'True'
+    bw: samp_rate
+    color1: '0'
+    color10: '0'
+    color2: '0'
+    color3: '0'
+    color4: '0'
+    color5: '0'
+    color6: '0'
+    color7: '0'
+    color8: '0'
+    color9: '0'
+    comment: ''
+    fc: '0'
+    fftsize: '2048'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: 4,0,2,8
+    int_max: '-70'
+    int_min: '-110'
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '"Integrated Power waterfall"'
+    nconnections: '1'
+    showports: 'False'
+    type: complex
+    update_time: '0.10'
+    wintype: window.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [264, 1304.0]
+    rotation: 0
+    state: enabled
 - name: tx_lpf
   id: low_pass_filter
   parameters:
@@ -1039,7 +1151,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [648, 236.0]
+    coordinate: [672, 292.0]
     rotation: 0
     state: disabled
 - name: tx_rotator
@@ -1210,6 +1322,7 @@ connections:
 - [blocks_stream_to_vector_0_2, '0', blocks_multiply_const_vxx_0_2, '0']
 - [fft_vxx_0, '0', blocks_complex_to_mag_squared_0, '0']
 - [pluto_rx, '0', qtgui_freq_sink_0, '0']
+- [pluto_rx, '0', qtgui_waterfall_sink_x_0, '0']
 - [pluto_rx, '0', virtual_sink_0, '0']
 - [tx_lpf, '0', tx_rotator, '0']
 - [tx_noise, '0', tx_lpf, '0']

@@ -1,11 +1,11 @@
 # Contributing to Mergen-21
 
-This project is currently a graduation research effort. **Open-source contributions will be welcome after initial observations are published.**
+This project is a graduation research effort at Ozyegin University. **Open-source contributions are welcome.**
 
 ## Current Status
 
-- **Private repository** (owned by Alp Gokalp, Ozyegin University)
-- **Transition to public planned:** After first-light observations & paper submission (~2026-Q3)
+- **Public repository** (owned by Alp Gokalp, Ozyegin University)
+- First-light observations complete (2026-04-29); science-grade analysis in progress
 
 ## Code of Conduct
 

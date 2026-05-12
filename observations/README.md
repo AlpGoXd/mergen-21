@@ -1,24 +1,38 @@
-# Observation Data
+# Observations
 
-Raw telescope observations of the 21 cm hydrogen line (1420.405 MHz).
-
-## Data Organization
-
-Files follow naming: `YYYYMMDD_HHMM_lXXX_bYYY.c64`
-
-- `YYYYMMDD` -- Observation date (ISO 8601)
-- `HHMM` -- Start time (UTC)
-- `lXXX` -- Galactic longitude (deg, 0--360)
-- `bYYY` -- Galactic latitude (deg, -90 to +90)
-- `.c64` -- Complex 32-bit float (ADALM-PLUTO native)
+First-light hydrogen line (1420.405 MHz) observations from Mergen-21.
 
 ## Contents
 
-- `data/` -- Raw observation files (*.c64, *.metadata.txt)
-- `plots/` -- Generated figures (spectra, dynamic spectra, profiles)
+- `data/` — Raw spectra (`mergen21_spec_YYYYMMDD_HHMMSS[_label].dat`, NumPy float32)
+- `plots/` — Waterfall and directional sweep plots (PNG)
+
+## First-Light Session — 2026-04-29
+
+Directional sweeps from Istanbul, Turkey (~41.0°N, 29.0°E).
+
+| File label | Direction |
+|------------|-----------|
+| `_bati` | West (Batı) |
+| `_guney` | South (Güney) |
+| `_doggu` / `_Dogu` | East (Doğu) |
+
+## Data Format
+
+`.dat` files are NumPy float32 power spectra saved by `software/gnuradio/reciver.grc`:
+
+```python
+import numpy as np
+spec = np.fromfile('mergen21_spec_20260429_041703.dat', dtype=np.float32)
+```
+
+Visualise with:
+```bash
+python3 software/analysis/mergen21_waterfall_viewer.py observations/data/
+```
 
 ## Site
 
-- **Location:** Istanbul, Turkey (~41.0 deg N, 29.0 deg E)
-
-[To be populated after first-light observations]
+**Location:** Istanbul, Turkey (~41.0°N, 29.0°E)  
+**Target:** Galactic plane HI emission (1420.405 MHz)  
+**Method:** Tangent-point method for rotation curve extraction

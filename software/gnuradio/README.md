@@ -1,136 +1,106 @@
 # GNU Radio Flowgraphs
 
-Real-time signal acquisition for the ADALM-PLUTO SDR targeting 1420.405 MHz hydrogen line observations.
+Real-time signal acquisition and synthesis flowgraphs for the ADALM-PLUTO SDR, targeting 1420.405 MHz hydrogen line observations.
 
-## Current Repo State
+## Flowgraphs
 
-The `flowgraphs/` directory is currently scaffolding-only in this repo snapshot (placeholder file committed). The flowgraphs listed below are planned/working locally and will be committed after cleanup.
+### Receiver
 
-## Flowgraphs Available
+| File | Purpose | Input | Output |
+|------|---------|-------|--------|
+| `reciver.grc` / `reciver.py` | Main HI line receiver | PlutoSDR I/Q | Spectrum data (`.dat`) |
 
-| File | Purpose | Input | Output | Status |
-|------|---------|-------|--------|--------|
-| `acquisition_1ch.grc` | Single-channel HI receiver | PlutoSDR I/Q | C64 file sink | Planned commit |
-| `acquisition_1ch_nodc.grc` | Single-channel (DC-blocked) | PlutoSDR I/Q | C64 file sink | Planned commit |
-| `[future] acquisition_dual.grc` | Dual-channel (future) | PlutoSDR I/Q | C64 files | Planned |
+### Synthesis / Test (`21cm synth/`)
+
+Test flowgraphs used to validate the analysis pipeline without live RF hardware:
+
+| File | Purpose |
+|------|---------|
+| `topo1_cw_tone.grc` | Single CW tone at 1420.405 MHz |
+| `topo2_single_gaussian.grc` | Gaussian spectral line (simulated HI) |
+| `topo3_galaxy_rotation.grc` | Multi-component Gaussian (simulated galactic HI spectrum) |
+| `topo3_required_constants.grc` | Physical constants block used by topo3 |
+| `fftdemo.grc` | Basic FFT display demo |
+| `testingit.grc` | Scratch/test flowgraph |
 
 ## Hardware Setup
 
-1. **ADALM-PLUTO SDR**
-   - USB connection to host PC
-   - No external power required (USB-powered)
-   - Typical USB 3.0 bandwidth limit: 110 MSPS
+**Expected signal path:**
+```
+Antenna (16.9 dBi) → LNA (19.7 dB) → BPF (−0.8 dB) → Amp (20.8 dB) → PlutoSDR
+Cascade: ~40 dB gain, 0.75 dB NF
+```
 
-2. **Expected signal path:**
-   ```
-   Antenna (16.9 dBi) -> LNA (19.7 dB) -> BPF (-0.8 dB) -> Amp (20.8 dB) -> PlutoSDR
-   Expected: ~40 dB cascade gain + 0.75 dB NF
-   ```
+**PlutoSDR settings (receiver):**
+- Center frequency: 1420.405 MHz
+- Sample rate: 2 MSPS (~1 MHz baseband BW)
+- RF bandwidth: 20 MHz
+- PlutoSDR gain: 0 dB (cascade already provides ~40 dB)
 
-3. **Typical GNU Radio settings**
-   - Frequency: 1420.405 MHz
-   - Sample rate: 2 MSPS (Nyquist limit -> ~1 MHz baseband BW)
-   - Receiver gain (PlutoSDR): 0--73 dB manual (use 0 dB -- cascade already provides 40 dB)
-   - RF bandwidth: 20 MHz (capture full HI line + some bandwidth for search)
-
-## Installation & Setup
-
-### Prerequisites
+## Installation
 
 ```bash
-# Ubuntu 22.04 (or similar)
-sudo apt update
-sudo apt install -y gnuradio gr-iio python3-pip
+# Ubuntu 22.04
+sudo apt install -y gnuradio gr-iio
 
-# Or use conda (more reliable for GNU Radio)
-conda create -n gnuradio -c conda-forge gnuradio=3.10
+# Or conda (more reliable)
+conda create -n gnuradio -c conda-forge gnuradio=3.10 gr-iio
 conda activate gnuradio
 ```
 
-### Run a Flowgraph
+## Running
 
 ```bash
-# Method 1: GUI (interactive)
-gnuradio-companion acquisition_1ch.grc
+# GUI
+gnuradio-companion reciver.grc
 
-# Method 2: Headless (automated)
-grcc -d . acquisition_1ch.grc
-python3 acquisition_1ch.py
+# Headless
+python3 reciver.py
 ```
 
-## Typical Observation Workflow
+## Observation Workflow
 
-1. **Prep:** Connect antenna, LDO power supply, and PlutoSDR
-2. **Verify hardware:** `usb-devices | grep 0456` (should show Analog Devices)
-3. **Run flowgraph:**
-   ```bash
-   gnuradio-companion acquisition_1ch.grc
-   ```
-4. **Set parameters in GRC (GUI):**
-   - Frequency: 1420.405 MHz (or scan range in future multi-frequency version)
-   - Duration: Set file sink to close after N samples (e.g., 10 seconds @ 2 MSPS = 20M samples)
-   - Output file: `20260401_1430_l030_b00.c64`
-5. **Start recording:** Click "Execute" in GRC toolbar
-6. **Monitor:** Should see baseband IQ waterfall; HI line appears as bright feature ~+/-0.5 MHz from DC
+1. Connect antenna → LNA power supply → PlutoSDR → PC
+2. Verify PlutoSDR: `usb-devices | grep 0456`
+3. Launch `reciver.grc` in GRC
+4. Set center frequency to 1420.405 MHz, confirm sample rate 2 MSPS
+5. Run; output written to `logs/`
 
-## File Formats
+## Output Format
 
-**C64 format** (PlutoSDR native, GNU Radio File Sink export):
-- Complex 32-bit float interleaved (IQIQIQ...)
-- File extension: `.c64`
-- Read with: `numpy.fromfile('file.c64', dtype=np.complex64)`
+The receiver saves NumPy float32 power spectra (not raw I/Q). Recorded files go to `observations/data/`:
 
-Example Python:
 ```python
 import numpy as np
-
-# Load C64 file
-iq_data = np.fromfile('observation.c64', dtype=np.complex64)
-print(f"Loaded {len(iq_data)} samples")
-
-# Convert to power spectrum
-psd = np.abs(iq_data)**2
-```
-
-## Directory Structure
-
-```
-gnuradio/
-├── README.md          # This file
-├── flowgraphs/        # GRC flowgraph files (.grc)
-└── examples/          # Example scripts and configurations
+spec = np.fromfile('../../observations/data/mergen21_spec_20260429_041703.dat', dtype=np.float32)
 ```
 
 ## Troubleshooting
 
-### PlutoSDR not detected
+**PlutoSDR not detected:**
 ```bash
 usb-devices | grep 0456
-# If nothing: try sudo, check USB 2.0 vs. 3.0 port, reseat cable
+# Try: sudo, USB 2.0 port, reseat cable
 ```
 
-### gr-iio not found
+**gr-iio not found:**
 ```bash
-# Rebuild GNU Radio from source or use conda
 conda install -c conda-forge gr-iio
 ```
 
-### Flowgraph freezes during execute
-- Reduce sample rate (try 1 MSPS instead of 2)
-- Check USB bandwidth saturation (run `dmesg` for errors)
-- Increase file sink buffer size
+**Flowgraph freezes:**
+- Reduce sample rate to 1 MSPS
+- Check USB bandwidth (`dmesg`)
 
-### Noisy or flat spectrum
-- Verify RF chain power supply (-5V, -12V present?)
-- Check antenna connection (SMA connector contact)
-- Try known-good 1 MHz test signal from vector signal generator to verify chain
+**Flat / noisy spectrum:**
+- Verify LDO power supply (±5 V, ±12 V)
+- Check SMA connections
 
 ## See Also
 
-- GNU Radio documentation: https://www.gnuradio.org/
-- ADALM-PLUTO quick start: https://wiki.analog.com/university/tools/pluto
-- gr-iio blocks: https://github.com/analogdevicesinc/gr-iio
-
-## Next Steps
-
-After acquiring data, proceed to [`../analysis/`](../analysis/) for calibration & spectral analysis.
+- [GNU Radio docs](https://www.gnuradio.org/)
+- [ADALM-PLUTO quick start](https://wiki.analog.com/university/tools/pluto)
+- [gr-iio](https://github.com/analogdevicesinc/gr-iio)
+- Analysis pipeline: [`../analysis/`](../analysis/)
+- Waterfall viewer: [`../analysis/mergen21_waterfall_viewer.py`](../analysis/mergen21_waterfall_viewer.py)
+- Observation data: [`../../observations/`](../../observations/)

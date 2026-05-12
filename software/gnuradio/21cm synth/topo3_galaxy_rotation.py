@@ -71,7 +71,7 @@ class topo3_galaxy_rotation(gr.top_block, Qt.QWidget):
         self.sky_offset_hz = sky_offset_hz = 230e3
         self.samp_rate = samp_rate = 3080000
         self.rf_bandwidth = rf_bandwidth = 3080000
-        self.integration_time = integration_time = 1000
+        self.integration_time = integration_time = 10000
         self.fft_size = fft_size = 4096
         self.LO_freq = LO_freq = 1420405000
 

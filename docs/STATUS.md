@@ -2,17 +2,18 @@
 
 High-level status snapshot for major subsystems.
 
-Last updated: 2026-03-30
+Last updated: 2026-05-12
 
 | Area | Status | Notes |
 |------|--------|-------|
 | Hardware (antenna, RF chain, LDO, simulations) | Complete | All under `hardware/`; fully characterized and documented. |
 | Measurements (VNA, IP3, NF, antenna) | Complete | All under `measurements/`. |
-| Build log | In progress | Initial chronological index in `docs/build-log/README.md`; extended notes in `hardware/antenna/ASSEMBLY.md`. |
-| GNU Radio software | In progress | Structure and docs present; flowgraph files are planned for commit. |
-| Analysis software | In progress | Structure and docs present; scripts/notebooks are planned for commit. |
-| Observations | In progress | Folder structure and naming conventions documented; data population pending. |
-| Open-source release prep | In progress | Final public-facing cleanup ongoing. |
+| Build log | Complete | Photos in `docs/build-log/`; assembly notes in `hardware/antenna/ASSEMBLY.md`. |
+| GNU Radio software | Complete | `reciver.grc` (main acquisition) + `21cm synth/` test flowgraphs in `software/gnuradio/`. |
+| Analysis software | In progress | Waterfall viewer in `software/python-scripts/`; full calibration pipeline in development. |
+| First-light observations | Complete | Raw spectra + directional sweeps from 2026-04-29 in `software/gnuradio/logs/`. |
+| Observations (science-grade) | In progress | Calibrated data population pending; folder structure in `observations/`. |
+| Open-source release prep | In progress | Final cleanup ongoing. |
 
 ## Notes
 

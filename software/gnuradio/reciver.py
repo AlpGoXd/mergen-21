@@ -10,7 +10,6 @@
 
 from PyQt5 import Qt
 from gnuradio import qtgui
-from PyQt5 import QtCore
 from gnuradio import blocks
 from gnuradio import fft
 from gnuradio.fft import window
@@ -23,6 +22,7 @@ from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
 from gnuradio import iio
+import datetime, os
 import sip
 import threading
 
@@ -67,10 +67,12 @@ class reciver(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate = 2048000
         self.fft_size = fft_size = 2048
         self.beta = beta = 8.6
+        self.session_ts = session_ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         self.rx_gain = rx_gain = 30
         self.rf_bandwidth = rf_bandwidth = 2000000
+        self.log_dir = log_dir = "C:/Users/alpgo/Desktop/gits/mergen-21/software/gnuradio/logs"
         self.kaiser_window = kaiser_window = firdes.low_pass(1.0, samp_rate, samp_rate/(4*fft_size), samp_rate/(4*fft_size), window.WIN_KAISER, beta)
-        self.integration_time = integration_time = 50
+        self.integration_time = integration_time = 500
         self.LO_freq = LO_freq = 1420405000
         self.K = K = 8
 
@@ -78,12 +80,44 @@ class reciver(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
 
-        self._rx_gain_range = qtgui.Range(0, 73, 1, 30, 200)
-        self._rx_gain_win = qtgui.RangeWidget(self._rx_gain_range, self.set_rx_gain, "RX Gain [dB]", "counter_slider", float, QtCore.Qt.Horizontal)
-        self.top_grid_layout.addWidget(self._rx_gain_win, 0, 2, 1, 2)
-        for r in range(0, 1):
+        self.qtgui_waterfall_sink_x_0 = qtgui.waterfall_sink_c(
+            2048, #size
+            window.WIN_BLACKMAN_hARRIS, #wintype
+            0, #fc
+            samp_rate, #bw
+            "Integrated Power waterfall", #name
+            1, #number of inputs
+            None # parent
+        )
+        self.qtgui_waterfall_sink_x_0.set_update_time(0.10)
+        self.qtgui_waterfall_sink_x_0.enable_grid(False)
+        self.qtgui_waterfall_sink_x_0.enable_axis_labels(True)
+
+
+
+        labels = ['', '', '', '', '',
+                  '', '', '', '', '']
+        colors = [0, 0, 0, 0, 0,
+                  0, 0, 0, 0, 0]
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+                  1.0, 1.0, 1.0, 1.0, 1.0]
+
+        for i in range(1):
+            if len(labels[i]) == 0:
+                self.qtgui_waterfall_sink_x_0.set_line_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_waterfall_sink_x_0.set_line_label(i, labels[i])
+            self.qtgui_waterfall_sink_x_0.set_color_map(i, colors[i])
+            self.qtgui_waterfall_sink_x_0.set_line_alpha(i, alphas[i])
+
+        self.qtgui_waterfall_sink_x_0.set_intensity_range(-110, -70)
+
+        self._qtgui_waterfall_sink_x_0_win = sip.wrapinstance(self.qtgui_waterfall_sink_x_0.qwidget(), Qt.QWidget)
+
+        self.top_grid_layout.addWidget(self._qtgui_waterfall_sink_x_0_win, 4, 0, 2, 8)
+        for r in range(4, 6):
             self.top_grid_layout.setRowStretch(r, 1)
-        for c in range(2, 4):
+        for c in range(0, 8):
             self.top_grid_layout.setColumnStretch(c, 1)
         self.qtgui_vector_sink_f_0 = qtgui.vector_sink_f(
             fft_size,
@@ -204,7 +238,7 @@ class reciver(gr.top_block, Qt.QWidget):
         self.blocks_multiply_const_vxx_0_0 = blocks.multiply_const_vcc(kaiser_window[6*fft_size:7*fft_size])
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vcc(kaiser_window[7*fft_size:8*fft_size])
         self.blocks_integrate_xx_0 = blocks.integrate_ff(integration_time, fft_size)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_float*2048, 'C:\\Users\\alpgo\\Desktop\\gits\\mergen-21\\software\\gnuradio\\calibaartion40', False)
+        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_float*2048, os.path.join(log_dir, "mergen21_spec_" + session_ts + ".dat"), False)
         self.blocks_file_sink_0.set_unbuffered(False)
         self.blocks_delay_0_0_1_0_0_0_0 = blocks.delay(gr.sizeof_gr_complex*1, (fft_size*7))
         self.blocks_delay_0_0_1_0_0_0 = blocks.delay(gr.sizeof_gr_complex*1, (fft_size*6))
@@ -261,6 +295,7 @@ class reciver(gr.top_block, Qt.QWidget):
         self.connect((self.pluto_rx, 0), (self.blocks_delay_0_0_1_0_0_0, 0))
         self.connect((self.pluto_rx, 0), (self.blocks_delay_0_0_1_0_0_0_0, 0))
         self.connect((self.pluto_rx, 0), (self.qtgui_freq_sink_0, 0))
+        self.connect((self.pluto_rx, 0), (self.qtgui_waterfall_sink_x_0, 0))
 
 
     def closeEvent(self, event):
@@ -280,6 +315,7 @@ class reciver(gr.top_block, Qt.QWidget):
         self.pluto_rx.set_samplerate(self.samp_rate)
         self.qtgui_freq_sink_0.set_frequency_range(self.LO_freq, self.samp_rate)
         self.qtgui_vector_sink_f_0.set_x_axis((-self.samp_rate/2), (self.samp_rate/self.fft_size))
+        self.qtgui_waterfall_sink_x_0.set_frequency_range(0, self.samp_rate)
 
     def get_fft_size(self):
         return self.fft_size
@@ -312,6 +348,13 @@ class reciver(gr.top_block, Qt.QWidget):
         self.beta = beta
         self.set_kaiser_window(firdes.low_pass(1.0, self.samp_rate, self.samp_rate/(4*self.fft_size), self.samp_rate/(4*self.fft_size), window.WIN_KAISER, self.beta))
 
+    def get_session_ts(self):
+        return self.session_ts
+
+    def set_session_ts(self, session_ts):
+        self.session_ts = session_ts
+        self.blocks_file_sink_0.open(os.path.join(self.log_dir, "mergen21_spec_" + self.session_ts + ".dat"))
+
     def get_rx_gain(self):
         return self.rx_gain
 
@@ -324,6 +367,13 @@ class reciver(gr.top_block, Qt.QWidget):
 
     def set_rf_bandwidth(self, rf_bandwidth):
         self.rf_bandwidth = rf_bandwidth
+
+    def get_log_dir(self):
+        return self.log_dir
+
+    def set_log_dir(self, log_dir):
+        self.log_dir = log_dir
+        self.blocks_file_sink_0.open(os.path.join(self.log_dir, "mergen21_spec_" + self.session_ts + ".dat"))
 
     def get_kaiser_window(self):
         return self.kaiser_window

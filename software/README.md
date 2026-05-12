@@ -1,24 +1,27 @@
-# Software Overview
+# Software
 
-Software stack for data acquisition and post-processing.
+Data acquisition and analysis stack for Mergen-21.
+
+## Structure
+
+```
+software/
+├── gnuradio/       GNU Radio flowgraphs (acquisition)
+├── analysis/       Python analysis scripts
+└── requirements.txt
+```
 
 ## Subfolders
 
-- [`gnuradio/`](gnuradio/) - GNU Radio flowgraphs and acquisition notes
-- [`analysis/`](analysis/) - Python analysis pipeline (calibration, line extraction, rotation curve)
-- [`python-scripts/`](python-scripts/) - One-off utility scripts
-- [`requirements.txt`](requirements.txt) - Python dependency list
+- [`gnuradio/`](gnuradio/) — GNU Radio flowgraphs for the ADALM-PLUTO SDR
+- [`analysis/`](analysis/) — Spectrum viewer, utilities, and calibration pipeline
 
 ## Viewing R&S DAT Files
 
-`.DAT` files exported from the Rohde & Schwarz FSVA3044 can be opened with **[mergen-scope](https://alpgoxd.github.io/mergen-scope/)** ([GitHub](https://github.com/alpgoxd/mergen-scope)), an open-source R&S DAT file viewer.
+`.DAT` files from the Rohde & Schwarz FSVA3044 can be opened with **[mergen-scope](https://alpgoxd.github.io/mergen-scope/)** ([GitHub](https://github.com/alpgoxd/mergen-scope)).
 
-## Current Status
+## Install
 
-- GNU Radio flowgraphs: in progress (structure ready, flowgraphs planned for commit)
-- Analysis pipeline scripts: in progress (structure ready, scripts planned for commit)
-- Utility scripts: available (`sanitize_sps.py`)
-
-## Notes
-
-This folder intentionally includes both stable utilities and in-progress research code.
+```bash
+pip install -r requirements.txt
+```

@@ -48,10 +48,10 @@ A low-cost radio telescope system for observing the 21 cm hydrogen emission line
 | Power supply board | Complete | Gerbers ready; BOM in hardware/ldo-regulator/bom.pdf |
 | Simulations (CST, AWR) | Complete | Exported results in hardware/simulation/ |
 | Measurements (VNA, IP3, NF) | Complete | 39.7 dB gain, 0.75 dB NF, OIP3 +29.5 dBm (cascade) |
-| GNU Radio flowgraphs | In Progress | Core acquisition flowgraph designed; testing ongoing |
-| Analysis software | In Progress | Core calibration & rotation curve extraction in development |
-| First-light observations | Pending | Awaiting software completion & weather window |
-| Open-source release | Pending | After initial observations; git history cleanup planned |
+| GNU Radio flowgraphs | Complete | `reciver.grc` (main) + `21cm synth/` test flowgraphs committed |
+| Analysis software | In Progress | Waterfall viewer available; full calibration pipeline in development |
+| First-light observations | Complete | Directional sweeps acquired 2026-04-29; data in `software/gnuradio/logs/` |
+| Open-source release | In Progress | Final cleanup underway |
 
 ## Key Results & Specifications
 
@@ -87,11 +87,14 @@ mergen-21/
 │   ├── rf-chain/nf/             # Noise figure measurements
 │   ├── extras/                  # Test components (attenuators, 50 ohm matches)
 │   └── antenna/                 # Horn antenna S11 & defect documentation
-├── software/                    # Data acquisition & analysis (active development)
+├── software/                    # Data acquisition & analysis
 │   ├── gnuradio/                # GNU Radio flowgraphs (.grc)
-│   ├── analysis/                # Python observation analysis scripts
-│   └── python-scripts/          # Utility scripts
-├── observations/                # Raw data & plots (awaiting first-light)
+│   │   ├── reciver.grc          # Main HI line receiver (PlutoSDR)
+│   │   └── 21cm synth/          # Synthesis / test flowgraphs
+│   └── analysis/                # Python scripts (waterfall viewer, calibration pipeline)
+├── observations/                # First-light data & plots (2026-04-29)
+│   ├── data/                    # Raw spectra (.dat, NumPy float32)
+│   └── plots/                   # Waterfall & directional sweep plots
 └── docs/                        # Build log, status, logo, diagrams
 ```
 
@@ -100,7 +103,8 @@ mergen-21/
 - **First time here?** Start with [System Overview](#system-overview) above
 - **Measurement data?** See [`measurements/`](measurements/)
 - **Hardware files?** All under [`hardware/`](hardware/) — antenna CAD, RF chain, LDO board, simulations
-- **Running observations?** GNU Radio flowgraphs in [`software/gnuradio/`](software/gnuradio/)
+- **First-light data?** See [`observations/`](observations/) — raw spectra + directional sweep plots
+- **Running observations?** See [`software/gnuradio/`](software/gnuradio/) — flowgraphs and setup
 - **Current completion status?** See [`docs/STATUS.md`](docs/STATUS.md)
 
 ## Getting Started
