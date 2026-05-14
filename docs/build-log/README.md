@@ -2,11 +2,13 @@
 
 Chronological construction notes, issues, and solutions.
 
-Status: in progress. This log is intentionally brief for now and will be expanded.
+## 2026-04-29
+
+- First-light observations completed. Antenna held by hand / improvised — the 3D-printed tripod mount was not used (see note in hardware/antenna/3d-print/).
 
 ## 2026-03-30
 
-- Moved build photos into this folder (from the previous docs photos location).
+- Moved build photos into this folder.
 - Added top-level documentation cleanup pass and status tracking.
 
 ### Photos in this folder
@@ -15,6 +17,7 @@ Status: in progress. This log is intentionally brief for now and will be expande
 - `bent-aluminum.jpeg`
 - `near_assembly_horn.jpeg`
 - `nextto_banana.jpeg`
+- `antenna_mounted.jpeg` — antenna set up for first-light session
 
 ## 2026-03-29
 
@@ -23,5 +26,5 @@ Status: in progress. This log is intentionally brief for now and will be expande
 
 ## Notes
 
-- The fuller assembly narrative currently lives in [`../../hardware/antenna/ASSEMBLY.md`](../../hardware/antenna/ASSEMBLY.md).
-- This build-log file will continue as the short chronological index.
+- The fuller assembly narrative lives in [`../../hardware/antenna/ASSEMBLY.md`](../../hardware/antenna/ASSEMBLY.md).
+- This file is the short chronological index.
