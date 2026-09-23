@@ -1,6 +1,6 @@
 # Bring the repository in line with the submitted manuscript
 
-Branch: `paper-release` (23 commits ahead of `origin/main`, not pushed). Follows `REPO_FIX_PROMPT.md`'s 8-task
+Branch: `paper-release` (29 commits ahead of `origin/main`). Follows `REPO_FIX_PROMPT.md`'s 8-task
 spec for reconciling this repo with the IEEE Antennas & Propagation Magazine (Education Corner) submission.
 
 ## Summary of changes
@@ -14,7 +14,7 @@ spec for reconciling this repo with the IEEE Antennas & Propagation Magazine (Ed
   quotes (only the withdrawn sweep block's own timing fields).
 - Fig. 5 formatting: removed panel titles, capitalized panel (a) legend, fixed panel (b) dashed-line label.
 - Pinned `software/requirements.txt` (numpy 2.4.4, scipy 1.17.1, pandas 3.0.3, matplotlib 3.10.9,
-  astropy 8.0.1 — versions that actually installed and ran here, Python 3.14.3 / Windows 11).
+  astropy 8.0.1; the versions that actually installed and ran here, Python 3.14.3 / Windows 11).
 - Regenerated every output into `software/analysis/outputs/` and wrote `VERIFICATION.md` (table below).
 
 **Acquisition documentation (task 4)**
@@ -39,7 +39,7 @@ spec for reconciling this repo with the IEEE Antennas & Propagation Magazine (Ed
 - Cascade gain: `39.7 dB` -> **39.5 dB +/- 0.5 dB**; noted the VNA cascade file's ~42.5 MHz point spacing
   means there's no sample at 1420.405 MHz (nearest is 1402.5 MHz).
 - Rotation curve reworded as future work everywhere (README, CLAUDE.md, docs/STATUS.md,
-  `software/analysis/README.md`, lab manuals, observations/README.md) — the released result is first-light,
+  `software/analysis/README.md`, lab manuals, observations/README.md). The released result is first-light,
   pointing-dependent detection (S/E/W line fits), not a rotation curve.
 - Added a "Reproducing the paper" section to `README.md`.
 
@@ -48,6 +48,16 @@ spec for reconciling this repo with the IEEE Antennas & Propagation Magazine (Ed
 - `git mv measurements/antenna/4_inside_aluminum_foil/alp_anten_lab_0_enhanced.s1p.s1p` -> `.s1p` (content
   byte-identical, sha256 `3c94bb30a220...` before and after; the one data-file rename the ground rules allow).
 - `docs/analysis/MISSING_FROM_RELEASE.md`: reports presence/absence of everything task 8 asks about.
+
+**Follow-up decisions applied**
+- `rx_gain` restored to 30 in `reciver.grc`/`reciver.py` so the flowgraph matches how the 2026-04-29 data was
+  captured (`reciver.py` synced by hand; grcc is not available). `log_dir` stays relative.
+- Committed the docs index, BOM, build lab manual (Lab 2), and hardware READMEs. README.md already linked to
+  them.
+- American spelling and punctuation pass (no em dashes) on README.md, `docs/`, and the hardware READMEs.
+  Also removed the README intro's claim that the telescope was used to map the Milky Way's rotation.
+- Data in `observations/` and `measurements/` is now licensed CC BY 4.0 (`LICENSE-DATA`, official legal
+  code), listed in README, CONTRIBUTING, CITATION.cff and `.zenodo.json`.
 
 ## Verification table (`software/analysis/outputs/VERIFICATION.md`)
 
@@ -97,37 +107,30 @@ $ git grep -in "rotation curve"
 
 ## Decisions waiting on you
 
-1. **Data license.** `observations/` and `measurements/` have no explicit license. Not added, per the ground
-   rules. CC BY 4.0 is the common convention for data if you want one.
-2. **Optional renames** (not done — informal/misspelled names, listed for you to decide):
+Resolved in this PR: the data license (CC BY 4.0), `rx_gain` (restored to 30), and the untracked docs
+(committed). Still open:
+
+1. **Optional renames** (not done; informal or misspelled names, listed for you to decide):
    - `software/gnuradio/reciver.grc` / `reciver.py` (misspelled "receiver")
    - `measurements/rf-chain/vna/*/mesured_*.pdf` / `.s2p` (three components)
    - `measurements/rf-chain/nf/just cooked reciver.DAT` / `.PNG`
    - `observations/data/mergen21_spec_20260429_050554_180partygirl_500int.dat`
    - `observations/data/mergen21_spec_20260429_050204_doggu.dat` (inconsistent transliteration vs. other files)
    - `measurements/antenna/antenna_photos/insidee_mesurment.jpeg` / `outside_mesurment.jpeg`
-3. **Injector TODO.** `TODO(Alp): confirm injector was disabled during all 2026-04-29 captures` was left in
-   `software/gnuradio/README.md` — please confirm and remove the TODO once you have.
-4. **`rx_gain`/`log_dir` edits kept.** Your pre-existing uncommitted edits to `reciver.grc`/`reciver.py`
-   (`rx_gain` 30 -> 0, `log_dir` made relative) were carried into this branch at your instruction, even though
-   the April 29 data was taken with `rx_gain=30`. If this flowgraph is meant to describe *how the released
-   data was captured*, you may want to revert `rx_gain` back to 30 before merging; if it's meant to describe
-   *current/future* recommended settings, it's fine as committed. Your call.
-5. **Stashed, unrelated edits.** Two pre-existing uncommitted changes on `main` were NOT part of this branch
-   (out of scope for the paper release): a large block deletion in
-   `software/gnuradio/21cm synth/topo2_single_gaussian.grc`/`.py`, and a binary change to
-   `hardware/antenna/inventor/horn_v0.1.iam`. They're preserved in `git stash list` (`stash@{0}`, message
-   "out-of-scope: topo2_single_gaussian + horn iam edits, not part of paper-release") on top of `main` --
-   `git stash pop` there if you want to keep working on them; they were never brought onto `paper-release`.
-6. **`.zenodo.json` license field.** Zenodo's actual schema takes one top-level license for the archive, but
-   this repo has three (hardware/software/docs). The draft file lists all three under a non-standard
-   `license` object as a placeholder — you'll need to pick a representative license or restructure before
-   depositing.
-7. **`CITE.bib` thesis title.** Its title, "...for Galactic Rotation Curve Observation," now describes a
-   result the paper doesn't claim yet. `CITATION.cff`'s `preferred-citation` mirrors it for consistency.
-   Not changed here (licensing/citation content decisions are yours) — worth revisiting once the thesis
-   itself is finalized.
-8. **Stray content noticed, not touched.** `starting-up/` at the repo root (untracked) is a large, unrelated
+2. **Injector TODO.** `TODO(Alp): confirm injector was disabled during all 2026-04-29 captures` was left in
+   `software/gnuradio/README.md`; please confirm and remove the TODO once you have.
+3. **Stashed, unrelated edits.** Two uncommitted local changes were kept out of this branch as out of scope:
+   a large block deletion in `software/gnuradio/21cm synth/topo2_single_gaussian.grc`/`.py`, and a binary
+   change to `hardware/antenna/inventor/horn_v0.1.iam`. They are preserved in `git stash list` (`stash@{0}`,
+   "out-of-scope: topo2_single_gaussian + horn iam edits, not part of paper-release"); `git stash pop` on
+   `main` if you want to keep working on them.
+4. **`.zenodo.json` license field.** Zenodo's schema takes one top-level license for the archive, but this
+   repo has four (hardware/software/docs/data). The draft lists all four in a non-standard `license` object as
+   a placeholder; pick a representative license or restructure before depositing.
+5. **`CITE.bib` thesis title.** Its title, "...for Galactic Rotation Curve Observation," describes a result
+   the paper does not claim yet. `CITATION.cff`'s `preferred-citation` mirrors it for consistency. Not changed
+   here; worth revisiting once the thesis itself is finalized.
+6. **Stray content noticed, not touched.** `starting-up/` at the repo root (untracked) is a large, unrelated
    workspace (drone-interceptor / "pocket multi-radio tool" market research: docx/pptx/xlsx, slide images, a
    BOM, LibreOffice lock files, and an orphaned duplicate of the antenna S11 measurement file). Worth
    reviewing before any public release; nothing here was deleted or modified.
@@ -142,7 +145,7 @@ $ git grep -in "rotation curve"
 1. Enable the Zenodo-GitHub integration for this repository.
 2. Tag a release `v1.0-apm`.
 3. Zenodo will mint a DOI for that tag; put it into the paper's reference [16].
-4. Resolve the `.zenodo.json` license-field issue (decision 6 above) before or during the deposit.
+4. Resolve the `.zenodo.json` license-field issue (decision 4 above) before or during the deposit.
 
 ## Stray files at repo root (not part of the release)
 
@@ -152,4 +155,4 @@ Code guidance) is left in place unless you'd rather it not ship publicly.
 
 ---
 
-Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
