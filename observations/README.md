@@ -35,7 +35,19 @@ Observation plots are in `plots/`:
 - `east.png`, `south.png`, `west.png` — Spectra per direction
 - `east_100_integration.png` / `east 100 integration.png` — East direction with 100-sample integration
 - `sweeping from east to west.png` — Full sweep waterfall
-- `allahyok.png` — First signal detection attempt
+
+An earlier plot, `allahyok.png` ("first signal detection attempt"), was removed from the repository in a prior commit and is no longer available.
+
+## Acquisition Settings
+
+Per-file acquisition provenance for the 2026-04-29 session is recorded in [`captures.csv`](captures.csv), derived from the observer's confirmed capture metadata. Summary:
+
+- The west (`_bati`), south (`_guney`), and 05:02:04 east (`_doggu`) pointings, and the sweep (`_180partygirl_500int.dat`), all ran with `integration_time = 1000` on the flowgraph (1.0 s per row).
+- Only `..._050450_Dogu_100.dat` used `integration_time = 100` (0.1 s per row); this is the one file whose name correctly states its integration setting.
+- The sweep file's name says "500int", but it actually ran with `integration_time = 1000`; the filename is wrong.
+- Azimuths were read from two phone compasses at the time of each static pointing. Elevation (roughly 35 degrees) was estimated by the observer and was not logged. The sweep capture has no angle log at all; it moved through pointings manually with pauses and is qualitative only (its azimuth is not recoverable and its effective bandwidth cannot be estimated by row differencing).
+
+In addition to the five captures in `captures.csv`, `data/` contains 21 earlier `.dat` files with no direction suffix (plain `mergen21_spec_20260429_HHMMSS.dat`). These are earlier test and commissioning captures; their acquisition settings were not recorded and they are not included in `captures.csv`.
 
 ## Loading the Data
 
