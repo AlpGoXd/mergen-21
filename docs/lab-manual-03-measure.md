@@ -137,7 +137,7 @@ Measure the cascade S-parameters. Expected results:
 
 | Parameter | Expected value at 1420 MHz |
 |---|---|
-| S21 (cascade gain) | ≈ +39.7 dB |
+| S21 (cascade gain) | ≈ +39.5 dB +/- 0.5 dB (VNA has no sample exactly at 1420.405 MHz) |
 | S11 (input reflection) | Depends on LNA, typically < −10 dB |
 
 Compare against `measurements/rf-chain/vna/cascade/cascaded chain.s2p`.
@@ -184,7 +184,7 @@ Expected LNA NF: **0.7 dB** (datasheet spec).
 
 Connect: noise source → LNA → BPF → Amp → spectrum analyser
 
-Measure NF as above. Expected: **0.75 dB** (Mergen-21 measured result).
+Measure NF as above. Expected: **about 1.5 dB, cable-corrected** (Mergen-21 measured result; see `measurements/rf-chain/nf/README.md` for the cable-loss correction arithmetic).
 
 Compare against files in `measurements/rf-chain/nf/`.
 
@@ -230,8 +230,8 @@ When all measurements are complete, fill in this table and compare to the refere
 |---|---|---|---|
 | Antenna S11 at 1420 MHz (dB) | −30 | −42 | |
 | Antenna resonance frequency (MHz) | 1420 | 1420.4 | |
-| Cascade gain (dB) | ~40 | 39.7 | |
-| Cascade NF (dB) | ~0.7 | 0.75 | |
+| Cascade gain (dB) | ~40 | 39.5 +/- 0.5 | |
+| Cascade NF (dB) | 0.77 (Friis) | about 1.5 (cable-corrected) | |
 | Cascade OIP3 (dBm) | — | +29.5 | |
 
 ---
