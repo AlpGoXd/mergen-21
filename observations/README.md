@@ -76,4 +76,4 @@ See [`docs/lab-manual-04-observe.md`](../docs/lab-manual-04-observe.md) for a st
 
 **Location:** Istanbul, Turkey (~41.0°N, 29.0°E)  
 **Target:** Galactic plane HI emission (1420.405 MHz)  
-**Method:** Tangent-point method for rotation curve extraction
+**Method (future work):** Tangent-point method for rotation curve extraction; not yet performed on the released data. What this release supports is first-light, pointing-dependent line detections (south/east/west) -- see `docs/analysis/PROVENANCE_ADDENDUM.md`.
