@@ -189,6 +189,7 @@ All commands are run from the repository root, with `software/requirements.txt` 
 - **Hardware** (antenna, mechanical, RF chain): [CERN-OHL-S v2](LICENSE-HARDWARE)
 - **Software** (GNU Radio, Python): [GPL-3.0](LICENSE-SOFTWARE)
 - **Documentation & Photos:** [CC BY-SA 4.0](LICENSE-DOCS)
+- **Data** (`observations/`, `measurements/`): [CC BY 4.0](LICENSE-DATA)
 
 ---
 

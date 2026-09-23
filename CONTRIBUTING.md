@@ -36,6 +36,7 @@ All contributions must be compatible with:
 - **Hardware:** CERN-OHL-S v2 (reciprocal, share-alike)
 - **Software:** GPL-3.0 (copyleft, share-alike)
 - **Documentation:** CC-BY-SA 4.0 (attribution, share-alike)
+- **Data** (`observations/`, `measurements/`): CC-BY 4.0 (attribution)
 
 By submitting a pull request, you agree to license your contribution under these terms.
 

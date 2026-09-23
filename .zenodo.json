@@ -25,7 +25,8 @@
   "license": {
     "hardware": "CERN-OHL-S-2.0",
     "software": "GPL-3.0",
-    "docs": "CC-BY-SA-4.0"
+    "docs": "CC-BY-SA-4.0",
+    "data": "CC-BY-4.0"
   },
   "upload_type": "software",
   "access_right": "open"
