@@ -6,8 +6,8 @@ All hardware design files for the Mergen-21 21 cm radio telescope.
 
 ```
 hardware/
-├── antenna/            Horn antenna — CAD, drawings, DXF files, assembly photos
-├── rf-chain/           RF front-end components — datasheets and S-parameter files
+├── antenna/            Horn antenna: CAD, drawings, DXF files, assembly photos
+├── rf-chain/           RF front-end components: datasheets and S-parameter files
 ├── ldo-regulator/      Dual LDO power supply PCB (Altium, Gerbers, BOM, STEP)
 └── simulation/
     ├── cst/            CST Studio Suite antenna EM simulations
@@ -23,7 +23,7 @@ Pyramidal horn antenna fabricated from 1.5 mm aluminum sheet (alloy 5754-H22), l
 | Subdirectory | Contents |
 |---|---|
 | `drawings/` | Dimensioned PDF drawings for each panel (E-plane, H-plane, backshort, waveguide) |
-| `dxf/` | DXF laser-cutting files — send directly to a laser/waterjet cutter |
+| `dxf/` | DXF laser-cutting files: send directly to a laser/waterjet cutter |
 | `inventor/` | Autodesk Inventor parametric source files (.ipt, .iam) |
 | `stl/` | STL exports of 3D-printed tripod mount parts |
 | `3d-print/` | 3MF print file for the tripod adapter |
@@ -34,7 +34,7 @@ Key numbers: S11 = −42 dB at 1420.4 MHz (measured); directivity 16.9 dBi (simu
 
 ### RF Chain (`rf-chain/`)
 
-Three-stage front-end: LNA → bandpass filter → second amplifier. All Mini-Circuits SMA-connectorised modules.
+Three-stage front-end: LNA → bandpass filter → second amplifier. All Mini-Circuits SMA-connectorized modules.
 
 | Stage | Component | Function |
 |---|---|---|
@@ -52,11 +52,11 @@ Fabrication-ready outputs: `gerbers/` (Gerber + drill), `pick-and-place/` (assem
 
 ### Simulations (`simulation/`)
 
-- `cst/` — Frequency-domain EM simulation of the horn antenna in CST Studio Suite. Includes a VBA macro (`ideal_hornfrfr_creator.mcs.bas`) that rebuilds the parametric model from scratch.
-- `awr/` — Cascaded noise-figure and gain analysis of the RF chain in AWR Microwave Office. Exported results (S2P, PNG) are included so the plots can be reproduced with any S-parameter tool.
+- `cst/`: Frequency-domain EM simulation of the horn antenna in CST Studio Suite. Includes a VBA macro (`ideal_hornfrfr_creator.mcs.bas`) that rebuilds the parametric model from scratch.
+- `awr/`: Cascaded noise-figure and gain analysis of the RF chain in AWR Microwave Office. Exported results (S2P, PNG) are included so the plots can be reproduced with any S-parameter tool.
 
 ## Reproducing Designs
 
-- **Horn antenna:** Send DXF files from `antenna/dxf/` to any laser or waterjet cutting service. Material: 1.5 mm aluminium sheet. Follow `antenna/ASSEMBLY.md`.
+- **Horn antenna:** Send DXF files from `antenna/dxf/` to any laser or waterjet cutting service. Material: 1.5 mm aluminum sheet. Follow `antenna/ASSEMBLY.md`.
 - **LDO PCB:** Send `ldo-regulator/gerbers/` to any PCB fabrication house. Components are listed in `ldo-regulator/bom.pdf`.
 - **Simulations:** CST project can be rebuilt from the VBA macro. AWR exported S-parameter files can be re-analysed in any RF simulator or Python script.

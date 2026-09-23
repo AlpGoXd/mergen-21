@@ -1,4 +1,4 @@
-# Lab Manual 2 — Build
+# Lab Manual 2: Build
 
 **Topic:** Fabricating and assembling the Mergen-21 horn antenna and LDO power supply  
 **Estimated time:** 4–6 hours (plus external fabrication lead time)  
@@ -20,13 +20,13 @@ After completing this lab, students will be able to:
 
 ## Safety Notes
 
-- **Laser cutting:** Wear appropriate eye protection. All cuts generate aluminium dust — use a filtered mask and ensure adequate ventilation.
+- **Laser cutting:** Wear appropriate eye protection. All cuts generate aluminum dust; use a filtered mask and ensure adequate ventilation.
 - **Soldering:** Work in a ventilated area. Allow the soldering iron and workpiece to cool before handling.
-- **Sheet metal edges:** Cut aluminium edges are sharp. Deburr all edges with a file or sandpaper before handling.
+- **Sheet metal edges:** Cut aluminum edges are sharp. Deburr all edges with a file or sandpaper before handling.
 
 ---
 
-## Part A — Horn Antenna Fabrication
+## Part A: Horn Antenna Fabrication
 
 ### Files Needed
 
@@ -46,7 +46,7 @@ After completing this lab, students will be able to:
 
 | Item | Specification | Quantity |
 |---|---|---|
-| Aluminium sheet | Alloy 5754-H22, 1.5 mm thick | Approximately 400 × 400 mm |
+| Aluminum sheet | Alloy 5754-H22, 1.5 mm thick | Approximately 400 × 400 mm |
 | N-type female chassis connector | Amphenol RF 000-49000-SRFX (or equivalent) | 1 |
 | Copper wire | 1.0 mm diameter, bare (not insulated) | ~50 mm |
 | M3 × 30 mm bolts (DIN 965TX, stainless A2-304) | — | 12 |
@@ -57,38 +57,38 @@ After completing this lab, students will be able to:
 
 ### Procedure
 
-#### A1 — Order laser-cut parts
+#### A1: Order laser-cut parts
 
 Send the four DXF files in `hardware/antenna/dxf/` to a sheet-metal fabrication service with the following instructions:
 
-- **Material:** Aluminium alloy 5754-H22, **1.5 mm thick** (not thicker — the tolerance stack matters for the waveguide fit)
+- **Material:** Aluminum alloy 5754-H22, **1.5 mm thick** (not thicker; the tolerance stack matters for the waveguide fit)
 - **Process:** Laser or waterjet cutting
-- **Flatness:** ≤ 0.5 mm deviation over any 200 mm span — specify this explicitly. Poor flatness is the most common problem.
-- **Bending (if applicable):** The waveguide and backshort parts may require bending. Provide PDF drawings with explicit bend angles. **Verify angles with the shop before production** — the original build encountered 90° bending errors.
+- **Flatness:** ≤ 0.5 mm deviation over any 200 mm span; specify this explicitly. Poor flatness is the most common problem.
+- **Bending (if applicable):** The waveguide and backshort parts may require bending. Provide PDF drawings with explicit bend angles. **Verify angles with the shop before production**; the original build encountered 90° bending errors.
 
 > **Tolerance note:** The DXF files encode the nominal geometry. The backshort-to-probe distance is the most sensitive dimension (affects resonance frequency). Allow ±0.5 mm on this dimension; all other dimensions can be ±1 mm.
 
 Allow **5–10 business days** for cutting and shipping.
 
-#### A2 — Prepare the N-type connector and feed probe
+#### A2: Prepare the N-type connector and feed probe
 
 While waiting for parts:
 
 1. Cut a 38 mm length of 1.0 mm copper wire. The wire must be **pure copper** (not copper-clad steel) and completely bare (no insulation).
 2. Tin the inner contact of the N-type connector with a small amount of solder.
-3. Solder the copper wire perpendicular to the connector contact, centred and straight.
+3. Solder the copper wire perpendicular to the connector contact, centered and straight.
 4. Inspect under magnification: the joint must be shiny and mechanically rigid. A cold or cracked joint will cause poor S11.
 5. Allow to cool. Do not bend the wire after soldering.
 
-#### A3 — Deburr and inspect parts
+#### A3: Deburr and inspect parts
 
 When parts arrive:
 
 1. Inspect each panel for flatness using a steel straightedge. Reject panels with more than 0.5 mm deviation.
 2. Deburr all cut edges with a fine file or 320-grit sandpaper. Remove any sharp burrs around bolt holes.
-3. Check that bolt holes are clean and correctly positioned — compare to the PDF drawings.
+3. Check that bolt holes are clean and correctly positioned; compare to the PDF drawings.
 
-#### A4 — Mechanical assembly
+#### A4: Mechanical assembly
 
 Follow the step-by-step instructions in `hardware/antenna/ASSEMBLY.md`. Key points:
 
@@ -97,19 +97,19 @@ Follow the step-by-step instructions in `hardware/antenna/ASSEMBLY.md`. Key poin
 - Install the N-type connector and feed probe **last**, after the outer structure is assembled.
 - **Check the feed probe depth** against the drawing (`backshort_0.1-1.pdf`). The probe depth above the waveguide floor is a critical dimension.
 
-#### A5 — Visual inspection before electrical test
+#### A5: Visual inspection before electrical test
 
 Before any RF measurement, verify:
 
 - [ ] All panels are flush with no visible gaps at seams
-- [ ] Feed probe is vertical and centred in the waveguide aperture
+- [ ] Feed probe is vertical and centered in the waveguide aperture
 - [ ] N-type connector body is fully seated and the retaining nut is tight
 - [ ] No metal chips or debris inside the waveguide (use a torch and mirror to inspect)
-- [ ] The centre conductor of the N-type connector is not shorted to the body (check with a multimeter — should be open circuit, not 0 Ω)
+- [ ] The center conductor of the N-type connector is not shorted to the body (check with a multimeter; it should be open circuit, not 0 Ω)
 
 ---
 
-## Part B — LDO Power Supply Board
+## Part B: LDO Power Supply Board
 
 The LDO board provides clean, low-noise DC power to the two RF amplifiers (ZX60-P162LN+ and ZX60-V63+). Both amplifiers require +5 V. The board uses two TPS7A4701RGWT ultra-low-noise LDO regulators.
 
@@ -126,7 +126,7 @@ The LDO board provides clean, low-noise DC power to the two RF amplifiers (ZX60-
 
 ### Procedure
 
-#### B1 — Order the PCB
+#### B1: Order the PCB
 
 Send the entire contents of `hardware/ldo-regulator/gerbers/` to a PCB fabrication service (JLC PCB, OSH Park, PCBWay, etc.) with the following specification:
 
@@ -134,21 +134,21 @@ Send the entire contents of `hardware/ldo-regulator/gerbers/` to a PCB fabricati
 - **Thickness:** 1.6 mm FR4
 - **Copper weight:** 1 oz
 - **Surface finish:** HASL or ENIG
-- **Colour:** Any (green is cheapest)
+- **Color:** Any (green is cheapest)
 
 Allow 5–10 business days for fabrication and shipping. Cost is typically $15–30 for 5 boards.
 
-#### B2 — Assemble the board
+#### B2: Assemble the board
 
 Components are listed in `bom.pdf`. Use the pick-and-place file as a reference for component positions.
 
 1. Apply solder paste to all SMD pads using a stencil or manually.
-2. Place the TPS7A4701RGWT ICs first (they are QFN packages — use tweezers and a microscope or magnifier).
+2. Place the TPS7A4701RGWT ICs first (they are QFN packages; use tweezers and a microscope or magnifier).
 3. Place passive components (resistors, capacitors).
 4. Reflow-solder (preferred) or hand-solder with a fine-tip iron.
 5. Inspect all joints under magnification.
 
-#### B3 — Initial power-on and verification
+#### B3: Initial power-on and verification
 
 Before connecting any RF components:
 
@@ -173,7 +173,7 @@ These are the critical dimensions and their allowed deviations, derived from the
 | Probe wire length above waveguide floor | 38 mm | ±0.5 mm | Changes coupling depth, affects S11 depth |
 | Panel flatness | 0 mm deflection | ±0.5 mm over 200 mm | Gap-induced current leakage, pattern distortion |
 | Panel seam gaps | 0 mm | <0.3 mm | Allows RF leakage at seams |
-| Aluminium sheet thickness | 1.5 mm | ±0.1 mm | Affects internal waveguide dimensions |
+| Aluminum sheet thickness | 1.5 mm | ±0.1 mm | Affects internal waveguide dimensions |
 | Bolt hole diameter | 3.2 mm (for M3) | ±0.1 mm | If too large, panel alignment is poor |
 
 **The most consequential dimensions** are the probe depth and backshort distance. These directly control the impedance matching at 1420 MHz. If S11 is worse than −15 dB, start by checking these two.
@@ -194,4 +194,4 @@ These are the critical dimensions and their allowed deviations, derived from the
 
 ## Next Steps
 
-After successfully assembling and visually inspecting the antenna and LDO board, proceed to **Lab 3 — Measure** to characterise the antenna S11 and RF chain performance with a VNA.
+After successfully assembling and visually inspecting the antenna and LDO board, proceed to **Lab 3: Measure** to characterize the antenna S11 and RF chain performance with a VNA.

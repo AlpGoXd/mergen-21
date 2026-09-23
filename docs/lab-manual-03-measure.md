@@ -1,8 +1,8 @@
-# Lab Manual 3 — Measure
+# Lab Manual 3: Measure
 
-**Topic:** VNA characterisation of the antenna and RF chain; noise figure and IP3 measurements  
+**Topic:** VNA characterization of the antenna and RF chain; noise figure and IP3 measurements  
 **Estimated time:** 4–5 hours  
-**Prerequisites:** Lab 2 complete (assembled hardware); access to a VNA and spectrum analyser
+**Prerequisites:** Lab 2 complete (assembled hardware); access to a VNA and spectrum analyzer
 
 ---
 
@@ -22,9 +22,9 @@ After completing this lab, students will be able to:
 
 | Instrument | Specification | Used in |
 |---|---|---|
-| Vector network analyser (VNA) | 1-port or 2-port, 1–2 GHz minimum | S11, S21 |
+| Vector network analyzer (VNA) | 1-port or 2-port, 1–2 GHz minimum | S11, S21 |
 | Calibration kit | Matched to VNA connector type (SMA or N) | VNA calibration |
-| Spectrum analyser | NF measurement option preferred; 1–2 GHz | NF, IP3 |
+| Spectrum analyzer | NF measurement option preferred; 1–2 GHz | NF, IP3 |
 | Noise source | Calibrated ENR at 1420 MHz, SMA | NF |
 | Signal generator (x2 for IP3) | 1400–1440 MHz, ≥ +10 dBm output | IP3 |
 | DC power supply | 5 V, 1 A minimum | RF chain bias |
@@ -33,23 +33,23 @@ After completing this lab, students will be able to:
 
 ---
 
-## Part A — Antenna S11 Measurement
+## Part A: Antenna S11 Measurement
 
 ### Files Produced
 
-Compare your measured files against the five sequential measurements in `measurements/antenna/`, which document the evolution from first assembly to final optimised antenna:
+Compare your measured files against the five sequential measurements in `measurements/antenna/`, which document the evolution from first assembly to final optimized antenna:
 
 | Measurement | File |
 |---|---|
-| 1 — Outdoor, uncalibrated | `measurements/antenna/1_outside_uncalibrated/alp_anten_uncal_0.s1p` |
-| 2 — Outdoor, VNA-calibrated | `measurements/antenna/2_outside_calibrated/alp_anten_cal_0.s1p` |
-| 3 — Indoor lab, calibrated | `measurements/antenna/3_inside_calibrated/alp_anten_lab_0.s1p` |
-| 4 — Indoor, aluminium foil on panels | `measurements/antenna/4_inside_aluminum_foil/alp_anten_lab_0_enhanced.s1p` |
-| 5 — Indoor, backshort cleaned | `measurements/antenna/5_inside_cleaned_backshort/anten_son_horn.s1p` |
+| 1: Outdoor, uncalibrated | `measurements/antenna/1_outside_uncalibrated/alp_anten_uncal_0.s1p` |
+| 2: Outdoor, VNA-calibrated | `measurements/antenna/2_outside_calibrated/alp_anten_cal_0.s1p` |
+| 3: Indoor lab, calibrated | `measurements/antenna/3_inside_calibrated/alp_anten_lab_0.s1p` |
+| 4: Indoor, aluminum foil on panels | `measurements/antenna/4_inside_aluminum_foil/alp_anten_lab_0_enhanced.s1p` |
+| 5: Indoor, backshort cleaned | `measurements/antenna/5_inside_cleaned_backshort/anten_son_horn.s1p` |
 
 ### Procedure
 
-#### A1 — VNA calibration
+#### A1: VNA calibration
 
 1. Connect the calibration kit to the VNA port that will connect to the antenna.
 2. Perform a full 1-port SOLT calibration at the measurement plane (the cable end where the antenna will connect).
@@ -57,7 +57,7 @@ Compare your measured files against the five sequential measurements in `measure
 4. Use at least **201 frequency points** (more is better for resolving the resonance shape).
 5. Verify calibration: connect a SOLT short and verify |S11| = 0 dB; connect SOLT open and verify |S11| = 0 dB; connect SOLT load and verify |S11| ≤ −40 dB.
 
-#### A2 — First measurement (antenna in free space)
+#### A2: First measurement (antenna in free space)
 
 1. Connect the antenna N-type port to the VNA via the calibrated cable.
 2. Face the antenna aperture away from walls and other metal surfaces (outdoors is ideal; otherwise aim at an RF-absorbing wall or at the ceiling of a large room).
@@ -71,7 +71,7 @@ If S11 is only −10 to −15 dB, check:
 - Feed probe dimensions (length and straightness)
 - Whether the backshort is making good contact with the waveguide panels
 
-#### A3 — Effect of environment
+#### A3: Effect of environment
 
 Repeat the measurement in different environments:
 
@@ -81,7 +81,7 @@ Repeat the measurement in different environments:
 
 The resonance frequency should not shift by more than a few MHz between environments. Large shifts indicate the antenna is coupling to nearby objects.
 
-#### A4 — Final result interpretation
+#### A4: Final result interpretation
 
 Load your .s1p file and the reference file `5_inside_cleaned_backshort/anten_son_horn.s1p` in the same S-parameter viewer:
 
@@ -109,16 +109,16 @@ plt.show()
 
 ---
 
-## Part B — RF Chain S-Parameter Measurement
+## Part B: RF Chain S-Parameter Measurement
 
 ### Procedure
 
-#### B1 — VNA 2-port calibration
+#### B1: VNA 2-port calibration
 
 1. Perform a full 2-port SOLT calibration over **1.0–2.0 GHz**.
 2. Reference planes are at the cable ends that will connect to the chain input (SMA) and output (SMA).
 
-#### B2 — Individual component measurement
+#### B2: Individual component measurement
 
 Measure each component in the chain separately:
 - ZX60-P162LN+ (LNA): connect +5 V DC bias before measuring. The LNA requires bias to function.
@@ -129,7 +129,7 @@ For each component, record S11, S21, S12, S22 as a .s2p file.
 
 Compare against the reference files in `measurements/rf-chain/vna/`.
 
-#### B3 — Cascaded chain measurement
+#### B3: Cascaded chain measurement
 
 Connect all three stages in series: LNA → BPF → Amp. Apply DC bias to the two amplifiers.
 
@@ -144,45 +144,45 @@ Compare against `measurements/rf-chain/vna/cascade/cascaded chain.s2p`.
 
 ---
 
-## Part C — Noise Figure Measurement (Y-Factor Method)
+## Part C: Noise Figure Measurement (Y-Factor Method)
 
 ### Background
 
 The noise figure (NF) of a receiver is the degradation in signal-to-noise ratio caused by the receiver itself. For a low-noise radio astronomy receiver, NF should be as low as possible. The cascaded NF is dominated by the first stage (LNA), as predicted by the Friis formula (Lab 1).
 
-The Y-factor method uses a calibrated noise source with known excess noise ratio (ENR) to measure NF directly with a spectrum analyser.
+The Y-factor method uses a calibrated noise source with known excess noise ratio (ENR) to measure NF directly with a spectrum analyzer.
 
 ### Equipment
 
 - Calibrated noise source with known ENR at 1420 MHz (typical ENR: 15–30 dB)
-- Spectrum analyser with noise figure measurement mode (or use power meter and calculate)
+- Spectrum analyzer with noise figure measurement mode (or use power meter and calculate)
 
 ### Procedure
 
-#### C1 — Cable loss correction
+#### C1: Cable loss correction
 
 Before measuring the receiver, measure the insertion loss of the cable between the noise source and the DUT:
 
-1. Connect: noise source → cable → spectrum analyser
-2. Measure the analyser's own NF (with noise source directly connected; no DUT).
+1. Connect: noise source → cable → spectrum analyzer
+2. Measure the analyzer's own NF (with noise source directly connected; no DUT).
 3. Insert the cable and measure again. The difference is the cable loss at 1420 MHz.
 
 Use this loss value to correct the DUT noise figure measurement.
 
 Compare against `measurements/rf-chain/nf/cable_loss.DAT`.
 
-#### C2 — LNA noise figure
+#### C2: LNA noise figure
 
-1. Connect: noise source → LNA (biased at +5 V) → spectrum analyser
-2. Set up the spectrum analyser noise figure measurement at **1420 MHz**, 1 MHz bandwidth.
+1. Connect: noise source → LNA (biased at +5 V) → spectrum analyzer
+2. Set up the spectrum analyzer noise figure measurement at **1420 MHz**, 1 MHz bandwidth.
 3. Enter the noise source ENR values.
 4. Record the measured NF.
 
 Expected LNA NF: **0.7 dB** (datasheet spec).
 
-#### C3 — Cascade noise figure
+#### C3: Cascade noise figure
 
-Connect: noise source → LNA → BPF → Amp → spectrum analyser
+Connect: noise source → LNA → BPF → Amp → spectrum analyzer
 
 Measure NF as above. Expected: **about 1.5 dB, cable-corrected** (Mergen-21 measured result; see `measurements/rf-chain/nf/README.md` for the cable-loss correction arithmetic).
 
@@ -190,27 +190,27 @@ Compare against files in `measurements/rf-chain/nf/`.
 
 ---
 
-## Part D — IP3 Measurement
+## Part D: IP3 Measurement
 
 ### Background
 
-The third-order intercept point (IP3) characterises the linearity of the receiver. A high OIP3 means the receiver tolerates strong interferers without generating intermodulation products that could obscure weak signals.
+The third-order intercept point (IP3) characterizes the linearity of the receiver. A high OIP3 means the receiver tolerates strong interferers without generating intermodulation products that could obscure weak signals.
 
 ### Procedure
 
-#### D1 — Setup
+#### D1: Setup
 
 ```
 Signal generator 1 (f1 = 1419 MHz) ─┐
-                                      ├── Power combiner ── Attenuator ── DUT ── Spectrum analyser
+                                      ├── Power combiner ── Attenuator ── DUT ── Spectrum analyzer
 Signal generator 2 (f2 = 1421 MHz) ─┘
 ```
 
 The two tones must be separated by 2 MHz to place the IMD3 products at 1417 and 1423 MHz (clear of other signals). Use 20–30 dB attenuators on the generator outputs to prevent the generators from intermodulating each other.
 
-#### D2 — Measurement
+#### D2: Measurement
 
-1. Set both generators to −12 dBm at the DUT input. Record the DUT output power at f1 and f2 (fundamental) and at 2f1-f2 and 2f2-f1 (IMD3 products) on the spectrum analyser.
+1. Set both generators to −12 dBm at the DUT input. Record the DUT output power at f1 and f2 (fundamental) and at 2f1-f2 and 2f2-f1 (IMD3 products) on the spectrum analyzer.
 2. Repeat at −15 dBm and −18 dBm input.
 3. Calculate OIP3:
    - OIP3 = Pout (fundamental) + ΔP / 2

@@ -1,4 +1,4 @@
-# Lab Manual 1 — Simulate
+# Lab Manual 1: Simulate
 
 **Topic:** Electromagnetic simulation of the horn antenna and RF cascade analysis  
 **Estimated time:** 3–4 hours  
@@ -13,12 +13,12 @@ After completing this lab, students will be able to:
 1. Build a parametric pyramidal horn antenna model in CST Studio Suite using a provided VBA macro.
 2. Interpret S11, far-field directivity, and beamwidth simulation results.
 3. Understand the effect of manufacturing tolerances on antenna performance (ideal vs. worst-case).
-4. Analyse a cascaded RF chain using S-parameter files and Friis noise-figure formulas.
+4. Analyze a cascaded RF chain using S-parameter files and Friis noise-figure formulas.
 5. Predict the system noise figure of a multi-stage receiver using AWR or Python.
 
 ---
 
-## Part A — Horn Antenna Simulation (CST Studio Suite)
+## Part A: Horn Antenna Simulation (CST Studio Suite)
 
 ### Required Software
 
@@ -37,19 +37,19 @@ After completing this lab, students will be able to:
 
 ### Procedure
 
-#### A1 — Create the parametric model
+#### A1: Create the parametric model
 
 1. Open CST Studio Suite. Create a new **Microwave & RF** project.
 2. In the VBA Macro editor (menu: **Macros → Edit/Run VBA Macros**), open and run `ideal_hornfrfr_creator.mcs.bas`. This macro creates the complete 3D geometry, assigns materials, defines the coaxial port, and sets solver parameters. No manual geometry entry is required.
 3. After the macro finishes, verify that the model contains the following components:
-   - Horn body (four aluminium panels forming the pyramidal section)
+   - Horn body (four aluminum panels forming the pyramidal section)
    - Rectangular waveguide section (WR-650 equivalent)
    - Backshort (short-circuit termination at the rear of the waveguide)
    - N-type coaxial feed probe (copper wire)
 
-#### A2 — Review design parameters
+#### A2: Review design parameters
 
-Open `ideal_hornfrfr_all_parameters.txt` and note the key geometric values. The design is optimised for 1420.405 MHz (the neutral hydrogen 21 cm line). Important parameters include:
+Open `ideal_hornfrfr_all_parameters.txt` and note the key geometric values. The design is optimized for 1420.405 MHz (the neutral hydrogen 21 cm line). Important parameters include:
 
 - Aperture dimensions (E-plane height, H-plane width)
 - Flare length
@@ -58,13 +58,13 @@ Open `ideal_hornfrfr_all_parameters.txt` and note the key geometric values. The 
 
 These values can be changed in the CST parameter editor to explore sensitivity.
 
-#### A3 — Run the simulation
+#### A3: Run the simulation
 
 1. Set the frequency range to **1–2 GHz** in the solver settings.
 2. Select the **Frequency-Domain (FD) tetrahedral** solver with adaptive mesh refinement.
 3. Run the simulation. Expected runtime: 30–90 minutes depending on workstation.
 
-#### A4 — Analyse results
+#### A4: Analyze results
 
 After the simulation completes, open the results navigator and extract:
 
@@ -77,9 +77,9 @@ After the simulation completes, open the results navigator and extract:
 
 Compare your S11 curve against `ideal_hornfrfr.s1p`. They should match exactly (the `.s1p` was exported from the same model).
 
-#### A5 — Manufacturing tolerance study (optional, 1 extra hour)
+#### A5: Manufacturing tolerance study (optional, 1 extra hour)
 
-The `assembly_worstcase/` folder contains simulation results for a model that includes assembly imperfections: gaps at panel seams, added bridging blocks, and individually modelled screws. This represents the realistic worst case after fabrication.
+The `assembly_worstcase/` folder contains simulation results for a model that includes assembly imperfections: gaps at panel seams, added bridging blocks, and individually modeled screws. This represents the realistic worst case after fabrication.
 
 1. Open `assembly_worstcase/hornffrfr_assembly_worstcase.stp` in CST as an imported geometry. Add the same materials and port as the ideal model.
 2. Compare the simulated S11 against `hornffrfr_assembly_worstcase.s1p`.
@@ -88,7 +88,7 @@ The `assembly_worstcase/` folder contains simulation results for a model that in
 
 ---
 
-## Part B — RF Cascade Analysis
+## Part B: RF Cascade Analysis
 
 ### Files Needed
 
@@ -111,7 +111,7 @@ Antenna → [ZX60-P162LN+] → [ZX75BP-1450-S+] → [ZX60-V63+] → SDR
 
 ### Procedure
 
-#### B1 — Manual Friis calculation
+#### B1: Manual Friis calculation
 
 Using the Friis formula for cascaded noise figure:
 
@@ -129,7 +129,7 @@ Given the datasheet values:
 
 Calculate the cascaded noise figure and compare it to the measured value of **about 1.5 dB (cable-corrected)** (see `measurements/rf-chain/nf/`).
 
-#### B2 — S-parameter cascade in Python
+#### B2: S-parameter cascade in Python
 
 The following Python code loads the stage S-parameter files and computes the cascade using a simple S21 chain multiplication (for gain/loss only):
 
@@ -146,7 +146,7 @@ def read_s2p(filename):
                 continue
             vals = [float(v) for v in line.split()]
             # Standard Touchstone format: freq S11_re S11_im S21_re S21_im ...
-            freq = vals[0]  # Hz or GHz depending on header — check # line
+            freq = vals[0]  # Hz or GHz depending on header: check # line
             s21 = complex(vals[3], vals[4])
             data.append((freq, s21))
     freq = np.array([d[0] for d in data])
@@ -164,7 +164,7 @@ f3, s21_amp = read_s2p('hardware/rf-chain/datasheet-s-parameters/ZX60-V63+/ZX60-
 
 **Expected result:** The cascade gain near 1420 MHz should be approximately **+39.5 dB +/- 0.5 dB**, matching `hardware/simulation/awr/rf_chain_gain.png`. Note that the measured VNA cascade file has no sample exactly at 1420.405 MHz (~42.5 MHz point spacing).
 
-#### B3 — Comparison with measured results
+#### B3: Comparison with measured results
 
 The VNA measurements in `measurements/rf-chain/vna/` were taken with the actual components. Load `cascade/cascaded chain.s2p` and overlay it with the simulation output. Discuss:
 

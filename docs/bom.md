@@ -5,13 +5,13 @@ Complete component list for the Mergen-21 21 cm radio telescope.
 > **Part number notes:** Mini-Circuits parts can be ordered directly from
 > [minicircuits.com](https://www.minicircuits.com) using the model number as the
 > ordering code, or through Mouser Electronics (manufacturer prefix **723-**).
-> Distributor part numbers marked † should be verified at checkout — they are
+> Distributor part numbers marked † should be verified at checkout; they are
 > correct as of mid-2026 but stock codes occasionally change.
 
 > **Currency:** USD prices are the reference (Mini-Circuits, Digi-Key, and
 > Mouser price in USD). TRY figures are converted at **1 USD ≈ 47.35 TRY**
 > (27 July 2026, exchange-rates.org / tradingeconomics.com) and will drift with
-> the exchange rate — use the USD column for ordering, TRY for budgeting.
+> the exchange rate; use the USD column for ordering, TRY for budgeting.
 
 ---
 
@@ -20,7 +20,7 @@ Complete component list for the Mergen-21 21 cm radio telescope.
 | Qty | Description | Manufacturer | Mfr Part No. | Mouser P/N | Approx. Price (USD) | Approx. Price (TRY) |
 |-----|-------------|--------------|--------------|------------|---------------------|----------------------|
 | 1 | Low-noise amplifier, 50–1600 MHz, NF 0.7 dB, G 19.7 dB | Mini-Circuits | ZX60-P162LN+ | 723-ZX60-P162LN+ † | $49.95 | ₺2,365 |
-| 1 | Bandpass filter, 1450 MHz centre, ~50 MHz BW | Mini-Circuits | ZX75BP-1450-S+ | 723-ZX75BP-1450-S+ † | $89.95 | ₺4,259 |
+| 1 | Bandpass filter, 1450 MHz center, ~50 MHz BW | Mini-Circuits | ZX75BP-1450-S+ | 723-ZX75BP-1450-S+ † | $89.95 | ₺4,259 |
 | 1 | Amplifier, 50–6000 MHz, G 20.8 dB | Mini-Circuits | ZX60-V63+ | 723-ZX60-V63+ † | $39.95 | ₺1,892 |
 
 **Sub-total RF chain: ~$180 / ~₺8,523**
@@ -37,7 +37,7 @@ Complete component list for the Mergen-21 21 cm radio telescope.
 
 ## LDO Power Supply PCB
 
-The PCB gerbers are in `hardware/ldo-regulator/gerbers/`. Fabricate at any PCB house (JLC, OSH Park, etc.) — 2-layer, no special stack-up required.
+The PCB gerbers are in `hardware/ldo-regulator/gerbers/`. Fabricate at any PCB house (JLC, OSH Park, etc.): 2-layer, no special stack-up required.
 
 | Qty | Description | Manufacturer | Mfr Part No. | Digi-Key P/N | Approx. Price (USD) | Approx. Price (TRY) |
 |-----|-------------|--------------|--------------|--------------|---------------------|----------------------|
@@ -53,7 +53,7 @@ The PCB gerbers are in `hardware/ldo-regulator/gerbers/`. Fabricate at any PCB h
 
 | Qty | Description | Specification | Supplier | Approx. Price (USD) | Approx. Price (TRY) |
 |-----|-------------|---------------|----------|---------------------|----------------------|
-| 1 set | Aluminium sheet for horn panels | Alloy 5754-H22, 1.5 mm thick, ~400 × 400 mm | Local metal supplier or online | ~$20 | ~₺947 |
+| 1 set | Aluminum sheet for horn panels | Alloy 5754-H22, 1.5 mm thick, ~400 × 400 mm | Local metal supplier or online | ~$20 | ~₺947 |
 | 1 | N-type female chassis connector (waveguide feed) | Amphenol RF 000-49000-SRFX | [Digi-Key](https://www.digikey.com/en/products/detail/amphenol-rf/000-49000-SRFX/4746416) | ~$8 | ~₺379 |
 | 1 | Copper wire 1.0 mm diameter, ~50 mm | Pure copper | Electronics supplier | ~$1 | ~₺47 |
 | 1 pkg | M3 × 30 mm stainless steel bolts (DIN 965TX), M3 × 8 mm (DIN 7985TX), M3 nuts (DIN 934), M3 flat + spring washers | A2-304 stainless steel | Hardware store | ~$8 | ~₺379 |
@@ -105,9 +105,9 @@ The PCB gerbers are in `hardware/ldo-regulator/gerbers/`. Fabricate at any PCB h
 
 The following items are assumed to be available in a university laboratory and are not included in the cost above:
 
-- Vector network analyser (for antenna and RF chain characterisation) — e.g. R&S ZNB8
-- Spectrum analyser with noise figure option (for NF and IP3 measurements)
+- Vector network analyzer (for antenna and RF chain characterization): e.g. R&S ZNB8
+- Spectrum analyzer with noise figure option (for NF and IP3 measurements)
 - DC bench power supply (for LDO board)
 - Soldering station
 
-These instruments are only needed for the characterisation labs (Lab 3). Labs 1, 2, and 4 do not require them.
+These instruments are only needed for the characterization labs (Lab 3). Labs 1, 2, and 4 do not require them.

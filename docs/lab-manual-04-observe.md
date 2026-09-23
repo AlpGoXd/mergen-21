@@ -1,6 +1,6 @@
-# Lab Manual 4 — Observe
+# Lab Manual 4: Observe
 
-**Topic:** Setting up the software receiver, making hydrogen line observations, and analysing the data  
+**Topic:** Setting up the software receiver, making hydrogen line observations, and analyzing the data  
 **Estimated time:** 2 hours (software only with example data) or 4–6 hours (with real hardware)  
 **Prerequisites:** Python 3.8+, NumPy, Matplotlib installed; GNU Radio 3.10+ for live acquisition
 
@@ -19,11 +19,11 @@ After completing this lab, students will be able to:
 
 ---
 
-## Part A — Software Setup (No Hardware Required)
+## Part A: Software Setup (No Hardware Required)
 
 This part uses the example data files already included in the repository. A real antenna or SDR is **not needed** to complete Part A.
 
-### A1 — Install Python dependencies
+### A1: Install Python dependencies
 
 ```bash
 pip install -r software/requirements.txt
@@ -31,7 +31,7 @@ pip install -r software/requirements.txt
 
 This installs: `numpy`, `scipy`, `matplotlib`, `astropy`.
 
-### A2 — Explore the example data
+### A2: Explore the example data
 
 Example spectra from the Mergen-21 first-light session (2026-04-29, Istanbul, Turkey) are in `observations/data/`. Each `.dat` file is a sequence of float32 power spectra produced by the receiver flowgraph:
 
@@ -72,7 +72,7 @@ plt.plot(rf_mhz, 10 * np.log10(np.maximum(avg, 1e-30)))
 plt.axvline(1420.405751768, color='red', ls='--', label='H I rest frequency')
 plt.xlabel('Frequency (MHz)')
 plt.ylabel('Power (dB, uncalibrated)')
-plt.title('Average spectrum — east pointing, 2026-04-29')
+plt.title('Average spectrum: east pointing, 2026-04-29')
 plt.legend()
 plt.grid()
 plt.tight_layout()
@@ -81,7 +81,7 @@ plt.show()
 
 **What to look for:** A peak at or near 1420.405 MHz is galactic hydrogen emission. A peak slightly shifted in frequency (by up to ±2 MHz) indicates a Doppler velocity.
 
-### A3 — Use the interactive waterfall viewer
+### A3: Use the interactive waterfall viewer
 
 The waterfall viewer provides a graphical interface for browsing multiple .dat files:
 
@@ -95,7 +95,7 @@ In the viewer:
 3. Click **Plot**. The upper panel shows power vs. time (waterfall); the lower panel shows the time-averaged spectrum.
 4. Switch the X axis to **Velocity [km/s]** to see the Doppler velocity scale. The hydrogen line rest frequency appears at 0 km/s.
 
-### A4 — Compare east vs. west pointing
+### A4: Compare east vs. west pointing
 
 Load the east-pointing file (`_doggu` or `_Dogu`) and the west-pointing file (`_bati`) in the same viewer session (use Ctrl+click to select multiple files).
 
@@ -106,14 +106,14 @@ Load the east-pointing file (`_doggu` or `_Dogu`) and the west-pointing file (`_
 
 ---
 
-## Part B — GNU Radio Receiver Setup (Hardware Required)
+## Part B: GNU Radio Receiver Setup (Hardware Required)
 
 This part requires:
 - Assembled antenna, LDO board, and RF chain (from Lab 2)
 - ADALM-PLUTO SDR connected via USB
 - Computer with GNU Radio 3.10+ and the gr-iio / PlutoSDR plugin
 
-### B1 — Install GNU Radio
+### B1: Install GNU Radio
 
 **Ubuntu 22.04 (recommended):**
 ```bash
@@ -135,7 +135,7 @@ python3 -c "from gnuradio import gr; print(gr.version())"
 gnuradio-companion --version
 ```
 
-### B2 — Connect the hardware
+### B2: Connect the hardware
 
 1. Power on the LDO board and verify +5 V on both outputs.
 2. Connect the RF chain: Antenna N-type → SMA cable → LNA input. LNA output → BPF. BPF output → Amp. Amp output → PlutoSDR RX1.
@@ -150,7 +150,7 @@ gnuradio-companion --version
    iio_info -s
    ```
 
-### B3 — Configure the log directory
+### B3: Configure the log directory
 
 Before running the flowgraph, set the output directory to a location of your choice. Open `software/gnuradio/reciver.py` and change the `log_dir` variable on approximately line 73:
 
@@ -160,7 +160,7 @@ self.log_dir = log_dir = "logs"   # relative to the directory where you run the 
 
 Or provide an absolute path to a directory that already exists on your system.
 
-### B4 — Launch the receiver
+### B4: Launch the receiver
 
 ```bash
 cd software/gnuradio
@@ -173,19 +173,19 @@ gnuradio-companion reciver.grc
 ```
 
 The GUI shows three panels:
-- **RX Quick-Look FFT** (bottom): raw spectrum directly from the PlutoSDR — confirms RF reception
+- **RX Quick-Look FFT** (bottom): raw spectrum directly from the PlutoSDR; it confirms RF reception
 - **Integrated Power Spectrum** (middle): time-averaged spectrum, updated every ~second
 - **Waterfall** (top): historical spectrogram
 
-### B5 — Verify reception
+### B5: Verify reception
 
 With the antenna connected and pointed at the sky:
 
 1. Confirm that noise floor is visible in the Quick-Look FFT panel (flat noise power around −100 to −120 dBm/bin is expected).
-2. Confirm that the PlutoSDR is not receiving at its full digital range (saturation appears as a perfectly flat spectrum — if you see this, reduce the SDR gain from 30 dB to 0 dB in the GUI).
-3. After 1–2 minutes of integration, a broad emission feature should become visible near 1420.405 MHz in the integrated spectrum. The galactic disc is always above the horizon and produces detectable emission when the beam overlaps it.
+2. Confirm that the PlutoSDR is not receiving at its full digital range (saturation appears as a perfectly flat spectrum; if you see this, reduce the SDR gain from 30 dB to 0 dB in the GUI).
+3. After 1–2 minutes of integration, a broad emission feature should become visible near 1420.405 MHz in the integrated spectrum. The galactic disk is always above the horizon and produces detectable emission when the beam overlaps it.
 
-### B6 — Record an observation
+### B6: Record an observation
 
 The flowgraph saves data automatically to `logs/` (or whichever directory you configured). File naming: `mergen21_spec_YYYYMMDD_HHMMSS.dat`.
 
@@ -196,15 +196,15 @@ For a useful observation:
 
 ---
 
-## Part C — Analysis: Galactic Rotation Curve (future work)
+## Part C: Analysis: Galactic Rotation Curve (future work)
 
 This part describes a method for a future exercise. It has not been carried out on the released Mergen-21 dataset: rotation-curve extraction needs frequency-axis verification, oscillator calibration, and pointing records that are not yet in place. See `docs/analysis/PROVENANCE_ADDENDUM.md` for what the April 2026 session's data currently supports (pointing-dependent line detections; not a rotation curve).
 
 ### Background
 
-The hydrogen 21 cm emission line is produced by cold neutral hydrogen clouds throughout the Milky Way disc. Clouds moving toward or away from Earth produce Doppler-shifted emission. By observing along different galactic longitudes, you can reconstruct the rotation speed of the Galaxy at different distances from the centre.
+The hydrogen 21 cm emission line is produced by cold neutral hydrogen clouds throughout the Milky Way disk. Clouds moving toward or away from Earth produce Doppler-shifted emission. By observing along different galactic longitudes, you can reconstruct the rotation speed of the Galaxy at different distances from the center.
 
-### C1 — Velocity calculation
+### C1: Velocity calculation
 
 The Doppler formula:
 
@@ -217,9 +217,9 @@ where:
 
 A positive velocity means the cloud is receding (redshift); negative means approaching.
 
-### C2 — Tangent-point method
+### C2: Tangent-point method
 
-For a galactic longitude l (between 0° and 90°, northern galactic disc), the highest-velocity emission component comes from the tangent point — the point along the line of sight where the observer, the galactic centre, and the cloud are aligned. At this point, all of the cloud's velocity is radial.
+For a galactic longitude l (between 0° and 90°, northern galactic disk), the highest-velocity emission component comes from the tangent point, the point along the line of sight where the observer, the galactic center, and the cloud are aligned. At this point, all of the cloud's velocity is radial.
 
 Rotation speed at the tangent point:
 
@@ -227,7 +227,7 @@ $$v_{\rm rot}(R_{\rm tan}) = v_{\rm max}(l) + v_\odot \sin(l)$$
 
 where v_max is the maximum observed Doppler velocity at longitude l, and v_⊙ ≈ 220 km/s is the Sun's rotation speed. The tangent point radius is R_tan = R_⊙ sin(l) (R_⊙ ≈ 8.5 kpc).
 
-### C3 — Comparing east and west observations
+### C3: Comparing east and west observations
 
 At the latitude of Istanbul (41°N), the galactic plane passes through a range of azimuth angles during the night. The Stellarium screenshots in `observations/` document the galactic longitudes observed during the 2026-04-29 session.
 
@@ -235,7 +235,7 @@ Load the directional files (east/west/south) in the viewer and measure the veloc
 
 ---
 
-## Synthesiser Flowgraphs (Hardware-Free GNU Radio Test)
+## Synthesizer Flowgraphs (Hardware-Free GNU Radio Test)
 
 If you have GNU Radio installed but no PlutoSDR, the `21cm synth/` flowgraphs generate synthetic HI data through the full signal-processing chain:
 
@@ -263,7 +263,7 @@ From the Istanbul site (41.0°N, 29.0°E), galactic HI emission is detectable in
 |---|---|---|---|
 | East | `_doggu.dat` | ~+40 to +80 | Spiral arm components |
 | West | `_bati.dat` | ~+20 to +60 | Different arm crossing |
-| South | `_guney.dat` | ~0 to +40 | Near galactic centre |
+| South | `_guney.dat` | ~0 to +40 | Near galactic center |
 
 Plots in `observations/plots/` show the spectra from this session.
 
@@ -275,7 +275,7 @@ Plots in `observations/plots/` show the spectra from this session.
 
 **Flat spectrum (saturation):** Reduce SDR gain to 0 dB, then increase slowly while monitoring the noise floor.
 
-**No HI emission visible after long integration:** Confirm the antenna is pointing at the sky (not a nearby wall or the ground). The galactic plane transits the meridian at LST equal to the right ascension of the target — check a planetarium app.
+**No HI emission visible after long integration:** Confirm the antenna is pointing at the sky (not a nearby wall or the ground). The galactic plane transits the meridian at LST equal to the right ascension of the target; check a planetarium app.
 
 **Viewer crashes or freezes:** Each .dat file can be several hundred MB. The viewer uses memory-mapping and will decimate to at most 2500 display rows. If problems persist, try loading a single small file first.
 

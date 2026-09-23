@@ -6,11 +6,11 @@ Supporting documents for the Mergen-21 21 cm radio telescope project.
 
 | File / Folder | Description |
 |---|---|
-| [`bom.md`](bom.md) | Bill of materials — all components with distributor part numbers and prices |
-| [`lab-manual-01-simulate.md`](lab-manual-01-simulate.md) | Lab 1 — EM simulation of the horn antenna and RF cascade |
-| [`lab-manual-02-build.md`](lab-manual-02-build.md) | Lab 2 — Fabricating and assembling the hardware |
-| [`lab-manual-03-measure.md`](lab-manual-03-measure.md) | Lab 3 — VNA, noise figure, and IP3 characterisation |
-| [`lab-manual-04-observe.md`](lab-manual-04-observe.md) | Lab 4 — First-light observation and data analysis |
+| [`bom.md`](bom.md) | Bill of materials: all components with distributor part numbers and prices |
+| [`lab-manual-01-simulate.md`](lab-manual-01-simulate.md) | Lab 1: EM simulation of the horn antenna and RF cascade |
+| [`lab-manual-02-build.md`](lab-manual-02-build.md) | Lab 2: Fabricating and assembling the hardware |
+| [`lab-manual-03-measure.md`](lab-manual-03-measure.md) | Lab 3: VNA, noise figure, and IP3 characterization |
+| [`lab-manual-04-observe.md`](lab-manual-04-observe.md) | Lab 4: First-light observation and data analysis |
 | [`STATUS.md`](STATUS.md) | Subsystem completion status |
 | [`build-log/`](build-log/) | Construction photographs and process notes |
 | [`rf_system.drawio.svg`](rf_system.drawio.svg) | RF signal chain block diagram (editable Draw.io source in `rf system.drawio`) |
