@@ -113,6 +113,13 @@ software/gnuradio/logs/
 *.cache
 
 # ===========================
+# Paper-release staging (never committed)
+# ===========================
+_incoming/
+mergen21_incoming/
+mergen21_incoming.zip
+
+# ===========================
 # Proprietary EDA project files (license metadata)
 # ===========================
 *.cst
