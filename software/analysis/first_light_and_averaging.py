@@ -2,16 +2,18 @@
 """
 Mergen-21: first-light spectra and the averaging comparison.
 
-Builds figures/first_light_and_averaging.pdf (+ .png preview) and
-outputs/averaging_noise.csv from the raw spectrometer captures.
+Builds <outdir>/figures/first_light_and_averaging.pdf (+ .png preview) and
+<outdir>/averaging_noise.csv from the raw spectrometer captures.
 
-Run from the directory containing raw/ :
-    python3 first_light_and_averaging.py
+Captures are read from <root>/observations/data/, falling back to
+<root>/raw/ if not found there (see capture_path()). Run from anywhere:
+    python3 software/analysis/first_light_and_averaging.py
+    python3 first_light_and_averaging.py --root /path/to/mergen-21 --outdir .
 
 ------------------------------------------------------------------------
 ACQUISITION FACTS
 ------------------------------------------------------------------------
-Verified in this script from acquisition/reciver.grc:
+Verified in this script from software/gnuradio/reciver.grc:
   samp_rate = 2 048 000 Sa/s, fft_size = 2048, K = 8 branches,
   Kaiser beta = 8.6, LO_freq = 1 420 405 000 Hz, rx_gain = 30 dB (manual),
   rf_bandwidth = 2 MHz, RX rfdc/bbdc/quadrature correction enabled.
@@ -39,13 +41,19 @@ Supplied by the observer (not recoverable from the files):
   was changed, it was regenerated, and it was restarted.  They are not
   one recording processed two ways.
 
-UNRESOLVED METADATA DISCREPANCY (reported, not resolved):
-  The released acquisition/reciver.grc has integration_time = 500, which
-  matches neither M = 1000 nor M = 100.  The saved flowgraph state also
-  carries the "500int" of the sweep capture's filename.  The observer's
-  confirmed values are used here; the .grc value is not.  Nothing in this
+METADATA DISCREPANCY, NOW CORRECTED IN THE FLOWGRAPH:
+  At the time of the April 29 session, software/gnuradio/reciver.grc had
+  integration_time = 500, which matched neither M = 1000 nor M = 100 of any
+  real capture. The saved flowgraph state also carried the "500int" of the
+  sweep capture's filename. The observer's confirmed per-capture values
+  (below) are used here; the .grc value was never used for this figure.
+  software/gnuradio/reciver.grc has since had its integration_time default
+  corrected to 1000 (see that file's variable comment); this script's
+  hardcoded CAPTURES table is unaffected either way, since it always used
+  the observer's confirmed values, not the .grc default. Nothing in this
   figure depends on the sweep capture.
 """
+import argparse
 import pathlib
 import numpy as np
 import pandas as pd
@@ -60,14 +68,13 @@ HOP = FFT_SIZE                       # samples per FFT frame
 FRAME_S = HOP / SAMP_RATE            # 1.000 ms
 DF_KHZ = SAMP_RATE / FFT_SIZE / 1e3  # 1.000 kHz
 
-RAW = pathlib.Path("raw")
 CAPTURES = {                         # id -> (filename, M frames/row)
     "W":  ("mergen21_spec_20260429_045525_bati.dat", 1000),
     "S":  ("mergen21_spec_20260429_045857_guney.dat", 1000),
     "E1": ("mergen21_spec_20260429_050204_doggu.dat", 1000),
     "E2": ("mergen21_spec_20260429_050450_Dogu_100.dat", 100),
 }
-LABEL = {"W": "west", "S": "south", "E1": "east"}
+LABEL = {"W": "West", "S": "South", "E1": "East"}
 COLOR = {"W": "#7fa8cd", "S": "#b2182b", "E1": "#1f6fb4", "E2": "#e08214"}
 
 N_SKIP = 6            # startup rows dropped (see startup_sensitivity)
@@ -83,9 +90,20 @@ FAX = (np.arange(FFT_SIZE) - FFT_SIZE // 2) * DF_KHZ   # kHz from nominal LO
 
 
 # ------------------------------------------------------------- utilities
-def load_rows(name):
+def capture_path(root, fn):
+    """Captures live under observations/data/ in the mergen-21 repository and
+    under raw/ in the exported reproducibility package. Accept either."""
+    for sub in ("observations/data", "raw"):
+        p = root / sub / fn
+        if p.exists():
+            return p
+    raise FileNotFoundError(
+        f"{fn} not found under {root}/observations/data or {root}/raw")
+
+
+def load_rows(root, name):
     """Raw capture -> (n_rows, 2048) linear power, float64."""
-    a = np.fromfile(RAW / name, dtype=np.float32)
+    a = np.fromfile(capture_path(root, name), dtype=np.float32)
     if a.size % FFT_SIZE:
         raise ValueError(f"{name}: {a.size} floats is not a whole number of rows")
     return a.reshape(-1, FFT_SIZE).astype(np.float64)
@@ -178,10 +196,12 @@ def temporal_lag1(Xn, mask):
 
 
 # ------------------------------------------------------------ main
-def main():
-    pathlib.Path("figures").mkdir(exist_ok=True)
-    pathlib.Path("outputs").mkdir(exist_ok=True)
-    raw = {k: load_rows(f) for k, (f, _) in CAPTURES.items()}
+def main(root, outdir):
+    root, outdir = pathlib.Path(root), pathlib.Path(outdir)
+    figdir = outdir / "figures"
+    figdir.mkdir(parents=True, exist_ok=True)
+    outdir.mkdir(parents=True, exist_ok=True)
+    raw = {k: load_rows(root, f) for k, (f, _) in CAPTURES.items()}
     tau_row = {k: M * FRAME_S for k, (_, M) in CAPTURES.items()}
     report = []
 
@@ -236,7 +256,7 @@ def main():
          "spread_frac", "sem_frac", "n_pairs", "n_blocks", "rows_used", "rows_skipped",
          "n_channels", "temporal_lag1", "included"]]
     tab["sigma_pct"] = tab.sigma_frac * 100
-    tab.to_csv("outputs/averaging_noise.csv", index=False)
+    tab.to_csv(outdir / "averaging_noise.csv", index=False)
     shown = tab[tab.included]
 
     # tau^-1/2 reference, normalized to the included points (not a prediction)
@@ -287,7 +307,6 @@ def main():
     axA.set_ylim(-4, 27)
     axA.set_xlabel("Offset from nominal LO (kHz)")
     axA.set_ylabel("Fractional excess (%)")
-    axA.set_title("First-light spectra", loc="left", pad=7)
     axA.annotate(f"band-center\ninstrumental artifact\n(off scale, {peak_art['S']:.0f}%)",
                  xy=(-6, 24.5), xytext=(-250, 21.0), fontsize=7, color="0.35",
                  ha="left", va="top",
@@ -304,7 +323,7 @@ def main():
     # (b) noise versus integration time
     tt = np.array([shown.tau_s.min() * 0.8, shown.tau_s.max() * 1.25])
     axB.plot(tt, amp * tt ** -0.5, color="0.6", lw=0.9, ls=(0, (4, 2)),
-             zorder=1, label=r"$\tau^{-1/2}$, normalized to these data")
+             zorder=1, label=r"$\tau^{-1/2}$, normalized to $M$ = 1000 at 1 s")
     style = {"E1": dict(fmt="o", ms=7.0, mfc="none", mew=1.2, zorder=3),
              "E2": dict(fmt="s", ms=3.6, mew=0.5, zorder=4)}
     for k in ("E1", "E2"):
@@ -317,18 +336,26 @@ def main():
     axB.set_xscale("log"); axB.set_yscale("log")
     axB.set_xlabel(r"Nominal integration time per block, $\tau$ (s)")
     axB.set_ylabel("Fractional fluctuation (%)")
-    axB.set_title("Noise versus integration time", loc="left", pad=7)
     axB.legend(frameon=False, loc="lower left", handlelength=1.6,
                borderaxespad=0.2, labelspacing=0.35)
     for ax, lab in ((axA, "a"), (axB, "b")):
         ax.text(-0.155, 1.06, lab, transform=ax.transAxes,
                 fontsize=11, fontweight="bold", va="bottom")
 
-    fig.savefig("figures/first_light_and_averaging.pdf", bbox_inches="tight")
-    fig.savefig("figures/first_light_and_averaging.png", bbox_inches="tight")
+    fig.savefig(figdir / "first_light_and_averaging.pdf", bbox_inches="tight")
+    fig.savefig(figdir / "first_light_and_averaging.png", bbox_inches="tight")
     print("\n".join(report))
     return fig, tab
 
 
 if __name__ == "__main__":
-    main()
+    _default_root = pathlib.Path(__file__).resolve().parents[2]
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--root", default=str(_default_root),
+                    help="mergen-21 repository root (default: resolved from this file's location)")
+    ap.add_argument("--outdir", default=None,
+                    help="output directory for CSV and figures/ "
+                         "(default: <root>/software/analysis/outputs)")
+    args = ap.parse_args()
+    outdir = args.outdir or (pathlib.Path(args.root) / "software" / "analysis" / "outputs")
+    main(args.root, outdir)
