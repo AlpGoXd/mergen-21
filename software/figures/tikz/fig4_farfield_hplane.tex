@@ -1,0 +1,29 @@
+% Requires in the preamble:
+%   \usepackage{pgfplots}\pgfplotsset{compat=1.18}
+%   \usepgfplotslibrary{polar}            % only for the far-field figures
+%   \definecolor{mgnavy}{HTML}{1F4E79}\definecolor{mgrust}{HTML}{B0552A}
+%   \newcommand{\mgdata}{figures/tikz/data}   % folder holding the .dat files
+\begin{tikzpicture}
+\begin{polaraxis}[
+    width=0.62\textwidth,
+    ymin=0, ymax=60, ytick={10,20,...,50}, yticklabels={},
+    xtick={0,30,60,90,120,150,180,210,240,270,300,330}, xticklabels={{$90^\circ$},{$60^\circ$},{$30^\circ$},{$0^\circ$},{$30^\circ$},{$60^\circ$},{$90^\circ$},{$120^\circ$},{$150^\circ$},{$180^\circ$},{$150^\circ$},{$120^\circ$}},
+    tick label style={font=\scriptsize},
+    y axis line style={draw=none}, ytick style={draw=none},
+    grid=both, major grid style={gray!25, line width=0.3pt},
+    clip=false,
+]
+\addplot[gray!70!black, densely dashed, line width=0.5pt, domain=0:360, samples=181, smooth] {53.915};
+\addplot[mgnavy, line width=1pt, no marks] table[x=p, y=r] {\mgdata/ff_hplane.dat};
+\addplot[only marks, mark=*, mark size=1.3pt, mark options={fill=white, draw=mgnavy, line width=0.7pt}]
+    coordinates {(102.61,53.915) (77.40,53.915)};
+\node[font=\scriptsize, fill=white, fill opacity=0.85, text opacity=1, inner sep=0.6pt] at (247.5,10) {$-30$};
+\node[font=\scriptsize, fill=white, fill opacity=0.85, text opacity=1, inner sep=0.6pt] at (247.5,20) {$-20$};
+\node[font=\scriptsize, fill=white, fill opacity=0.85, text opacity=1, inner sep=0.6pt] at (247.5,30) {$-10$};
+\node[font=\scriptsize, fill=white, fill opacity=0.85, text opacity=1, inner sep=0.6pt] at (247.5,40) {$0$};
+\node[font=\scriptsize, fill=white, fill opacity=0.85, text opacity=1, inner sep=0.6pt] at (247.5,50) {$10$\,dBi};
+\end{polaraxis}
+\node[anchor=north west, align=left, font=\footnotesize, text=mgnavy] at ([yshift=-2pt]current axis.south west) {Peak directivity $16.9$\,dBi\\HPBW $25.2^\circ$};
+\node[anchor=north east, align=right, font=\footnotesize, text=gray!70!black] at ([yshift=-2pt]current axis.south east)
+    {Right half: $\phi=0^\circ$\\Left half: $\phi=180^\circ$};
+\end{tikzpicture}

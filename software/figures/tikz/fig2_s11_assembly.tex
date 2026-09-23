@@ -1,0 +1,33 @@
+% Requires in the preamble:
+%   \usepackage{pgfplots}\pgfplotsset{compat=1.18}
+%   \usepgfplotslibrary{polar}            % only for the far-field figures
+%   \definecolor{mgnavy}{HTML}{1F4E79}\definecolor{mgrust}{HTML}{B0552A}
+%   \newcommand{\mgdata}{figures/tikz/data}   % folder holding the .dat files
+\begin{tikzpicture}
+\begin{axis}[
+    width=\textwidth, height=0.42\textwidth,
+    xmin=1, xmax=2, xlabel={Frequency (GHz)}, ylabel={$|S_{11}|$ (dB)},
+    tick align=inside, xtick pos=both, ytick pos=both,
+    grid=major, grid style={gray!25, line width=0.3pt},
+    tick label style={font=\scriptsize}, label style={font=\small},
+    xticklabel style={/pgf/number format/fixed, /pgf/number format/precision=1, /pgf/number format/fixed zerofill},
+    clip=false,
+    ymin=-47, ymax=0.5, ytick={-40,-30,...,0},
+    legend pos=south east, legend style={draw=none, fill=none, font=\footnotesize},
+    legend cell align=left,
+]
+\addplot[mgrust, line width=1pt] table[x=f, y=s11] {\mgdata/s11_assembly_cst.dat};
+\addlegendentry{CST, worst case}
+\addplot[mgnavy, line width=1pt, mark=*, mark size=0.6pt] table[x=f, y=s11] {\mgdata/s11_measured.dat};
+\addlegendentry{Measured (ZNB8)}
+\draw[gray!70!black, densely dashed, line width=0.6pt] (1.42,-47) -- (1.42,0.5);
+\draw[mgrust, line width=0.4pt] (1.42,-21.79) -- (1.60,-26)
+    node[right, font=\footnotesize, inner sep=1pt] {$-21.8$\,dB};
+\draw[mgnavy, line width=0.4pt] (1.42,-41.84) -- (1.57,-42.5)
+    node[right, font=\footnotesize, inner sep=1pt] {$-41.8$\,dB};
+\addplot[only marks, mark=*, mark size=1.6pt, mark options={fill=white, draw=mgrust, line width=0.8pt}, forget plot]
+    coordinates {(1.42,-21.79)};
+\addplot[only marks, mark=*, mark size=1.6pt, mark options={fill=white, draw=mgnavy, line width=0.8pt}, forget plot]
+    coordinates {(1.42,-41.84)};
+\end{axis}
+\end{tikzpicture}

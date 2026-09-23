@@ -1,0 +1,10 @@
+path,role,bytes,sha256,rows
+observations/data/mergen21_spec_20260429_045525_bati.dat,static pointing W,868352,b57beb6b30be4d8b46847cef1b823ca457d65b087f5adfd319f6e9addc34b631,106
+observations/data/mergen21_spec_20260429_045857_guney.dat,static pointing S,843776,161a0156ef4ac83995c336be15c84f6ffcab70dc7775bfc420d095845d1d6853,103
+observations/data/mergen21_spec_20260429_050204_doggu.dat,static pointing E,851968,30f44a5e362cb5450e59cf23cc3045e9027ffb5db3498d144ba13713f67ee1da,104
+observations/data/mergen21_spec_20260429_050554_180partygirl_500int.dat,"180 deg east-west sweep, 12 blocks",2400256,51bae78e0284908498db7c47fa4fa439bcd8e4bb49ab7d89f363bb353ed48b5c,293
+measurements/rf-chain/nf/README.md,auxiliary / calibration reference,5001,48e5cca9647033fb62a0a7cc52de3826481a90e1b76f0c674591887deb39d30e,-1
+measurements/rf-chain/nf/cable_loss.DAT,auxiliary / calibration reference,64821,81d52c69f94bb4e19282179e5819f12acbd6c4248450a8837d75fd35e5e208ca,-1
+measurements/rf-chain/nf/just cooked reciver.DAT,auxiliary / calibration reference,44614,ca3494e0f1a146f31e5b0a88a0c8961322c19b70bfdc4c95605c4553f7b6c232,-1
+measurements/rf-chain/nf/match noise.DAT,auxiliary / calibration reference,45693,1d576dfbeea50b3a9ea5661c94a47b29cd26a82d5dc12cb8d62dcd12ef9fca02,-1
+software/gnuradio/reciver.grc,auxiliary / calibration reference,28707,e2ec52ebd1e640f87f3f6e05b39c62659e69c7ec44f12d5f63e6d9b01bb6a418,-1
