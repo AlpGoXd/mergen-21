@@ -39,15 +39,26 @@ Observation plots are in `plots/`:
 
 ## Loading the Data
 
+These `.dat` files are the sample SDR recordings distributed with the repository.
+A real antenna or SDR is not needed to view them.
+
 ```python
 import numpy as np
-spec = np.fromfile('data/mergen21_spec_20260429_041703.dat', dtype=np.float32)
+
+FFT_SIZE = 2048
+raw = np.fromfile('data/mergen21_spec_20260429_041703.dat', dtype=np.float32)
+spectra = raw[:len(raw) // FFT_SIZE * FFT_SIZE].reshape(-1, FFT_SIZE)
+avg_spectrum = spectra.mean(axis=0)   # time-averaged spectrum
 ```
 
-Visualize with the waterfall viewer:
+**Interactive viewer** (run from the repository root):
 ```bash
-python3 software/analysis/mergen21_waterfall_viewer.py observations/data/
+python software/analysis/mergen21_waterfall_viewer.py
 ```
+
+In the viewer: click **Add...**, navigate to `observations/data/`, select one or more `.dat` files, then click **Plot**. Switch the X axis to **Velocity [km/s]** to see the Doppler scale.
+
+See [`docs/lab-manual-04-observe.md`](../docs/lab-manual-04-observe.md) for a step-by-step walkthrough.
 
 ## Site
 

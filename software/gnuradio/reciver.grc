@@ -118,7 +118,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '500'
+    value: '1000'
   states:
     bus_sink: false
     bus_source: false
@@ -148,7 +148,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '"C:/Users/alpgo/Desktop/gits/mergen-21/software/gnuradio/logs"'
+    value: '"logs"'
   states:
     bus_sink: false
     bus_source: false
@@ -193,7 +193,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '30'
+    value: '0'
   states:
     bus_sink: false
     bus_source: false

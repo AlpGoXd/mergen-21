@@ -92,27 +92,50 @@ mergen-21/
 │   ├── rf-chain/                # Component datasheets & S-parameters
 │   ├── ldo-regulator/           # Dual LDO board (Altium, Gerbers, BOM, STEP)
 │   └── simulation/              # CST antenna sims & AWR cascade analysis
-├── measurements/                # Lab characterization data
+├── measurements/                # Lab characterisation data
 │   ├── rf-chain/vna/            # VNA S-parameters (R&S ZNB8)
 │   ├── rf-chain/ip3/            # IP3 / intermodulation
 │   ├── rf-chain/nf/             # Noise figure
 │   └── antenna/                 # Horn S11 & manufacturing notes
 ├── software/                    # Data acquisition & analysis
-│   ├── gnuradio/                # GNU Radio flowgraphs (.grc)
+│   ├── gnuradio/                # GNU Radio flowgraphs (.grc) + synthesiser test flows
 │   └── analysis/                # Python scripts (waterfall viewer, etc.)
 ├── observations/                # First-light data & plots (2026-04-29)
-│   ├── data/                    # Raw spectra (.dat, NumPy float32)
+│   ├── data/                    # Raw spectra (.dat, NumPy float32) — sample data included
 │   └── plots/                   # Waterfall & sweep plots
-└── docs/                        # Build log, status, diagrams
+└── docs/                        # Lab manuals, BOM, build log, diagrams
+    ├── lab-manual-01-simulate.md  # Lab 1: EM sim + RF cascade analysis
+    ├── lab-manual-02-build.md     # Lab 2: Fabrication & assembly
+    ├── lab-manual-03-measure.md   # Lab 3: VNA, NF, IP3 characterisation
+    ├── lab-manual-04-observe.md   # Lab 4: GNU Radio observation & data analysis
+    └── bom.md                     # Full BOM with distributor part numbers
 ```
 
 ## Quick Navigation
 
+- **Try it without hardware?** → `python software/analysis/mergen21_waterfall_viewer.py` then load any `.dat` from `observations/data/`
+- **Hardware files?** → [`hardware/`](hardware/) — antenna CAD, RF chain, LDO, simulations
 - **Measurement data?** → [`measurements/`](measurements/)
-- **Hardware files?** → [`hardware/`](hardware/) — antenna CAD, RF chain, LDO, sims
-- **First-light data?** → [`observations/`](observations/) — raw spectra + plots
-- **Running observations?** → [`software/gnuradio/`](software/gnuradio/) — flowgraphs + setup
+- **First-light data?** → [`observations/`](observations/) — raw spectra + plots (2026-04-29)
+- **Lab manuals?** → [`docs/`](docs/) — four-phase curriculum: simulate, build, measure, observe
+- **BOM + costs?** → [`docs/bom.md`](docs/bom.md)
+- **Running the receiver?** → [`software/gnuradio/`](software/gnuradio/) — flowgraphs + setup
 - **Build progress?** → [`docs/STATUS.md`](docs/STATUS.md)
+
+---
+
+## Quickstart — 5 minutes, no hardware required
+
+```bash
+git clone https://github.com/AlpGoXd/mergen-21.git
+cd mergen-21
+pip install -r software/requirements.txt
+python software/analysis/mergen21_waterfall_viewer.py
+```
+
+In the viewer, click **Add...** and open any `.dat` file from `observations/data/`. Set X axis to **Velocity [km/s]** and click **Plot**. You will see a spectrum with a peak near 0 km/s — galactic hydrogen emission detected from Istanbul in April 2026.
+
+No SDR, no antenna, no GNU Radio needed for this step. The viewer reads the recorded spectra directly.
 
 ---
 
@@ -125,10 +148,12 @@ pip install -r software/requirements.txt
 ```
 
 **Dependencies:**
-- GNU Radio 3.10+ with PlutoSDR block (gr-iio)
+- GNU Radio 3.10+ with PlutoSDR block (gr-iio) — only needed for live acquisition
 - Python 3.8+ — `numpy`, `scipy`, `matplotlib`, `astropy`
 
 > CST, AWR, and Autodesk Inventor are only needed to re-run simulations or edit CAD. All exported results (S-parameters, STEP, Gerbers, PDFs) are already in the repo.
+
+**Total system cost:** ~$413–$513 USD (see [`docs/bom.md`](docs/bom.md) for full breakdown).
 
 ---
 

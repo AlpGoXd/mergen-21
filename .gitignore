@@ -1,4 +1,33 @@
 # ===========================
+# LaTeX
+# ===========================
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+*.ptc
+*.xdv
+*.fdb_latexmk
+*.synctex.gz
+*.synctex(busy)
+*.blg
+*.bbl
+*.bcf
+*.run.xml
+*.nav
+*.snm
+*.vrb
+_minted*/
+*.minted
+
+# ===========================
 # OS & IDE
 # ===========================
 .DS_Store
@@ -61,6 +90,7 @@ env/
 # ===========================
 *.pyc
 *_epy_block_*.py
+software/gnuradio/logs/
 
 # ===========================
 # Large data files (track with Git LFS if needed)
