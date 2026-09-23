@@ -48,8 +48,13 @@ F0_KHZ = F0_MHZ * 1e3
 # Solar motion w.r.t. the LSR, Schoenrich, Binney & Dehnen (2010), km/s.
 U_SUN, V_SUN, W_SUN = 11.1, 12.24, 7.25
 
-# Spectrometer configuration, read from software/gnuradio/reciver.grc:
-#   fft_size = 2048, samp_rate = 2048000, integration_time = 500
+# Spectrometer configuration, read from software/gnuradio/reciver.grc. At the
+# time of the April 29 session the flowgraph's saved integration_time was
+# 500, matching no actual capture; software/gnuradio/reciver.grc has since
+# had that default corrected to 1000 (see that file's variable comment).
+# Neither value is read by this script; TAU_ROW_STATIC_S and
+# TAU_ROW_SWEEP_S below are the observer-confirmed per-capture cadences.
+#   fft_size = 2048, samp_rate = 2048000
 FFT_SIZE = 2048
 SAMP_RATE = 2_048_000.0
 CHAN_BW_HZ = SAMP_RATE / FFT_SIZE            # 1000.0 Hz channel SPACING.
@@ -57,14 +62,20 @@ CHAN_BW_HZ = SAMP_RATE / FFT_SIZE            # 1000.0 Hz channel SPACING.
 # the spacing and its exact width is unsettled. See PROVENANCE_ADDENDUM.md
 # section 5. Nothing below uses CHAN_BW_HZ for a noise prediction.
 
-# Row cadence. The committed flowgraph says integration_time = 500, i.e.
-# 0.5 s per row, but it records the END of the session and describes the
-# sweep only. Per-row noise calibrated against the two captures whose
-# filenames state their setting gives ~1000 frames for the three static
-# captures (0.99 s and 1.10 s from the two anchors) and 500 for the sweep.
-# INFERRED, not recorded. PROVENANCE_ADDENDUM.md section 4.
+# Row cadence. The observer confirmed on 2026-09-13 that every capture from
+# the April 29 session, including the sweep ("_180partygirl_500int.dat"),
+# ran with integration_time = 1000 (1.0 s per row), despite that filename's
+# misleading "500int". The committed flowgraph's saved integration_time
+# (500 at session time, since corrected to 1000; see
+# software/gnuradio/reciver.grc) records the END of the session and was
+# never authoritative for any individual capture's cadence.
+# PROVENANCE_ADDENDUM.md section 4. The sweep analysis itself is withdrawn
+# (PROVENANCE_ADDENDUM.md section 1); this value does not change any number
+# the paper quotes (verified: outputs regenerated before/after this edit are
+# identical except for the withdrawn sweep-block on_source_s/utc_mid/tau_row_s
+# columns and frequency_axis.tau_per_row_s_sweep in the derived JSON).
 TAU_ROW_STATIC_S = 1.0
-TAU_ROW_SWEEP_S = 0.5
+TAU_ROW_SWEEP_S = 1.0
 
 # Site. ASSUMED from observations/README.md ("~41.0 N, 29.0 E"); no GPS fix
 # was logged. A 0.1 deg error moves v_bary by <0.01 km/s.
