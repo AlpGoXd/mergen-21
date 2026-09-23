@@ -195,7 +195,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '0'
+    value: '30'
   states:
     bus_sink: false
     bus_source: false

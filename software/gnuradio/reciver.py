@@ -68,7 +68,7 @@ class reciver(gr.top_block, Qt.QWidget):
         self.fft_size = fft_size = 2048
         self.beta = beta = 8.6
         self.session_ts = session_ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        self.rx_gain = rx_gain = 0
+        self.rx_gain = rx_gain = 30
         self.rf_bandwidth = rf_bandwidth = 2000000
         self.log_dir = log_dir = "logs"
         self.kaiser_window = kaiser_window = firdes.low_pass(1.0, samp_rate, samp_rate/(4*fft_size), samp_rate/(4*fft_size), window.WIN_KAISER, beta)
