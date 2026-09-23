@@ -32,4 +32,4 @@ Pyramidal horn antenna for 1420.405 MHz (21 cm hydrogen line), fabricated from 1
 3. Follow `ASSEMBLY.md` for assembly.
 4. Verify with VNA: expected S11 < −20 dB at 1420.4 MHz.
 
-EM simulation files are in [`../../simulation/cst/`](../../simulation/cst/).
+EM simulation files are in [`../simulation/cst/`](../simulation/cst/).
