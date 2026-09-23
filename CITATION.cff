@@ -1,0 +1,72 @@
+cff-version: 1.2.0
+message: >-
+  If you use this project in research or teaching, please cite it using
+  the information below.
+title: "Mergen-21: Low-Cost 21 cm Hydrogen Line Radio Telescope"
+version: 1.0.0
+date-released: "2026-04-29"
+url: "https://github.com/AlpGoXd/mergen-21"
+repository-code: "https://github.com/AlpGoXd/mergen-21"
+license:
+  - CERN-OHL-S-2.0
+  - GPL-3.0-only
+  - CC-BY-SA-4.0
+keywords:
+  - radio telescope
+  - hydrogen line
+  - 21 cm line
+  - HI emission
+  - SDR
+  - ADALM-PLUTO
+  - GNU Radio
+  - open hardware
+  - amateur radio astronomy
+  - education
+type: software
+authors:
+  - family-names: "Gökalp"
+    given-names: "Alp"
+    affiliation: "Özyeğin University"
+    email: alpgoalpgo@gmail.com
+    country: TR
+  - family-names: "Elamassie"
+    given-names: "Mohammed"
+    affiliation: "Özyeğin University"
+  - family-names: "Akgiray"
+    given-names: "Ahmed"
+    affiliation: "Özyeğin University"
+abstract: >-
+  Mergen-21 is a fully open-source 21 cm hydrogen line radio telescope
+  built as a graduation project at Özyeğin University. The system consists
+  of a laser-cut pyramidal horn antenna (16.9 dBi, 1420.405 MHz), a
+  cascaded RF receiver chain (about 39.5 dB gain +/- 0.5 dB, about 1.5 dB
+  noise figure), and a GNU Radio / ADALM-PLUTO SDR backend. First-light
+  galactic-plane observations, showing pointing-dependent hydrogen-line
+  detections, were recorded in April 2026 from Istanbul, Turkey. A
+  Galactic rotation curve via the tangent-point method is a future goal
+  and is not part of the released results. All hardware design files,
+  simulation data, measurement data, and analysis software are published
+  under open licenses.
+preferred-citation:
+  type: thesis
+  title: >-
+    Mergen-21: A Low-Cost 21 cm Hydrogen Line Radio Telescope for
+    Galactic Rotation Curve Observation
+  authors:
+    - family-names: "Gökalp"
+      given-names: "Alp"
+  year: 2026
+  institution:
+    name: "Özyeğin University"
+    city: Istanbul
+    country: TR
+  thesis-type: "Bachelor's Thesis"
+  department: "Electrical and Electronics Engineering"
+  notes: "EE401 Graduation Project"
+references:
+  - type: software
+    title: "PICTOR: A Low-Cost Radio Telescope for Detecting the Hydrogen Line"
+    authors:
+      - name: "0xCoto"
+    url: "https://github.com/0xCoto/PICTOR"
+    notes: "Reference implementation for radio astronomy data acquisition workflows"

@@ -1,0 +1,32 @@
+{
+  "title": "Mergen-21: Low-Cost 21 cm Hydrogen Line Radio Telescope",
+  "description": "Mergen-21 is an open-source 21 cm hydrogen line radio telescope built as a graduation project at Ozyegin University. The repository contains a laser-cut pyramidal horn antenna design, a characterized cascaded RF receiver chain (about 39.5 dB gain +/- 0.5 dB, about 1.5 dB noise figure), a GNU Radio / ADALM-PLUTO SDR acquisition flowgraph, and the analysis software used to process recorded spectra. It includes first-light galactic-plane observations recorded in April 2026 from Istanbul, Turkey, showing pointing-dependent hydrogen-line detections. A Galactic rotation curve via the tangent-point method is a future goal and is not part of the released results. Hardware design files, simulation data, measurement data, documentation, and analysis software are published under separate open licenses; see the Licensing section of the README.",
+  "creators": [
+    {
+      "name": "Gokalp, Alp",
+      "affiliation": "Ozyegin University"
+    },
+    {
+      "name": "Elamassie, Mohammed",
+      "affiliation": "Ozyegin University"
+    },
+    {
+      "name": "Akgiray, Ahmed",
+      "affiliation": "Ozyegin University"
+    }
+  ],
+  "keywords": [
+    "radio astronomy",
+    "hydrogen line",
+    "horn antenna",
+    "open-source hardware",
+    "RF education"
+  ],
+  "license": {
+    "hardware": "CERN-OHL-S-2.0",
+    "software": "GPL-3.0",
+    "docs": "CC-BY-SA-4.0"
+  },
+  "upload_type": "software",
+  "access_right": "open"
+}
