@@ -6,7 +6,7 @@
 
 A radio telescope I built for my EE401 graduation project at Ozyegin University. It listens at 1420.405 MHz — the hydrogen line — and I used it to map how fast different parts of the Milky Way are rotating.
 
-**Science goal:** Galactic rotation curve via the tangent-point method, observed from Istanbul, Turkey.
+**Science goal (future work):** a Galactic rotation curve via the tangent-point method, observed from Istanbul, Turkey. The released results are first-light hydrogen-line detections with pointing dependence (south/east/west); velocity/rotation-curve analysis is not yet complete (see "Reproducing the paper" below).
 
 ---
 
@@ -30,7 +30,7 @@ A radio telescope I built for my EE401 graduation project at Ozyegin University.
 | 1 | ZX60-P162LN+ | LNA | 19.7 | 0.7 | +29.8 |
 | 2 | ZX75BP-1450-S+ | Bandpass filter (~50 MHz passband @ 1450 MHz) | -0.8 | 0.8 | N/A |
 | 3 | ZX60-V63+ | Second amplifier | 20.8 | 3.7 | +32.2 |
-| **Cascade** | **LNA + BPF + Amp** | | **39.7 (meas.)** | **0.75 (meas.)** | **+29.5 (meas.)** |
+| **Cascade** | **LNA + BPF + Amp** | | **39.5 +/- 0.5 (meas.)** | **1.5 (meas., cable-corrected)** | **+29.5 (meas.)** |
 
 ### Backend
 - **SDR:** ADALM-PLUTO
@@ -55,10 +55,10 @@ Here's what the GNU Radio receiver flowgraph looks like:
 | Hardware (antenna, RF chain, LDO) | Complete | Fully characterized; measurement data available |
 | Power supply board | Complete | Gerbers ready; BOM in `hardware/ldo-regulator/bom.pdf` |
 | Simulations (CST, AWR) | Complete | Exported results in `hardware/simulation/` |
-| Measurements (VNA, IP3, NF) | Complete | 39.7 dB gain, 0.75 dB NF, OIP3 +29.5 dBm (cascade) |
+| Measurements (VNA, IP3, NF) | Complete | 39.5 +/- 0.5 dB gain, 1.5 dB NF (cable-corrected), OIP3 +29.5 dBm (cascade) |
 | GNU Radio flowgraphs | Complete | `reciver.grc` (main) + `21cm synth/` test flowgraphs |
-| Analysis software | In Progress | Waterfall viewer done; full calibration pipeline in development |
-| First-light observations | Complete | Directional sweeps 2026-04-29; data in `observations/data/` |
+| Analysis software | Complete | `mergen21_hi_analysis.py` and `first_light_and_averaging.py` reproduce the manuscript's line fits and averaging-noise tables; see "Reproducing the paper" below and `software/analysis/outputs/VERIFICATION.md` |
+| First-light observations | Complete | South/east/west pointings, 2026-04-29; data in `observations/data/`. Azimuth sweep and rotation-curve analysis are not part of the released results (see `docs/analysis/PROVENANCE_ADDENDUM.md`) |
 | Open-source release | In Progress | Final cleanup underway |
 
 ---
@@ -66,8 +66,8 @@ Here's what the GNU Radio receiver flowgraph looks like:
 ## Key Results
 
 ### RF Receiver
-- **Cascade gain:** 39.7 dB (measured @ 1.42 GHz via ZNB8)
-- **Cascade NF:** 0.75 dB (measured; agrees with theory to 0.19 dB)
+- **Cascade gain:** 39.5 dB +/- 0.5 dB (measured via ZNB8; the VNA cascade file has ~42.5 MHz point spacing and has no sample at 1420.405 MHz, the nearest points being 1402.50835 MHz and 1445.0083 MHz)
+- **Cascade NF:** about 1.5 dB (1.54 dB, cable-corrected gain-method estimate: measured output noise density -133.46 dBm/Hz, +0.6 dB +/-0.2 dB estimated output-cable correction, minus the -173.9 dBm/Hz thermal floor, minus the 39.5 dB gain; add +/-0.5 dB from gain uncertainty). Friis-formula prediction: 0.77 dB. Design requirement: 0.96 dB.
 - **Cascade OIP3:** +29.54 dBm (-12 dBm tone input; TOI spread 0.3 dB)
 - Measurements traceable to R&S ZNB8 VNA & FSVA3044 spectrum analyzer
 
@@ -161,7 +161,26 @@ pip install -r software/requirements.txt
 
 - **Location:** Istanbul, Turkey (~41.0°N, 29.0°E)
 - **Target:** Galactic plane HI emission at various galactic longitudes
-- **Method:** Tangent-point method for rotation curve extraction
+- **Method (future work):** tangent-point method for rotation curve extraction; not yet performed on the released data (needs frequency-axis verification, oscillator calibration, and pointing records not yet in place -- see `docs/analysis/PROVENANCE_ADDENDUM.md`)
+
+---
+
+## Reproducing the paper
+
+All commands are run from the repository root, with `software/requirements.txt` installed. Each command regenerates one output; `--root` points at a checkout of this repository (defaults to the current directory) and `--outdir` selects where outputs are written.
+
+| Command | Produces |
+|---|---|
+| `python software/analysis/mergen21_hi_analysis.py --root . --outdir software/analysis/outputs` | `mergen21_hi_measurements.csv` (full parameter set), `mergen21_hi_line_parameters.csv` (S/E/W summary table: peak %, FWHM, centroid, galactic l/b), `mergen21_data_manifest.csv` (sha256 of every input file), `mergen21_hi_derived.json` (scalar results quoted in the manuscript, including the noise-figure arithmetic), and `mergen21_hi_validation.png` |
+| `python software/analysis/first_light_and_averaging.py --root . --outdir software/analysis/outputs` | `figures/first_light_and_averaging.pdf`/`.png` (the three first-light spectra) and `averaging_noise.csv` (the tau=1/2/4/8 s averaging-noise table for the E1/E2 captures) |
+| `python -c "from software.figures.s11_figures import fig_s11_ideal; fig_s11_ideal('hardware/simulation/cst/ideal_horn/ideal_hornfrfr.s1p')[0].savefig('s11_ideal.png')"` | The simulated horn S11 figure (1-2 GHz), marker at 1.4200 GHz |
+| `python -c "from software.figures.s11_figures import fig_s11_assembly; fig_s11_assembly('hardware/simulation/cst/assembly_worstcase/hornffrfr_assembly_worstcase.s1p', 'measurements/antenna/5_inside_cleaned_backshort/anten_son_horn.s1p')[0].savefig('s11_assembly.png')"` | The CST worst-case-assembly vs. ZNB8-measured S11 overlay |
+| `python -c "from software.figures.farfield_figures import fig_polar, read_cst_polar; fig_polar('hardware/simulation/cst/ideal_horn/ideal_hornfrfr_farfield_phi0.txt', None, 'E-plane', 'E-plane')[0].savefig('farfield_eplane.png')"` | An E-plane (or, with the `_phi90` file, H-plane) far-field polar cut with peak directivity, HPBW, and sidelobe callouts |
+| `python software/analysis/wola_window_check.py` | The WOLA prototype-filter truncation check (needs `wola_taps_firdes.npy`, which requires a GNU Radio install to regenerate with `--regenerate`; see that script's docstring) |
+
+`software/analysis/mergen21_hi_analysis.py` and `first_light_and_averaging.py` were re-run and their outputs verified byte-for-byte (modulo line endings and OS path separators) against `software/analysis/reference_outputs/` -- see `software/analysis/outputs/VERIFICATION.md` for the full comparison table and methodology, including the offline-IERS caveat on galactic l/b.
+
+**What was withdrawn, and why:** the azimuth sweep's time-to-azimuth mapping (and everything derived from it: 12 of 15 sweep-block pointings, the amplitude/centroid regressions against them, and all kelvin-scale quantities, since antenna temperature was never measured). None of these are part of the released results. Full reasoning is in [`docs/analysis/PROVENANCE_ADDENDUM.md`](docs/analysis/PROVENANCE_ADDENDUM.md); see also [`docs/analysis/MISSING_FROM_RELEASE.md`](docs/analysis/MISSING_FROM_RELEASE.md) for what a reader will not find in this release.
 
 ---
 
