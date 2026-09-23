@@ -1,0 +1,86 @@
+{
+  "frequency_axis": {
+    "channel_spacing_Hz": 1000.0,
+    "tau_per_row_s_static": 1.0,
+    "tau_per_row_s_sweep": 1.0,
+    "f0_MHz": 1420.405751768
+  },
+  "withdrawn": {
+    "note": "Computed by earlier versions of this script, removed because every one of them takes sweep azimuth as an input and the azimuth mapping is withdrawn. See PROVENANCE_ADDENDUM.md sections 1 and 6.",
+    "items": [
+      "kinematic_regression_gaussian_centroid",
+      "kinematic_regression_published_moment_centroid",
+      "latitude_correlation",
+      "sweep block az_deg / l_deg / b_deg / v_lsr_kms"
+    ]
+  },
+  "sensitivity": {
+    "per_pointing": [
+      {
+        "id": "W",
+        "on_source_s": 106.0,
+        "rms_baseline_frac": 0.004146,
+        "rms_diff_frac": 0.003349,
+        "dT_baseline_K_assumed_Tsys": 0.802,
+        "dT_diff_K_assumed_Tsys": 0.648,
+        "rms_expected_from_rows": 0.003683,
+        "ratio_meas_over_expected": 0.909,
+        "snr_peak": 16.3
+      },
+      {
+        "id": "S",
+        "on_source_s": 103.0,
+        "rms_baseline_frac": 0.007366,
+        "rms_diff_frac": 0.003277,
+        "dT_baseline_K_assumed_Tsys": 1.425,
+        "dT_diff_K_assumed_Tsys": 0.634,
+        "rms_expected_from_rows": 0.003481,
+        "ratio_meas_over_expected": 0.941,
+        "snr_peak": 55.3
+      },
+      {
+        "id": "E",
+        "on_source_s": 104.0,
+        "rms_baseline_frac": 0.004451,
+        "rms_diff_frac": 0.003239,
+        "dT_baseline_K_assumed_Tsys": 0.861,
+        "dT_diff_K_assumed_Tsys": 0.627,
+        "rms_expected_from_rows": 0.00345,
+        "ratio_meas_over_expected": 0.939,
+        "snr_peak": 24.3
+      }
+    ],
+    "recommended_quote_frac": 0.004146,
+    "recommended_quote_K_assumed_Tsys": 0.802,
+    "recommended_basis": "west pointing, line-free, polynomial-baseline rms; kelvin value scaled by an ASSUMED T_sys"
+  },
+  "noise_figure": {
+    "uncorrected": {
+      "nf_db": 0.94,
+      "t_rx_k": 70.1
+    },
+    "corrected": {
+      "nf_db": 1.54,
+      "t_rx_k": 123.4
+    },
+    "cable_tolerance_nf_db": [
+      1.34,
+      1.74
+    ],
+    "cable_loss_db": 0.6
+  },
+  "T_sys_K_ASSUMED": 193.5,
+  "assumptions": {
+    "T_ant_never_measured": true,
+    "all_K_columns_are_fractional_times_T_sys": true,
+    "pointing_elevation_deg_approximate": 35.0,
+    "static_azimuth_from_filename_only": true,
+    "sweep_azimuth": "withdrawn: manual, irregular, paused",
+    "tau_row_inferred_not_recorded": true,
+    "site_lat_lon_deg": [
+      41.0,
+      29.0
+    ],
+    "local_utc_offset_h": 3.0
+  }
+}
