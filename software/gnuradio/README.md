@@ -96,6 +96,24 @@ conda install -c conda-forge gr-iio
 - Verify LDO power supply (±5 V, ±12 V)
 - Check SMA connections
 
+## Simulated HI-Line Injector
+
+`reciver.grc` also contains a simulated hydrogen-line transmit chain (`tx_noise` -> `tx_lpf` -> `tx_rotator` -> `iio_pluto_sink_0`) used to inject a synthetic Gaussian line for pipeline testing. All four blocks are saved with `state: disabled` in the flowgraph. The RX Pluto (`pluto_rx`, `uri: ip:192.168.10.1`) and the TX Pluto (`iio_pluto_sink_0`, `uri: ip:192.168.20.1`) are configured with different device URIs, so this is a loopback/self-test path that requires a second physical PlutoSDR; it is not a path that could inject into a live RX capture through the same device. This does not by itself establish whether the injector was disabled during any particular observing session.
+
+TODO(Alp): confirm injector was disabled during all 2026-04-29 captures
+
+## Known issue: truncated WOLA prototype filter
+
+The flowgraph builds an 8-branch WOLA/PFB channelizer. The prototype filter is designed with:
+
+```
+firdes.low_pass(1.0, samp_rate, samp_rate/(4*fft_size), samp_rate/(4*fft_size), window.WIN_KAISER, beta)
+```
+
+with `samp_rate = 2048000`, `fft_size = 2048`, `beta = 8.6`. This call returns 32,299 taps in total. However, the 8 channelizer branches (the `blocks_multiply_const_vxx_*` blocks) only consume `kaiser_window[0:8*fft_size]`, i.e. the first 16,384 taps. The effective analysis window used by the channelizer is therefore truncated well before the filter's natural end, cutting it off just past its peak rather than using the full symmetric taper.
+
+A reproducible check for this (32,299 designed vs. 16,384 used) is at `software/analysis/wola_window_check.py`. As of this writing, `software/analysis/wola_taps_firdes.npy` (the committed reference taps needed by that script) had not yet been added to the repository, so verifying the tap counts numerically requires a working GNU Radio 3.10 installation to regenerate the taps; if `wola_taps_firdes.npy` has since been committed, `wola_window_check.py` can be run directly without GNU Radio.
+
 ## See Also
 
 - [GNU Radio docs](https://www.gnuradio.org/)
