@@ -4,13 +4,20 @@ Issued in response to the observer's finding that the azimuth sweep was
 manual, irregular in azimuth and included pauses, that elevation was held
 only approximately fixed, and that antenna temperature was never measured.
 
-This addendum supersedes the affected parts of `PROVENANCE.md` and
-`METHODS.md`. The manuscript has not been touched.
+This addendum supersedes the affected parts of the earlier provenance and
+methods notes (the methods document is archived as
+`archive/mergen21_hi_methods_superseded.md`). The manuscript has not been
+touched.
 
-**The outputs currently in `analysis/outputs/` are superseded.** They are
-retained unchanged so that the withdrawn quantities remain inspectable, and
-because the one number that changes most (row cadence) is established below
-by inference rather than by record. Nothing in them should be quoted.
+**The outputs generated before this addendum are superseded**: those
+computed with the 0.5 s row cadence, the sweep-azimuth regressions and
+latitude correlation, and the kelvin sensitivities. Nothing from them should
+be quoted. The current `software/analysis/outputs/` were regenerated after
+these corrections (1.0 s rows; the sweep regressions are listed under
+`withdrawn` in `mergen21_hi_derived.json`); see
+`software/analysis/outputs/VERIFICATION.md`. Their `dT_*_K_assumed_Tsys`
+fields still rest on an assumed system temperature and should not be quoted
+either.
 
 ---
 
@@ -89,7 +96,7 @@ Every nominal duration is shorter than the gap to the next capture's start
 time, which is a necessary consistency check and it passes for all five.
 
 **Two written records contradict the observer, and neither is used.**
-`acquisition/reciver.grc` carries `integration_time = 500`, which matches no
+`software/gnuradio/reciver.grc` carried `integration_time = 500`, which matches no
 capture in this package; the flowgraph was saved at the end of the session,
 after the setting had last been changed. The `500int` in the sweep filename
 likewise does not record that capture's setting. The observer states the
@@ -140,7 +147,7 @@ derived cadence and the provenance of each alongside.
 
 ## 5. Exact filter and averaging implementation
 
-Both `acquisition/reciver.grc` and the generated `acquisition/reciver.py`
+Both `software/gnuradio/reciver.grc` and the generated `software/gnuradio/reciver.py`
 are in this package. The signal path is:
 
 ```
@@ -219,7 +226,7 @@ precision -- its standard error is about 0.04 over 600 realisations, so the
 +0.085 and +0.023 predicted for the two candidates are less than two standard
 errors apart -- but the as-built value does
 independently reproduce, from first principles, the +0.043 to
-+0.050 measured on the real captures and quoted in `METHODS.md`.
++0.050 measured on the real captures and quoted in the superseded methods document.
 
 **What it costs the instrument.** The truncation is a genuine defect and may
 be described as one in print, but its cost is spectral purity, not
@@ -242,8 +249,8 @@ sensitivity:
   pass the tap count explicitly, rather than letting `firdes` choose a length
   from the attenuation and transition width.
 
-Panel (a) of `mergen21_wola_truncation.png` shows the designed prototype with
-the consumed and discarded spans; panel (b) shows the resulting
+A two-panel truncation figure (not included in this release) showed the
+designed prototype with the consumed and discarded spans, and the resulting
 channel-leakage penalty against a correct taper. The whole check is
 reproducible without a GNU Radio installation by
 `python analysis/wola_window_check.py`, which ships the 32 299 designed taps
@@ -312,7 +319,7 @@ The averaged spectra are 6 to 9 percent quieter than independent rows
 predict. That is a small residual in the safe direction for a detection
 claim, and it is consistent with the successive-difference estimator
 slightly overstating per-row noise. **The 23 percent shortfall flagged as
-unresolved in `METHODS.md` was an artifact of the assumed 1000 Hz bandwidth
+unresolved in the superseded methods document was an artifact of the assumed 1000 Hz bandwidth
 and 0.5 s cadence, not a property of the data.** It does not survive a test
 that makes no such assumptions, and it is closed on that basis rather than
 by the bandwidth correction previously claimed.

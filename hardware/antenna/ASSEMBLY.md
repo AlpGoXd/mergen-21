@@ -6,7 +6,7 @@ This document provides complete assembly instructions for the Mergen-21 antenna.
 
 **Antenna Material:** Aluminum 5754, 1.5 mm thickness
 **Waveguide seam:** The long waveguide seam lies on a 160 mm (broad) wall.
-**Waveguides:** Assembled separately (see separate documentation)
+**Waveguides:** Flat patterns in [`dxf/wave_0.1.dxf`](dxf/wave_0.1.dxf) (waveguide) and [`dxf/backshort_0.1.dxf`](dxf/backshort_0.1.dxf) (backshort)
 **Assembly Status:** Field-tested with documented manufacturing challenges (see Notes section)
 
 ---

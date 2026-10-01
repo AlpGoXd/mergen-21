@@ -13,7 +13,7 @@ canonical values in `software/analysis/reference_outputs/`.
   3.10.9, astropy 8.0.1
 - `mergen21_hi_analysis.py` sets `iers.conf.auto_download = False`; this run
   was offline and no fresh IERS tables were downloaded. Per the script's own
-  documentation and REPO_FIX_PROMPT.md, galactic l/b may differ from the
+  documentation, galactic l/b may differ from the
   reference by up to about 0.1 degree for this reason. This is exactly what
   was observed (see table below).
 - Commands run, from the repository root:
@@ -127,8 +127,8 @@ can only come from GNU Radio's `firdes`, which is not available here.
 ## Findings
 
 1. **Galactic l/b and derived velocities differ by up to 0.1 (deg or
-   km/s).** Expected per the offline-IERS caveat documented in both
-   `mergen21_hi_analysis.py` and REPO_FIX_PROMPT.md. Not a code issue.
+   km/s).** Expected per the offline-IERS caveat documented in
+   `mergen21_hi_analysis.py`. Not a code issue.
 
 2. **`mergen21_data_manifest.csv` path separators are OS-native.**
    `manifest()` builds the `path` column with
@@ -136,8 +136,8 @@ can only come from GNU Radio's `firdes`, which is not available here.
    backslash-separated paths (`observations\data\...`) where the reference
    (generated on a POSIX system) has forward slashes. This is a
    cross-platform formatting difference in the manifest, not a change to
-   any raw file's content, byte count, or hash. Left as found (ground rule
-   3: not tuning code to match a reference number/format).
+   any raw file's content, byte count, or hash. The code was not changed
+   to match the reference format during this run.
 
 3. **Four auxiliary/calibration files in the manifest show different
    `bytes`/`sha256` than the reference**, for
@@ -152,24 +152,22 @@ can only come from GNU Radio's `firdes`, which is not available here.
      This is Git's `autocrlf` normalizing these text-format VNA/power-meter
      exports to CRLF on this Windows checkout; the reference manifest was
      generated on a system where they stayed LF-only. No data value in
-     these files changed; only the line-ending bytes did. This was not
-     modified by this task (ground rule 2: raw measurement files under
-     `measurements/` were not touched).
-   - `software/gnuradio/reciver.grc`: this file is being edited in this
-     same working tree by a parallel task (REPO_FIX_PROMPT.md task 4,
-     explicitly out of scope for this task) to correct its saved
-     `integration_time` default from 500 to 1000 and add a provenance
-     comment. The manifest hash difference reflects that in-progress edit,
-     not an error in this task's scripts.
+     these files changed; only the line-ending bytes did. Raw measurement
+     files under `measurements/` were not modified.
+   - `software/gnuradio/reciver.grc`: this file was edited during the
+     same release preparation to correct its saved `integration_time`
+     default from 500 to 1000 and add a provenance comment. The manifest
+     hash difference reflects that edit, not an error in the analysis
+     scripts.
 
 4. **`mergen21_hi_derived.json`'s `withdrawn.note` text already differed
-   from `reference_outputs/` before any edit made in this task.** The
-   script (as received in `_incoming/`, unedited here) reads "...the
+   from `reference_outputs/` before this verification run.** The
+   script reads "...the
    azimuth mapping is withdrawn. See PROVENANCE_ADDENDUM.md **sections 1
    and 6**." while the shipped reference file reads "...**section 1**."
    only. This is a wording-only difference (which PROVENANCE_ADDENDUM.md
-   section(s) are cited), not a numeric one; it predates this task and was
-   left as found per ground rule 3.
+   section(s) are cited), not a numeric one; it predates this verification run
+   and was left unchanged.
 
 5. **No other regenerated value disagrees with the reference.** Every
    fitted line parameter (amplitude, centroid, FWHM), every averaging-noise

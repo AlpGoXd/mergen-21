@@ -4,7 +4,7 @@ The aluminum sheet used to build the horn antenna was obtained at no cost becaus
 
 ## Evidence
 
-- `concavity_photo.jpg` — Photo showing the inward curvature of the horn walls
+- `concavity_photo.jpeg` — Photo showing the inward curvature of the horn walls
 
 ## Impact
 

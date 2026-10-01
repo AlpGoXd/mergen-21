@@ -1,6 +1,6 @@
 """Does the committed flowgraph truncate its WOLA prototype filter?
 
-The spectrometer in `acquisition/reciver.grc` builds its analysis window with
+The spectrometer in `software/gnuradio/reciver.grc` builds its analysis window with
 
     kaiser_window = firdes.low_pass(1.0, samp_rate, samp_rate/(4*fft_size),
                                     samp_rate/(4*fft_size), WIN_KAISER, beta)

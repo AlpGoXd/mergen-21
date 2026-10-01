@@ -15,7 +15,7 @@ The baseline parametric model of the horn antenna with coaxial-to-waveguide coup
 - `ideal_hornfrfr.s1p` — S11 Touchstone data
 - `ideal_hornfrfr_farfield_phi0.txt` — Farfield H-plane cut
 - `ideal_hornfrfr_farfield_phi90.txt` — Farfield E-plane cut
-- `ideal_hornfrfr.pptx` — CST auto-generated report with plots
+- `ideal_hornfrfr.pdf` — CST auto-generated report with plots
 
 **Key Results (ideal):**
 - Peak directivity: 16.9 dBi at boresight
@@ -39,7 +39,7 @@ This simulation checks how much the imperfect construction degrades performance 
 - `hornffrfr_assembly_worstcase_phi90.txt` — Farfield H-plane cut
 
 The two models use different CST axis conventions.
-- `hornffrfr_assembly_worstcase.pptx` — CST auto-generated report with plots
+- `hornffrfr_assembly_worstcase.pdf` — CST auto-generated report with plots
 
 ## Solver Settings
 
