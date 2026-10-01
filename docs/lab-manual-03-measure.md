@@ -12,7 +12,7 @@ After completing this lab, students will be able to:
 
 1. Calibrate a VNA (SOLT or equivalent) and measure antenna S11.
 2. Measure two-port S-parameters (gain and input/output match) of a cascaded RF chain.
-3. Measure noise figure using the Y-factor method.
+3. Measure noise figure using the Y-factor method (the Mergen-21 reference value was obtained with the gain method; see Part C).
 4. Measure the third-order intercept point (OIP3) using a two-tone test.
 5. Compare measured performance against simulation predictions (Lab 1) and datasheet values.
 
@@ -184,7 +184,7 @@ Expected LNA NF: **0.7 dB** (datasheet spec).
 
 Connect: noise source → LNA → BPF → Amp → spectrum analyzer
 
-Measure NF as above. Expected: **about 1.5 dB, cable-corrected** (Mergen-21 measured result; see `measurements/rf-chain/nf/README.md` for the cable-loss correction arithmetic).
+Measure NF as above. Expected: **about 1.5 dB, cable-corrected** (Mergen-21 measured result, obtained with the gain method rather than Y-factor: output noise density of the chain with its input terminated in 50 Ω, minus the 39.5 dB chain gain; see `measurements/rf-chain/nf/README.md` for the cable-loss correction arithmetic).
 
 Compare against files in `measurements/rf-chain/nf/`.
 

@@ -40,7 +40,7 @@ Compare with datasheet S-parameters in `hardware/rf-chain/datasheet-s-parameters
 
 ## Noise Figure Measurements (`nf/`)
 
-Measured with the R&S FSVA3044 in Y-factor mode using a calibrated noise source. Files:
+Measured with the R&S FSVA3044 using the gain method: the output noise density of the chain with its input terminated in 50 Ω, minus the known chain gain (not a Y-factor measurement). Files:
 - `cable_loss.DAT` / `.PNG` — Cable insertion loss at 100 kHz steps (used for loss correction)
 - `just cooked reciver.DAT` / `.PNG` — First NF measurement of the assembled receiver
 - `match noise.DAT` — Repeated measurement after connector reseating (more consistent)

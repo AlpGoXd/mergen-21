@@ -11,7 +11,7 @@ Friis prediction, and the gap is discussed below rather than rounded away.
 
 ## Key Finding
 The first-stage LNA (NF = 0.7 dB) dominates the Friis-predicted cascade NF.
-Later stages contribute negligibly due to high LNA gain (19.7 dB). The
+Later stages contribute negligibly due to high LNA gain (19.87 dB datasheet, 19.24 dB VNA). The
 measured cascade NF is higher than this prediction; see "Why measurement
 and Friis prediction differ" below.
 
@@ -49,14 +49,16 @@ The Friis formula for cascaded noise figure shows that the first-stage noise fig
 F_total = F1 + (F2 - 1)/G1 + (F3 - 1)/(G1 * G2) + ...
 ```
 
-**Our cascade:**
-- F1 (LNA): 1.74 (0.7 dB) @ gain G1 = 18.6x (17.5 dB actual; datasheet 19.7 dB)
-- F2 (BPF): 1.20 (0.8 dB = insertion loss) @ gain G2 = 0.83x (-0.8 dB)
-- F3 (Amp): 2.34 (3.7 dB) @ gain G3 = 7.6x (8.8 dB actual; datasheet 20.8 dB)
+**Our cascade (datasheet values):**
+- F1 (LNA): 1.175 (0.7 dB) @ gain G1 = 93.3 (19.7 dB)
+- F2 (BPF): 1.202 (0.8 dB = insertion loss) @ gain G2 = 0.832 (-0.8 dB)
+- F3 (Amp): 2.344 (3.7 dB)
 
-**Calculated F_total:** 1.74 + (1.20 - 1)/18.6 + (2.34 - 1)/(18.6 x 0.83) = 1.74 + 0.011 + 0.087 = 1.83 (0.77 dB NF)
+**Calculated F_total:** 1.175 + 0.202/93.3 + 1.344/(93.3 x 0.832) = 1.175 + 0.002 + 0.017 = 1.194 (0.77 dB NF)
 
-The LNA contributes 1.74 to the total noise factor. The BPF adds only 0.011 and the amplifier adds only 0.087. This confirms that the LNA's low noise figure and high gain effectively shield the system from downstream noise contributions.
+With the VNA stage gains instead (G1 = 83.9 for 19.24 dB; BPF G2 = 0.671 for -1.73 dB, so F2 = 1.489), the same calculation gives 1.175 + 0.489/83.9 + 1.344/(83.9 x 0.671) = 1.205 (0.81 dB NF).
+
+The LNA contributes 1.175 to the total noise factor. The BPF adds only 0.002 and the amplifier adds only 0.017 (datasheet case). This confirms that the LNA's low noise figure and high gain effectively shield the system from downstream noise contributions.
 
 ### Why measurement and Friis prediction differ
 
@@ -67,17 +69,19 @@ data currently in this repository:
 
 - Actual component NF at the operating temperature and bias point may
   differ from the datasheet spec used in the Friis calculation.
-- The individual-stage gains measured here run about 2.2 dB below
-  datasheet (see "Measured Gain vs. Datasheet" in `../ip3/README.md`),
-  which raises the noise contribution of the later stages relative to the
-  Friis calculation above (computed with datasheet gains).
+- The VNA stage gains are about 0.6 dB below datasheet (LNA 19.24 vs
+  19.87 dB; amplifier 20.24 vs 20.82 dB; see
+  `software/analysis/outputs/stage_gains.csv`). Using them raises the
+  Friis prediction only to 0.81 dB. (The larger 2.2 dB figure in
+  `../ip3/README.md` is the IP3 tone-level gain, which includes the test
+  cables.)
 - The 0.6 dB +/- 0.2 dB output-cable correction is itself an estimate
   carried over from the IP3 measurements, not a value measured
   simultaneously with this NF test.
-- The spectrum-analyzer-referenced Y-factor method used here (see
-  "Measurement Method" above) is a gain-method estimate, not a
-  noise-source ENR measurement, and carries its own systematic
-  uncertainty.
+- The method used here is the gain method (output noise density of the
+  chain with its input terminated in 50 ohm, minus the known gain; see
+  "Measurement Method" above). It is not a Y-factor (noise-source ENR)
+  measurement, and it carries its own systematic uncertainty.
 
 This gap is reported rather than resolved; no constant in this
 measurement or in the analysis pipeline was adjusted to close it.
