@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: GPL-3.0
 #
 # GNU Radio Python Flow Graph
-# Title: reciver
+# Title: receiver
 # GNU Radio version: 3.10.12.0
 
 from PyQt5 import Qt
@@ -28,12 +28,12 @@ import threading
 
 
 
-class reciver(gr.top_block, Qt.QWidget):
+class receiver(gr.top_block, Qt.QWidget):
 
     def __init__(self):
-        gr.top_block.__init__(self, "reciver", catch_exceptions=True)
+        gr.top_block.__init__(self, "receiver", catch_exceptions=True)
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("reciver")
+        self.setWindowTitle("receiver")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
@@ -51,7 +51,7 @@ class reciver(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("gnuradio/flowgraphs", "reciver")
+        self.settings = Qt.QSettings("gnuradio/flowgraphs", "receiver")
 
         try:
             geometry = self.settings.value("geometry")
@@ -299,7 +299,7 @@ class reciver(gr.top_block, Qt.QWidget):
 
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("gnuradio/flowgraphs", "reciver")
+        self.settings = Qt.QSettings("gnuradio/flowgraphs", "receiver")
         self.settings.setValue("geometry", self.saveGeometry())
         self.stop()
         self.wait()
@@ -413,7 +413,7 @@ class reciver(gr.top_block, Qt.QWidget):
 
 
 
-def main(top_block_cls=reciver, options=None):
+def main(top_block_cls=receiver, options=None):
 
     qapp = Qt.QApplication(sys.argv)
 

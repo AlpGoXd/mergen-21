@@ -76,7 +76,7 @@ out line-ending differences.
   rather than raw-data changes, are described under Findings below: (1)
   path separators are OS-native (`\` on this Windows run vs `/` in the
   reference), and (2) the four auxiliary/calibration files under
-  `measurements/rf-chain/nf/` and `software/gnuradio/reciver.grc` show
+  `measurements/rf-chain/nf/` and `software/gnuradio/receiver.grc` show
   different `bytes`/`sha256` than the reference.
 - **`mergen21_hi_derived.json`**: identical except (a) `tau_per_row_s_sweep`
   (0.5 -> 1.0, the intended effect of the TAU_ROW_SWEEP_S correction), and
@@ -144,7 +144,7 @@ can only come from GNU Radio's `firdes`, which is not available here.
    `measurements/rf-chain/nf/cable_loss.DAT`,
    `measurements/rf-chain/nf/just cooked reciver.DAT`,
    `measurements/rf-chain/nf/match noise.DAT`, and
-   `software/gnuradio/reciver.grc`. Diagnosis:
+   `software/gnuradio/receiver.grc`. Diagnosis:
    - The three `.DAT` files: byte-count increases are each exactly equal to
      that file's line count (verified for `cable_loss.DAT`: reference
      64821 bytes vs. regenerated 65852 bytes, a difference of 1031 bytes,
@@ -154,7 +154,7 @@ can only come from GNU Radio's `firdes`, which is not available here.
      generated on a system where they stayed LF-only. No data value in
      these files changed; only the line-ending bytes did. Raw measurement
      files under `measurements/` were not modified.
-   - `software/gnuradio/reciver.grc`: this file was edited during the
+   - `software/gnuradio/receiver.grc`: this file was edited during the
      same release preparation to correct its saved `integration_time`
      default from 500 to 1000 and add a provenance comment. The manifest
      hash difference reflects that edit, not an error in the analysis

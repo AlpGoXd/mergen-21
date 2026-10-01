@@ -152,7 +152,7 @@ gnuradio-companion --version
 
 ### B3: Configure the log directory
 
-Before running the flowgraph, set the output directory to a location of your choice. Open `software/gnuradio/reciver.py` and change the `log_dir` variable on approximately line 73:
+Before running the flowgraph, set the output directory to a location of your choice. Open `software/gnuradio/receiver.py` and change the `log_dir` variable on approximately line 73:
 
 ```python
 self.log_dir = log_dir = "logs"   # relative to the directory where you run the script
@@ -165,14 +165,14 @@ Or provide an absolute path to a directory that already exists on your system. T
 ```bash
 cd software/gnuradio
 mkdir -p logs
-python3 reciver.py
+python3 receiver.py
 ```
 
-The flowgraph addresses the Pluto at `ip:192.168.10.1` (`reciver.py:211`). A stock Pluto on USB is `ip:192.168.2.1`, so change `uri` in the Pluto source block.
+The flowgraph addresses the Pluto at `ip:192.168.10.1` (`receiver.py:211`). A stock Pluto on USB is `ip:192.168.2.1`, so change `uri` in the Pluto source block.
 
 Or open the flowgraph in GNU Radio Companion:
 ```bash
-gnuradio-companion reciver.grc
+gnuradio-companion receiver.grc
 ```
 
 The GUI shows three panels:

@@ -4,7 +4,7 @@ First-light hydrogen line (1420.405 MHz) observations from Mergen-21, collected 
 
 ## Contents
 
-- `data/` — Raw spectra (`.dat`, NumPy float32) saved by `reciver.grc`
+- `data/` — Raw spectra (`.dat`, NumPy float32) saved by `receiver.grc`
 - `plots/` — Waterfall and directional sweep plots (PNG)
 - `stellarium_*.png` — Sky reference charts for each pointing direction
 

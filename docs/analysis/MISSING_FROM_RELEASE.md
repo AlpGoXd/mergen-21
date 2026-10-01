@@ -13,7 +13,7 @@ line ~83, and `docs/analysis/archive/mergen21_hi_methods_superseded.md` lines ~1
 that appears in the SDR power-spectrum output near band center.
 
 - **Not found:** an SDR power-spectrum `.dat` capture (NumPy float32, the format written by
-  `software/gnuradio/reciver.grc`/`reciver.py`) taken with the Pluto's RF input terminated
+  `software/gnuradio/receiver.grc`/`receiver.py`) taken with the Pluto's RF input terminated
   in 50 ohms, specifically to demonstrate this artifact in isolation. The no-suffix files
   under `observations/data/` (for example `mergen21_spec_20260429_022811.dat` through
   `..._045352.dat`) are sky pointings, not identified as terminated-input captures by their

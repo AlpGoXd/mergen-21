@@ -8,7 +8,7 @@ Real-time signal acquisition and synthesis flowgraphs for the ADALM-PLUTO SDR, t
 
 | File | Purpose | Input | Output |
 |------|---------|-------|--------|
-| `reciver.grc` / `reciver.py` | Main HI line receiver | PlutoSDR I/Q | Spectrum data (`.dat`) |
+| `receiver.grc` / `receiver.py` | Main HI line receiver | PlutoSDR I/Q | Spectrum data (`.dat`) |
 
 ### Synthesis / Test (`21cm synth/`)
 
@@ -53,17 +53,17 @@ conda activate gnuradio
 
 ```bash
 # GUI
-gnuradio-companion reciver.grc
+gnuradio-companion receiver.grc
 
 # Headless
-python3 reciver.py
+python3 receiver.py
 ```
 
 ## Observation Workflow
 
 1. Connect antenna → LNA power supply → PlutoSDR → PC
 2. Verify PlutoSDR: `usb-devices | grep 0456`
-3. Launch `reciver.grc` in GRC
+3. Launch `receiver.grc` in GRC
 4. Set center frequency to 1420.405 MHz, confirm sample rate 2.048 MS/s
 5. Create the output directory (`mkdir -p logs`; the file sink does not create it), then run; output is written to `logs/` relative to the working directory
 
@@ -99,7 +99,7 @@ conda install -c conda-forge gr-iio
 
 ## Simulated HI-Line Injector
 
-`reciver.grc` also contains a simulated hydrogen-line transmit chain (`tx_noise` -> `tx_lpf` -> `tx_rotator` -> `iio_pluto_sink_0`) used to inject a synthetic Gaussian line for pipeline testing. All four blocks are saved with `state: disabled` in the flowgraph. The RX Pluto (`pluto_rx`, `uri: ip:192.168.10.1`) and the TX Pluto (`iio_pluto_sink_0`, `uri: ip:192.168.20.1`) are configured with different device URIs, so this is a loopback/self-test path that requires a second physical PlutoSDR; it is not a path that could inject into a live RX capture through the same device. This does not by itself establish whether the injector was disabled during any particular observing session.
+`receiver.grc` also contains a simulated hydrogen-line transmit chain (`tx_noise` -> `tx_lpf` -> `tx_rotator` -> `iio_pluto_sink_0`) used to inject a synthetic Gaussian line for pipeline testing. All four blocks are saved with `state: disabled` in the flowgraph. The RX Pluto (`pluto_rx`, `uri: ip:192.168.10.1`) and the TX Pluto (`iio_pluto_sink_0`, `uri: ip:192.168.20.1`) are configured with different device URIs, so this is a loopback/self-test path that requires a second physical PlutoSDR; it is not a path that could inject into a live RX capture through the same device. This does not by itself establish whether the injector was disabled during any particular observing session.
 
 The injector is a self-test path that needs a second PlutoSDR; the first-light build had one PlutoSDR, so the injector was not active during the 2026-04-29 captures.
 

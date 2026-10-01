@@ -17,8 +17,8 @@ python software/analysis/mergen21_waterfall_viewer.py
 # then in the GUI: Add... -> pick a .dat from observations/data/ -> X axis = Velocity [km/s] -> Plot
 
 # GNU Radio (only for live acquisition; requires gnuradio 3.10+ and gr-iio for PlutoSDR)
-gnuradio-companion software/gnuradio/reciver.grc     # GUI edit
-python3 software/gnuradio/reciver.py                 # headless run
+gnuradio-companion software/gnuradio/receiver.grc     # GUI edit
+python3 software/gnuradio/receiver.py                 # headless run
 ```
 
 There is no build/lint/test suite — this is a small collection of standalone scripts and `.grc` flowgraphs, not a package.
@@ -27,7 +27,7 @@ There is no build/lint/test suite — this is a small collection of standalone s
 
 Signal path: **Horn antenna → LNA (ZX60-P162LN+) → bandpass filter (ZX75BP-1450-S+) → 2nd amp (ZX60-V63+) → ADALM-PLUTO SDR → GNU Radio → `.dat` files → Python analysis**. Cascade is 39.5 dB +/- 0.5 dB gain, about 1.5 dB NF (cable-corrected; measured, see `measurements/rf-chain/nf/README.md`).
 
-- `software/gnuradio/reciver.grc` / `reciver.py` — the real acquisition flowgraph (PlutoSDR I/Q in, power-spectrum `.dat` out via NumPy float32). `reciver.py` is *generated from* the `.grc` file by GNU Radio Companion — edit the `.grc`, not the `.py`, unless doing a quick headless tweak, and regenerate to keep them in sync.
+- `software/gnuradio/receiver.grc` / `receiver.py` — the real acquisition flowgraph (PlutoSDR I/Q in, power-spectrum `.dat` out via NumPy float32). `receiver.py` is *generated from* the `.grc` file by GNU Radio Companion — edit the `.grc`, not the `.py`, unless doing a quick headless tweak, and regenerate to keep them in sync.
 - `software/gnuradio/21cm synth/` — synthetic test flowgraphs (CW tone, Gaussian line, multi-component galaxy rotation) used to validate the analysis pipeline without live RF hardware. Same generated-`.py`-from-`.grc` relationship applies (e.g. `topo2_single_gaussian.grc` / `.py`).
 - `software/analysis/mergen21_waterfall_viewer.py` — standalone Tkinter+matplotlib GUI. Auto-detects acquisition parameters (LO freq, sample rate, FFT size, integration time) by parsing tokens out of `.dat` filenames (see `parse_filename_params`); defaults match the flowgraph (`DEFAULT_LO_FREQ = 1420405000`, `DEFAULT_SAMP_RATE = 2048000`, `DEFAULT_FFT_SIZE = 2048`). Files are memory-mapped and decimated for large waterfalls (`MAX_WATERFALL_ROWS = 2500`).
 - `software/analysis/sanitize_sps.py` — S-parameter file cleanup utility for VNA exports.

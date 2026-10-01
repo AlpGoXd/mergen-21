@@ -49,9 +49,9 @@ F0_KHZ = F0_MHZ * 1e3
 # Solar motion w.r.t. the LSR, Schoenrich, Binney & Dehnen (2010), km/s.
 U_SUN, V_SUN, W_SUN = 11.1, 12.24, 7.25
 
-# Spectrometer configuration, read from software/gnuradio/reciver.grc. At the
+# Spectrometer configuration, read from software/gnuradio/receiver.grc. At the
 # time of the April 29 session the flowgraph's saved integration_time was
-# 500, matching no actual capture; software/gnuradio/reciver.grc has since
+# 500, matching no actual capture; software/gnuradio/receiver.grc has since
 # had that default corrected to 1000 (see that file's variable comment).
 # Neither value is read by this script; TAU_ROW_STATIC_S and
 # TAU_ROW_SWEEP_S below are the observer-confirmed per-capture cadences.
@@ -68,7 +68,7 @@ CHAN_BW_HZ = SAMP_RATE / FFT_SIZE            # 1000.0 Hz channel SPACING.
 # ran with integration_time = 1000 (1.0 s per row), despite that filename's
 # misleading "500int". The committed flowgraph's saved integration_time
 # (500 at session time, since corrected to 1000; see
-# software/gnuradio/reciver.grc) records the END of the session and was
+# software/gnuradio/receiver.grc) records the END of the session and was
 # never authoritative for any individual capture's cadence.
 # PROVENANCE_ADDENDUM.md section 4. The sweep analysis itself is withdrawn
 # (PROVENANCE_ADDENDUM.md section 1); this value does not change any number
@@ -129,7 +129,7 @@ AUX_FILES = [
     ("measurements/rf-chain/nf/just cooked reciver.DAT",
      "calibration/just cooked reciver.DAT"),
     ("measurements/rf-chain/nf/match noise.DAT", "calibration/match noise.DAT"),
-    ("software/gnuradio/reciver.grc", "acquisition/reciver.grc"),
+    ("software/gnuradio/receiver.grc", "acquisition/receiver.grc"),
 ]
 
 # ----------------------------------------------------------------------------
@@ -179,7 +179,7 @@ def load_rows(path):
 def average_rows(rows):
     """Average the saved rows into one spectrum.
 
-    No fftshift is applied: the GNU Radio log-power FFT block in reciver.grc
+    No fftshift is applied: the GNU Radio log-power FFT block in receiver.grc
     emits DC-centred vectors, so the saved channel order already matches
     FAX_KHZ. Shifting again would move the band-centre artifact to the band
     edge and put the line at a spurious offset.

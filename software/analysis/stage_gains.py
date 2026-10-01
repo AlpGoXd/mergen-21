@@ -24,11 +24,11 @@ F0_MHZ = 1420.405
 VNA = "measurements/rf-chain/vna"
 DS = "hardware/rf-chain/datasheet-s-parameters"
 STAGES = [
-    ("LNA", f"{VNA}/ZX60-P162LN+/mesured_ZX60-P162LN+.s2p",
+    ("LNA", f"{VNA}/ZX60-P162LN+/measured_ZX60-P162LN+.s2p",
             f"{DS}/ZX60-P162LN+/ZX60-P162LN+_4V_Plus25degC.s2p"),
-    ("BPF", f"{VNA}/ZX75BP-1450-S+/mesured_ZX75BP-1450+filter.s2p",
+    ("BPF", f"{VNA}/ZX75BP-1450-S+/measured_ZX75BP-1450-S+.s2p",
             f"{DS}/ZX75BP-1450-S+/ZX75BP-1450-S+_Plus25degC.s2p"),
-    ("AMP", f"{VNA}/ZX60-V63+/mesured_ZX60-V63+.s2p",
+    ("AMP", f"{VNA}/ZX60-V63+/measured_ZX60-V63+.s2p",
             f"{DS}/ZX60-V63+/ZX60-V63+_5V_Plus25DegC.s2p"),
     ("CASCADE", f"{VNA}/cascade/cascaded chain.s2p", None),
 ]

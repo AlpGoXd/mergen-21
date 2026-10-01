@@ -19,8 +19,8 @@ Antenna → ZX60-P162LN+ (LNA) → ZX75BP-1450-S+ (BPF) → ZX60-V63+ (Amp) → 
 | Manufacturer S2P (-45 C) | [`datasheet-s-parameters/ZX60-P162LN+/ZX60-P162LN+_4V_Minus45degC.s2p`](datasheet-s-parameters/ZX60-P162LN+/ZX60-P162LN+_4V_Minus45degC.s2p) |
 | Manufacturer S2P (+25 C) | [`datasheet-s-parameters/ZX60-P162LN+/ZX60-P162LN+_4V_Plus25degC.s2p`](datasheet-s-parameters/ZX60-P162LN+/ZX60-P162LN+_4V_Plus25degC.s2p) |
 | Manufacturer S2P (+85 C) | [`datasheet-s-parameters/ZX60-P162LN+/ZX60-P162LN+_4V_Plus85degC.s2p`](datasheet-s-parameters/ZX60-P162LN+/ZX60-P162LN+_4V_Plus85degC.s2p) |
-| VNA measurement | [`../../measurements/rf-chain/vna/ZX60-P162LN+/mesured_ZX60-P162LN+.s2p`](../../measurements/rf-chain/vna/ZX60-P162LN+/mesured_ZX60-P162LN+.s2p) |
-| VNA plot | [`../../measurements/rf-chain/vna/ZX60-P162LN+/mesured_ZX60-P162LN+.pdf`](../../measurements/rf-chain/vna/ZX60-P162LN+/mesured_ZX60-P162LN+.pdf) |
+| VNA measurement | [`../../measurements/rf-chain/vna/ZX60-P162LN+/measured_ZX60-P162LN+.s2p`](../../measurements/rf-chain/vna/ZX60-P162LN+/measured_ZX60-P162LN+.s2p) |
+| VNA plot | [`../../measurements/rf-chain/vna/ZX60-P162LN+/measured_ZX60-P162LN+.pdf`](../../measurements/rf-chain/vna/ZX60-P162LN+/measured_ZX60-P162LN+.pdf) |
 | IP3 measurements | [`../../measurements/rf-chain/ip3/lna/`](../../measurements/rf-chain/ip3/lna/) |
 
 ### Stage 2: ZX75BP-1450-S+ (Bandpass Filter)
@@ -31,8 +31,8 @@ Antenna → ZX60-P162LN+ (LNA) → ZX75BP-1450-S+ (BPF) → ZX60-V63+ (Amp) → 
 | Manufacturer S2P (-40 C) | [`datasheet-s-parameters/ZX75BP-1450-S+/ZX75BP-1450-S+_Minus40degC.s2p`](datasheet-s-parameters/ZX75BP-1450-S+/ZX75BP-1450-S+_Minus40degC.s2p) |
 | Manufacturer S2P (+25 C) | [`datasheet-s-parameters/ZX75BP-1450-S+/ZX75BP-1450-S+_Plus25degC.s2p`](datasheet-s-parameters/ZX75BP-1450-S+/ZX75BP-1450-S+_Plus25degC.s2p) |
 | Manufacturer S2P (+85 C) | [`datasheet-s-parameters/ZX75BP-1450-S+/ZX75BP-1450-S+_Plus85degC.s2p`](datasheet-s-parameters/ZX75BP-1450-S+/ZX75BP-1450-S+_Plus85degC.s2p) |
-| VNA measurement | [`../../measurements/rf-chain/vna/ZX75BP-1450-S+/mesured_ZX75BP-1450+filter.s2p`](../../measurements/rf-chain/vna/ZX75BP-1450-S+/mesured_ZX75BP-1450+filter.s2p) |
-| VNA plot | [`../../measurements/rf-chain/vna/ZX75BP-1450-S+/mesured_ZX75BP-1450+.pdf`](../../measurements/rf-chain/vna/ZX75BP-1450-S+/mesured_ZX75BP-1450+.pdf) |
+| VNA measurement | [`../../measurements/rf-chain/vna/ZX75BP-1450-S+/measured_ZX75BP-1450-S+.s2p`](../../measurements/rf-chain/vna/ZX75BP-1450-S+/measured_ZX75BP-1450-S+.s2p) |
+| VNA plot | [`../../measurements/rf-chain/vna/ZX75BP-1450-S+/measured_ZX75BP-1450+.pdf`](../../measurements/rf-chain/vna/ZX75BP-1450-S+/measured_ZX75BP-1450+.pdf) |
 | IP3 measurements | N/A (passive component -- IP3 not applicable) |
 
 ### Stage 3: ZX60-V63+ (Second-Stage Amplifier)
@@ -43,8 +43,8 @@ Antenna → ZX60-P162LN+ (LNA) → ZX75BP-1450-S+ (BPF) → ZX60-V63+ (Amp) → 
 | Manufacturer S2P (-45 C) | [`datasheet-s-parameters/ZX60-V63+/ZX60-V63+_5V_Minus45DegC.s2p`](datasheet-s-parameters/ZX60-V63+/ZX60-V63+_5V_Minus45DegC.s2p) |
 | Manufacturer S2P (+25 C) | [`datasheet-s-parameters/ZX60-V63+/ZX60-V63+_5V_Plus25DegC.s2p`](datasheet-s-parameters/ZX60-V63+/ZX60-V63+_5V_Plus25DegC.s2p) |
 | Manufacturer S2P (+85 C) | [`datasheet-s-parameters/ZX60-V63+/ZX60-V63+_5V_Plus85DegC.s2p`](datasheet-s-parameters/ZX60-V63+/ZX60-V63+_5V_Plus85DegC.s2p) |
-| VNA measurement | [`../../measurements/rf-chain/vna/ZX60-V63+/mesured_ZX60-V63+.s2p`](../../measurements/rf-chain/vna/ZX60-V63+/mesured_ZX60-V63+.s2p) |
-| VNA plot | [`../../measurements/rf-chain/vna/ZX60-V63+/mesured_ZX60-V63+.pdf`](../../measurements/rf-chain/vna/ZX60-V63+/mesured_ZX60-V63+.pdf) |
+| VNA measurement | [`../../measurements/rf-chain/vna/ZX60-V63+/measured_ZX60-V63+.s2p`](../../measurements/rf-chain/vna/ZX60-V63+/measured_ZX60-V63+.s2p) |
+| VNA plot | [`../../measurements/rf-chain/vna/ZX60-V63+/measured_ZX60-V63+.pdf`](../../measurements/rf-chain/vna/ZX60-V63+/measured_ZX60-V63+.pdf) |
 | IP3 measurements | [`../../measurements/rf-chain/ip3/amplifier/`](../../measurements/rf-chain/ip3/amplifier/) |
 
 ### Full Cascade

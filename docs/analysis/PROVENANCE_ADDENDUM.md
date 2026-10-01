@@ -96,7 +96,7 @@ Every nominal duration is shorter than the gap to the next capture's start
 time, which is a necessary consistency check and it passes for all five.
 
 **Two written records contradict the observer, and neither is used.**
-`software/gnuradio/reciver.grc` carried `integration_time = 500`, which matches no
+`software/gnuradio/receiver.grc` carried `integration_time = 500`, which matches no
 capture in this package; the flowgraph was saved at the end of the session,
 after the setting had last been changed. The `500int` in the sweep filename
 likewise does not record that capture's setting. The observer states the
@@ -147,7 +147,7 @@ derived cadence and the provenance of each alongside.
 
 ## 5. Exact filter and averaging implementation
 
-Both `software/gnuradio/reciver.grc` and the generated `software/gnuradio/reciver.py`
+Both `software/gnuradio/receiver.grc` and the generated `software/gnuradio/receiver.py`
 are in this package. The signal path is:
 
 ```

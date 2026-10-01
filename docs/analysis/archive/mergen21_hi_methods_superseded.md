@@ -22,7 +22,7 @@ published therefore had no recoverable generating script. It does now.
 
 ## 1. Instrument configuration, as read from the flowgraph
 
-Read from `software/gnuradio/reciver.grc`, not assumed:
+Read from `software/gnuradio/receiver.grc`, not assumed:
 
 | quantity | value | source |
 |---|---|---|

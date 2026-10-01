@@ -13,7 +13,7 @@ Captures are read from <root>/observations/data/, falling back to
 ------------------------------------------------------------------------
 ACQUISITION FACTS
 ------------------------------------------------------------------------
-Verified in this script from software/gnuradio/reciver.grc:
+Verified in this script from software/gnuradio/receiver.grc:
   samp_rate = 2 048 000 Sa/s, fft_size = 2048, K = 8 branches,
   Kaiser beta = 8.6, LO_freq = 1 420 405 000 Hz, rx_gain = 30 dB (manual),
   rf_bandwidth = 2 MHz, RX rfdc/bbdc/quadrature correction enabled.
@@ -42,12 +42,12 @@ Supplied by the observer (not recoverable from the files):
   one recording processed two ways.
 
 METADATA DISCREPANCY, NOW CORRECTED IN THE FLOWGRAPH:
-  At the time of the April 29 session, software/gnuradio/reciver.grc had
+  At the time of the April 29 session, software/gnuradio/receiver.grc had
   integration_time = 500, which matched neither M = 1000 nor M = 100 of any
   real capture. The saved flowgraph state also carried the "500int" of the
   sweep capture's filename. The observer's confirmed per-capture values
   (below) are used here; the .grc value was never used for this figure.
-  software/gnuradio/reciver.grc has since had its integration_time default
+  software/gnuradio/receiver.grc has since had its integration_time default
   corrected to 1000 (see that file's variable comment); this script's
   hardcoded CAPTURES table is unaffected either way, since it always used
   the observer's confirmed values, not the .grc default. Nothing in this
