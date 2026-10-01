@@ -28,7 +28,7 @@ A radio telescope I built for my EE401 graduation project at Ozyegin University.
 | Stage | Component | Function | Gain, VNA / datasheet (dB) | NF (dB) | OIP3 (dBm) |
 |-------|-----------|----------|-----------|---------|-------------|
 | 1 | ZX60-P162LN+ | LNA | 19.24 / 19.87 | 0.7 | +29.8 |
-| 2 | ZX75BP-1450-S+ | Bandpass filter (~50 MHz passband @ 1450 MHz) | −1.73 / −0.79 | 0.8 | N/A |
+| 2 | ZX75BP-1450-S+ | Bandpass filter (datasheet: 1 dB passband 1254–1625 MHz, 3 dB passband 1230–1645 MHz; 0.79 dB loss at 1420.4 MHz) | −1.73 / −0.79 | 0.8 | N/A |
 | 3 | ZX60-V63+ | Second amplifier | 20.24 / 20.82 | 3.7 | +32.2 |
 | **Cascade** | **LNA + BPF + Amp** | | **39.52 (VNA, interpolated; samples 39.66 dB at 1402.51 MHz and 39.32 dB at 1445.01 MHz)** | **1.5 (meas., cable-corrected)** | **+29.5 (meas.)** |
 

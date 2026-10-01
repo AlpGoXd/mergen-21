@@ -39,7 +39,7 @@ Three-stage front-end: LNA → bandpass filter → second amplifier. All Mini-Ci
 | Stage | Component | Function |
 |---|---|---|
 | 1 | ZX60-P162LN+ | Low-noise amplifier |
-| 2 | ZX75BP-1450-S+ | Bandpass filter (~50 MHz BW @ 1450 MHz) |
+| 2 | ZX75BP-1450-S+ | Bandpass filter (datasheet: 1 dB passband 1254–1625 MHz, 3 dB passband 1230–1645 MHz) |
 | 3 | ZX60-V63+ | Second-stage amplifier |
 
 `datasheets/` contains manufacturer PDFs. `datasheet-s-parameters/` contains Touchstone S2P files at three temperatures. See `COMPONENTS.md` for the cross-reference between datasheets, S-parameter files, and lab measurements.

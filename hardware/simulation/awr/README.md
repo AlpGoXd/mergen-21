@@ -31,4 +31,4 @@ Antenna → ZX60-P162LN+ (LNA) → ZX75BP-1450-S+ (BPF) → ZX60-V63+ (Amp) → 
 
 - Component S-parameter data sourced from Mini-Circuits, freely available at [minicircuits.com](https://www.minicircuits.com)
 - System noise figure: NF_sys ≈ NF₁ + (NF₂ − 1)/G₁ + (NF₃ − 1)/(G₁·G₂), heavily dominated by the first-stage LNA due to its high gain.
-- The BPF center frequency is slightly below 1420 MHz, placing the HI line ~0.8 dB below peak gain — negligible impact on system performance.
+- The BPF response peaks above 1420 MHz (datasheet maximum at 1435 MHz), and the H I line sits within 0.1 dB of the filter maximum (insertion loss 0.79 dB at 1420.4 MHz).
