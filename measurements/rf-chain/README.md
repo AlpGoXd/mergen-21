@@ -34,6 +34,8 @@ Each component has:
 
 The `cascade/` subdirectory contains `cascaded chain.s2p`, the end-to-end S21 of the full chain (horn N-type connector to PlutoSDR SMA input).
 
+The single-stage files are not de-embedded; the filter file includes test adapters and cables, which is why the stages sum to 37.8 dB against the 39.5 dB cascade. The cascade file is the reference for the chain gain. `software/analysis/stage_gains.py` computes all stage gains at 1420.405 MHz.
+
 Compare with datasheet S-parameters in `hardware/rf-chain/datasheet-s-parameters/`.
 
 ## Noise Figure Measurements (`nf/`)

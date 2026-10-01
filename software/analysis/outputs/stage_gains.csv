@@ -1,0 +1,5 @@
+stage,measured_db,datasheet_db,nearest_sample_mhz
+LNA,19.24,19.87,1420.50
+BPF,-1.73,-0.79,1402.58
+AMP,20.24,20.82,1418.50
+CASCADE,39.52,,1402.51

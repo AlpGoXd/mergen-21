@@ -27,8 +27,8 @@ Test flowgraphs used to validate the analysis pipeline without live RF hardware:
 
 **Expected signal path:**
 ```
-Antenna (16.9 dBi) → LNA (19.7 dB) → BPF (−0.8 dB) → Amp (20.8 dB) → PlutoSDR
-Cascade: ~40 dB gain, ~1.5 dB NF (cable-corrected)
+Antenna (16.9 dBi) → LNA (19.24 dB) → BPF (−1.73 dB) → Amp (20.24 dB) → PlutoSDR   [VNA, 1420.405 MHz]
+Cascade: 39.52 dB gain (VNA), ~1.5 dB NF (cable-corrected)
 ```
 
 **PlutoSDR settings (receiver):**
