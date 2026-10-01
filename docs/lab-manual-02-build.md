@@ -46,14 +46,16 @@ After completing this lab, students will be able to:
 
 | Item | Specification | Quantity |
 |---|---|---|
-| Aluminum sheet | Alloy 5754-H22, 1.5 mm thick | Approximately 400 × 400 mm |
+| Aluminum sheet | Alloy 5754-H22, 1.5 mm thick | Enough for the four flat patterns (DXF extents): E-plane panel 719 × 682 mm, H-plane panel 638 × 572 mm, waveguide 312 × 507 mm, backshort 183 × 103 mm |
 | N-type female chassis connector | Amphenol RF 000-49000-SRFX (or equivalent) | 1 |
 | Copper wire | 1.0 mm diameter, bare (not insulated) | ~50 mm |
-| M3 × 30 mm bolts (DIN 965TX, stainless A2-304) | — | 12 |
-| M3 × 8 mm bolts (DIN 7985TX, stainless A2-304) | — | 12 |
-| M3 flat washers (DIN 125, stainless) | — | 24 |
-| M3 spring washers (DIN 127, stainless) | — | 24 |
-| M3 hex nuts (DIN 934, stainless A2-304) | — | 24 |
+| M3 × 30 mm bolts (DIN 965TX, stainless A2-304) | — | See note below |
+| M3 × 8 mm bolts (DIN 7985TX, stainless A2-304) | — | See note below |
+| M3 flat washers (DIN 125, stainless) | — | See note below |
+| M3 spring washers (DIN 127, stainless) | — | See note below |
+| M3 hex nuts (DIN 934, stainless A2-304) | — | See note below |
+
+**Fastener count:** count the holes in the DXF files. They carry 198 bolt holes in total: `eplane_v0.3.dxf` 44, `hplane_v0.3.dxf` 48, `backshort_0.1.dxf` 24 and `wave_0.1.dxf` 82 (plus one 16.3 mm connector hole). Where a bolt clamps two overlapping holes, expect roughly half as many bolts as holes (about 100), with one nut and one spring washer per bolt. Buy spares. Extents assume the DXF units are mm (`$INSUNITS` = 4 in all four files).
 
 ### Procedure
 
@@ -174,7 +176,7 @@ These are the critical dimensions and their allowed deviations, derived from the
 | Panel flatness | 0 mm deflection | ±0.5 mm over 200 mm | Gap-induced current leakage, pattern distortion |
 | Panel seam gaps | 0 mm | <0.3 mm | Allows RF leakage at seams |
 | Aluminum sheet thickness | 1.5 mm | ±0.1 mm | Affects internal waveguide dimensions |
-| Bolt hole diameter | 3.2 mm (for M3) | ±0.1 mm | If too large, panel alignment is poor |
+| Bolt hole diameter | 3.4 mm as drawn (r = 1.7 mm; four holes in `wave_0.1.dxf` are 3.2 mm) | ±0.1 mm | If too large, panel alignment is poor |
 
 **The most consequential dimensions** are the probe depth and backshort distance. These directly control the impedance matching at 1420 MHz. If S11 is worse than −15 dB, start by checking these two.
 
