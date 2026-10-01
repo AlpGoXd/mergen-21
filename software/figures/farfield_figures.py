@@ -8,11 +8,38 @@ Column layout of each export (361 rows, verified on read):
   col2 = directivity in dBi, decimal comma
 col0 is therefore used directly as the polar angle, which avoids the
 non-monotonic-theta trap of interpolating on col1.
+
+The 8-column CST far-field ASCII export committed in hardware/simulation/cst/
+(header `Theta [deg.]  Phi [deg.]  Abs(Dir.) ...`) is also accepted: rows at
+the first phi map to +theta and rows at phi+180 to -theta (plot angle
+360-theta), sorted and closed with a copy of the first point, so both formats
+return the same (meta, angle, Abs(Dir)) layout.
 """
 import numpy as np
 import matplotlib.pyplot as plt
 
+def _read_cst_ascii(path):
+    rows = []
+    for line in open(path, errors="replace").read().splitlines()[2:]:
+        p = line.split()
+        if len(p) == 8:
+            rows.append((float(p[0]), float(p[1]), float(p[2])))
+    a = np.asarray(rows)
+    th, ph, D = a[:, 0], a[:, 1], a[:, 2]
+    phi0 = ph[0]
+    back = np.isclose((ph - phi0) % 360, 180)
+    assert np.all(np.isclose(ph[~back], phi0)), "more than two phi values in cut"
+    ang = np.where(back, 360 - th, th) % 360
+    o = np.argsort(ang); ang, D = ang[o], D[o]
+    assert np.all(np.diff(ang) > 0), "duplicate plot angles"
+    ang = np.append(ang, ang[0]); D = np.append(D, D[0])
+    meta = {"Format": "CST ASCII far-field cut", "Phi": f"{phi0:g}", "Npoints": str(len(ang))}
+    return meta, ang, D
+
 def read_cst_polar(path):
+    with open(path, errors="replace") as fh:
+        if fh.readline().lstrip().startswith("Theta"):
+            return _read_cst_ascii(path)
     meta, rows = {}, []
     for line in open(path, errors="replace").read().splitlines():
         s = line.strip()

@@ -11,9 +11,10 @@ consuming `kaiser_window[0 : 8*fft_size]`. Whether that truncates the filter
 depends on how many taps `firdes` chose, which it picks from the attenuation
 and transition width rather than being told.
 
-GNU Radio returns 32299 taps for this call. The taps are stored next to this
-script (`wola_taps_firdes.npy`) so the check reproduces without a GNU Radio
-installation; regenerate them with `--regenerate` if you have one.
+GNU Radio returns 32299 taps for this call. The taps are cached next to this
+script (`wola_taps_firdes.npy`) after the first run. That file is not
+committed, so the first run needs a GNU Radio installation; `--regenerate`
+redesigns them.
 
 The discriminating measurement is `N_eff`, the effective number of
 independent frames in one averaged row. Frames hop by `fft_size` but span

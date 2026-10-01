@@ -10,7 +10,7 @@ Python scripts for processing raw spectra into first-light line fits and averagi
 | `first_light_and_averaging.py` | Builds the first-light spectra figure and `averaging_noise.csv` (the tau=1/2/4/8 s averaging-noise table for the E1/E2 captures) from the raw captures. Run with `--root`/`--outdir`. |
 | `mergen21_waterfall_viewer.py` | Interactive waterfall / spectrum viewer for `.dat` files |
 | `sanitize_sps.py` | S-parameter file cleanup utility |
-| `wola_window_check.py` | Reproduces the WOLA prototype-filter truncation check (needs `wola_taps_firdes.npy`; `--regenerate` requires a GNU Radio install) |
+| `wola_window_check.py` | Reproduces the WOLA prototype-filter truncation check. Runs only with GNU Radio installed: the designed taps (`wola_taps_firdes.npy`) are not committed, so the first run designs them with `firdes` and caches them next to the script |
 
 `outputs/VERIFICATION.md` records an independent re-run of `mergen21_hi_analysis.py` and `first_light_and_averaging.py` against this checkout, verified against `reference_outputs/`. See that file for the full comparison and for the offline-IERS caveat on galactic l/b.
 
@@ -41,11 +41,8 @@ python3 mergen21_waterfall_viewer.py ../../observations/data/
 
 ```python
 import numpy as np
-from scipy import signal
 
-iq = np.fromfile('obs.dat', dtype=np.float32)
-f, pxx = signal.welch(iq, fs=2e6, nperseg=1024)
-pxx_db = 10 * np.log10(pxx)
+rows = np.fromfile(path, dtype=np.float32).reshape(-1, 2048)  # linear power, one row per saved average; channel k is (k - 1024) kHz from the LO
 ```
 
 ## See Also

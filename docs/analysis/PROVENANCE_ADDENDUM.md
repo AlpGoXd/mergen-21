@@ -252,9 +252,9 @@ sensitivity:
 A two-panel truncation figure (not included in this release) showed the
 designed prototype with the consumed and discarded spans, and the resulting
 channel-leakage penalty against a correct taper. The whole check is
-reproducible without a GNU Radio installation by
-`python analysis/wola_window_check.py`, which ships the 32 299 designed taps
-alongside it; Monte Carlo figures quoted above are that script's output and
+reproducible by `python software/analysis/wola_window_check.py`, which needs
+GNU Radio on its first run to design the 32 299 taps (the cached
+`wola_taps_firdes.npy` is not committed); Monte Carlo figures quoted above are that script's output and
 carry a few percent of run-to-run scatter.
 
 ### Effective channel bandwidth: confirmed at 818 Hz
