@@ -15,7 +15,7 @@ After completing this lab, students will be able to:
 3. Record spectral data and verify that 21 cm emission is detected.
 4. Use the waterfall viewer to display and interpret the recorded spectra.
 5. Identify Doppler-shifted hydrogen emission from different galactic longitudes.
-6. Qualitatively relate the observed frequency shift to the galactic rotation curve.
+6. Discuss how a calibrated frequency axis would let the observed shift be related to Galactic rotation (future exercise).
 
 ---
 
@@ -101,7 +101,7 @@ Load the east-pointing file (`_doggu` or `_Dogu`) and the west-pointing file (`_
 
 **Discussion questions:**
 1. Is the HI emission peak at the same frequency for east and west pointings?
-2. If not, which direction has higher velocity, and what does that imply about galactic rotation?
+2. If not, what would you need (frequency calibration, LSR correction) before reading the difference as a velocity? (future exercise)
 3. Look at the Stellarium sky charts in `observations/stellarium_*.png`. What galactic longitude was the antenna pointing at for each file?
 
 ---

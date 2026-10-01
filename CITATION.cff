@@ -51,8 +51,7 @@ abstract: >-
 preferred-citation:
   type: thesis
   title: >-
-    Mergen-21: A Low-Cost 21 cm Hydrogen Line Radio Telescope for
-    Galactic Rotation Curve Observation
+    Mergen-21: A Low-Cost 21 cm Hydrogen-Line Radio Telescope
   authors:
     - family-names: "Gökalp"
       given-names: "Alp"

@@ -28,7 +28,7 @@ Be respectful, constructive, and collaborative. Discrimination, harassment, or b
 - **Software:** GNU Radio improvements, Python analysis enhancements
 - **Hardware:** RFI mitigation, dual-pol receiver design, tracking mount firmware
 - **Documentation:** Clarifications, tutorials, translation to other languages
-- **Science:** Calibration improvements, rotation curve extraction algorithms
+- **Science:** Calibration improvements, frequency-axis calibration and LSR correction
 
 ### Licensing
 
