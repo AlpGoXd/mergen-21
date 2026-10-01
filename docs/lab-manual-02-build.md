@@ -111,7 +111,7 @@ Before any RF measurement, verify:
 
 ## Part B: LDO Power Supply Board
 
-The LDO board provides clean, low-noise DC power to the two RF amplifiers (ZX60-P162LN+ and ZX60-V63+). Both amplifiers require +5 V. The board uses two TPS7A4701RGWT ultra-low-noise LDO regulators.
+The LDO board provides clean, low-noise DC power to the two RF amplifiers (ZX60-P162LN+ and ZX60-V63+). The ZX60-P162LN+ LNA needs +4 V and the ZX60-V63+ amplifier +5 V; the regulator board supplies both rails from a common 5.5 V input. Do not connect the LNA to 5 V. The board uses two TPS7A4701RGWT ultra-low-noise LDO regulators.
 
 ### Files Needed
 

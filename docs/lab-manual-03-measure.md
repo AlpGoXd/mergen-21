@@ -27,7 +27,7 @@ After completing this lab, students will be able to:
 | Spectrum analyzer | NF measurement option preferred; 1–2 GHz | NF, IP3 |
 | Noise source | Calibrated ENR at 1420 MHz, SMA | NF |
 | Signal generator (x2 for IP3) | 1400–1440 MHz, ≥ +10 dBm output | IP3 |
-| DC power supply | 5 V, 1 A minimum | RF chain bias |
+| DC power supply | 4 V (LNA) and 5 V (amplifier), 1 A minimum | RF chain bias |
 | Coaxial cables | SMA male-male, low-loss, 30–50 cm | All |
 | Attenuators (10–30 dB) | SMA, rated > 0 dBm | IP3 |
 
@@ -121,9 +121,9 @@ plt.show()
 #### B2: Individual component measurement
 
 Measure each component in the chain separately:
-- ZX60-P162LN+ (LNA): connect +5 V DC bias before measuring. The LNA requires bias to function.
+- ZX60-P162LN+ (LNA): connect +4 V DC bias before measuring (not 5 V). The LNA requires bias to function.
 - ZX75BP-1450-S+ (BPF): passive, no bias needed.
-- ZX60-V63+ (Amp): connect +5 V DC bias.
+- ZX60-V63+ (Amp): connect the +5 V supply.
 
 For each component, record S11, S21, S12, S22 as a .s2p file.
 
@@ -173,7 +173,7 @@ Compare against `measurements/rf-chain/nf/cable_loss.DAT`.
 
 #### C2: LNA noise figure
 
-1. Connect: noise source → LNA (biased at +5 V) → spectrum analyzer
+1. Connect: noise source → LNA (biased at +4 V) → spectrum analyzer
 2. Set up the spectrum analyzer noise figure measurement at **1420 MHz**, 1 MHz bandwidth.
 3. Enter the noise source ENR values.
 4. Record the measured NF.

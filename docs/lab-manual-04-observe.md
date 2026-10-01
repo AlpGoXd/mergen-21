@@ -137,7 +137,7 @@ gnuradio-companion --version
 
 ### B2: Connect the hardware
 
-1. Power on the LDO board and verify +5 V on both outputs.
+1. Power on the LDO board and verify +4 V on the LNA output and +5 V on the amplifier output.
 2. Connect the RF chain: Antenna N-type → SMA cable → LNA input. LNA output → BPF. BPF output → Amp. Amp output → PlutoSDR RX1.
 3. Connect the PlutoSDR USB port to the computer.
 4. Verify PlutoSDR is detected:
