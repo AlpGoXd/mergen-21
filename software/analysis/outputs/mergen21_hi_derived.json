@@ -73,7 +73,7 @@
   "assumptions": {
     "T_ant_never_measured": true,
     "all_K_columns_are_fractional_times_T_sys": true,
-    "pointing_elevation_deg_approximate": 35.0,
+    "pointing_elevation_deg_approximate": 30.0,
     "static_azimuth_from_filename_only": true,
     "sweep_azimuth": "withdrawn: manual, irregular, paused",
     "tau_row_inferred_not_recorded": true,

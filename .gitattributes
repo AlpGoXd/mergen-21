@@ -1,2 +1,12 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Instrument exports and binary data: never convert line endings
+*.s1p -text
+*.s2p -text
+*.DAT -text
+*.dat binary
+*.npy binary
+# Files hashed in mergen21_data_manifest.csv: same bytes on every platform
+*.grc eol=lf
+measurements/rf-chain/nf/README.md eol=lf

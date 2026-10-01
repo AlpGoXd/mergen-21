@@ -256,7 +256,7 @@ def main(root, outdir):
          "spread_frac", "sem_frac", "n_pairs", "n_blocks", "rows_used", "rows_skipped",
          "n_channels", "temporal_lag1", "included"]]
     tab["sigma_pct"] = tab.sigma_frac * 100
-    tab.to_csv(outdir / "averaging_noise.csv", index=False)
+    tab.to_csv(outdir / "averaging_noise.csv", index=False, lineterminator="\n")
     shown = tab[tab.included]
 
     # tau^-1/2 reference, normalized to the included points (not a prediction)

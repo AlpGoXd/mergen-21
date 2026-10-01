@@ -2,11 +2,11 @@
   "frequency_axis": {
     "channel_spacing_Hz": 1000.0,
     "tau_per_row_s_static": 1.0,
-    "tau_per_row_s_sweep": 0.5,
+    "tau_per_row_s_sweep": 1.0,
     "f0_MHz": 1420.405751768
   },
   "withdrawn": {
-    "note": "Computed by earlier versions of this script, removed because every one of them takes sweep azimuth as an input and the azimuth mapping is withdrawn. See PROVENANCE_ADDENDUM.md section 1.",
+    "note": "Computed by earlier versions of this script, removed because every one of them takes sweep azimuth as an input and the azimuth mapping is withdrawn. See PROVENANCE_ADDENDUM.md sections 1 and 6.",
     "items": [
       "kinematic_regression_gaussian_centroid",
       "kinematic_regression_published_moment_centroid",
@@ -73,7 +73,7 @@
   "assumptions": {
     "T_ant_never_measured": true,
     "all_K_columns_are_fractional_times_T_sys": true,
-    "pointing_elevation_deg_approximate": 35.0,
+    "pointing_elevation_deg_approximate": 30.0,
     "static_azimuth_from_filename_only": true,
     "sweep_azimuth": "withdrawn: manual, irregular, paused",
     "tau_row_inferred_not_recorded": true,

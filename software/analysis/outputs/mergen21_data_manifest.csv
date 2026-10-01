@@ -1,10 +1,10 @@
 path,role,bytes,sha256,rows
-observations\data\mergen21_spec_20260429_045525_bati.dat,static pointing W,868352,b57beb6b30be4d8b46847cef1b823ca457d65b087f5adfd319f6e9addc34b631,106
-observations\data\mergen21_spec_20260429_045857_guney.dat,static pointing S,843776,161a0156ef4ac83995c336be15c84f6ffcab70dc7775bfc420d095845d1d6853,103
-observations\data\mergen21_spec_20260429_050204_doggu.dat,static pointing E,851968,30f44a5e362cb5450e59cf23cc3045e9027ffb5db3498d144ba13713f67ee1da,104
-observations\data\mergen21_spec_20260429_050554_180partygirl_500int.dat,"180 deg east-west sweep, 12 blocks",2400256,51bae78e0284908498db7c47fa4fa439bcd8e4bb49ab7d89f363bb353ed48b5c,293
-measurements/rf-chain/nf/README.md,auxiliary / calibration reference,5001,48e5cca9647033fb62a0a7cc52de3826481a90e1b76f0c674591887deb39d30e,-1
-measurements/rf-chain/nf/cable_loss.DAT,auxiliary / calibration reference,65852,8202c0d39634fc07c66ac8e61883d53aef5e6b0fddde113ee34b36dab664507b,-1
-measurements/rf-chain/nf/just cooked reciver.DAT,auxiliary / calibration reference,45648,1a80aa83249ed305b4fafc594bd29660c2660566b2c5f81eaffca9739727d3bb,-1
-measurements/rf-chain/nf/match noise.DAT,auxiliary / calibration reference,46727,26fc1d7bdd4280963952b52ec14032f6c15349bf85d8dd02bfce29a73ebb5090,-1
-software/gnuradio/reciver.grc,auxiliary / calibration reference,28900,083ee346277a818cc49b28926afaad306660d2820e700c38440fffc0b062810e,-1
+observations/data/mergen21_spec_20260429_045525_bati.dat,static pointing W,868352,b57beb6b30be4d8b46847cef1b823ca457d65b087f5adfd319f6e9addc34b631,106
+observations/data/mergen21_spec_20260429_045857_guney.dat,static pointing S,843776,161a0156ef4ac83995c336be15c84f6ffcab70dc7775bfc420d095845d1d6853,103
+observations/data/mergen21_spec_20260429_050204_doggu.dat,static pointing E,851968,30f44a5e362cb5450e59cf23cc3045e9027ffb5db3498d144ba13713f67ee1da,104
+observations/data/mergen21_spec_20260429_050554_180partygirl_500int.dat,"180 deg east-west sweep, 12 blocks",2400256,51bae78e0284908498db7c47fa4fa439bcd8e4bb49ab7d89f363bb353ed48b5c,293
+measurements/rf-chain/nf/README.md,auxiliary / calibration reference,7605,e120c18b7f2bf8209a3036ce0783b977b9e1259048dec43a84e276847a263a6f,-1
+measurements/rf-chain/nf/cable_loss.DAT,auxiliary / calibration reference,64821,81d52c69f94bb4e19282179e5819f12acbd6c4248450a8837d75fd35e5e208ca,-1
+measurements/rf-chain/nf/just cooked reciver.DAT,auxiliary / calibration reference,44614,ca3494e0f1a146f31e5b0a88a0c8961322c19b70bfdc4c95605c4553f7b6c232,-1
+measurements/rf-chain/nf/match noise.DAT,auxiliary / calibration reference,45693,1d576dfbeea50b3a9ea5661c94a47b29cd26a82d5dc12cb8d62dcd12ef9fca02,-1
+software/gnuradio/receiver.grc,auxiliary / calibration reference,28903,2f5976f9dc26760101aafccf1e125d777d33b9b484d419d2e51a1b9809e97f3d,-1

@@ -507,7 +507,7 @@ def manifest(root):
     wanted = []
     for fn, role in caps:
         try:
-            wanted.append((str(capture_path(root, fn).relative_to(root)), role, True))
+            wanted.append((capture_path(root, fn).relative_to(root).as_posix(), role, True))
         except FileNotFoundError:
             wanted.append((fn, role, True))
     for alts in AUX_FILES:
@@ -670,7 +670,7 @@ def main(root, outdir):
 
     df, spectra = build_table(root)
 
-    df.to_csv(outdir / "mergen21_hi_measurements.csv", index=False)
+    df.to_csv(outdir / "mergen21_hi_measurements.csv", index=False, lineterminator="\n")
 
     st = df[df.kind == "static"].set_index("id")
     summary = pd.DataFrame([{
@@ -683,9 +683,9 @@ def main(root, outdir):
         "v_bary_plus_solar_kms": round(st.loc[k, "v_motion_kms"], 1),
         "v_lsr_kms": round(st.loc[k, "v_lsr_kms"], 1),
     } for k in ("S", "E", "W")])
-    summary.to_csv(outdir / "mergen21_hi_line_parameters.csv", index=False)
+    summary.to_csv(outdir / "mergen21_hi_line_parameters.csv", index=False, lineterminator="\n")
 
-    manifest(root).to_csv(outdir / "mergen21_data_manifest.csv", index=False)
+    manifest(root).to_csv(outdir / "mergen21_data_manifest.csv", index=False, lineterminator="\n")
 
     derived = {
         "frequency_axis": {"channel_spacing_Hz": CHAN_BW_HZ,
@@ -716,7 +716,7 @@ def main(root, outdir):
             "local_utc_offset_h": LOCAL_UTC_OFFSET_H,
         },
     }
-    (outdir / "mergen21_hi_derived.json").write_text(json.dumps(derived, indent=2, default=float))
+    (outdir / "mergen21_hi_derived.json").write_text(json.dumps(derived, indent=2, default=float), newline="\n")
 
     make_figure(df, spectra, outdir / "mergen21_hi_validation.png")
     return df, derived
