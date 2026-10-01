@@ -22,7 +22,7 @@ A radio telescope I built for my EE401 graduation project at Ozyegin University.
 - **Measured S11:** -42 dB @ 1.4204 GHz (exceeded simulation by a lot)
 - **Simulated S11:** ~-30 dB near 1.40 GHz (CST Studio Suite)
 - **Directivity:** 16.9 dBi at 1.42 GHz
-- **3 dB beamwidth:** 22.0° (H-plane), 25.2° (E-plane)
+- **3 dB beamwidth (simulated):** 25.2° (H-plane), 22.0° (E-plane)
 
 ### RF Chain
 | Stage | Component | Function | Gain (dB) | NF (dB) | OIP3 (dBm) |
@@ -74,7 +74,7 @@ Here's what the GNU Radio receiver flowgraph looks like:
 ### Antenna
 - **Measured S11:** -42 dB @ 1.4204 GHz
 - **Simulated directivity:** 16.9 dBi
-- **3 dB beamwidth:** ~23° (H-plane & E-plane similar due to square waveguide)
+- **3 dB beamwidth (simulated):** 25.2° (H-plane), 22.0° (E-plane)
 - Material: 1.5 mm aluminum sheet, laser-cut
 
 ### System Sensitivity
@@ -175,7 +175,7 @@ All commands are run from the repository root, with `software/requirements.txt` 
 | `python software/analysis/first_light_and_averaging.py --root . --outdir software/analysis/outputs` | `figures/first_light_and_averaging.pdf`/`.png` (the three first-light spectra) and `averaging_noise.csv` (the tau=1/2/4/8 s averaging-noise table for the E1/E2 captures) |
 | `python -c "from software.figures.s11_figures import fig_s11_ideal; fig_s11_ideal('hardware/simulation/cst/ideal_horn/ideal_hornfrfr.s1p')[0].savefig('s11_ideal.png')"` | The simulated horn S11 figure (1-2 GHz), marker at 1.4200 GHz |
 | `python -c "from software.figures.s11_figures import fig_s11_assembly; fig_s11_assembly('hardware/simulation/cst/assembly_worstcase/hornffrfr_assembly_worstcase.s1p', 'measurements/antenna/5_inside_cleaned_backshort/anten_son_horn.s1p')[0].savefig('s11_assembly.png')"` | The CST worst-case-assembly vs. ZNB8-measured S11 overlay |
-| `python -c "from software.figures.farfield_figures import fig_polar, read_cst_polar; fig_polar('hardware/simulation/cst/ideal_horn/ideal_hornfrfr_farfield_phi0.txt', None, 'E-plane', 'E-plane')[0].savefig('farfield_eplane.png')"` | An E-plane (or, with the `_phi90` file, H-plane) far-field polar cut with peak directivity, HPBW, and sidelobe callouts |
+| `python -c "from software.figures.farfield_figures import fig_polar, read_cst_polar; fig_polar('hardware/simulation/cst/ideal_horn/ideal_hornfrfr_farfield_phi0.txt', None, 'H-plane', 'H-plane')[0].savefig('farfield_hplane.png')"` | An H-plane (or, with the `_phi90` file, E-plane) far-field polar cut with peak directivity, HPBW, and sidelobe callouts |
 | `python software/analysis/wola_window_check.py` | The WOLA prototype-filter truncation check (needs `wola_taps_firdes.npy`, which requires a GNU Radio install to regenerate with `--regenerate`; see that script's docstring) |
 
 `software/analysis/mergen21_hi_analysis.py` and `first_light_and_averaging.py` were re-run and their outputs verified byte-for-byte (modulo line endings and OS path separators) against `software/analysis/reference_outputs/` -- see `software/analysis/outputs/VERIFICATION.md` for the full comparison table and methodology, including the offline-IERS caveat on galactic l/b.

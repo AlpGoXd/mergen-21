@@ -13,14 +13,14 @@ The baseline parametric model of the horn antenna with coaxial-to-waveguide coup
 - `ideal_hornfrfr_all_parameters.txt` — All design parameters with values and expressions
 - `ideal_hornfrfr.stp` — STEP export of the 3D geometry
 - `ideal_hornfrfr.s1p` — S11 Touchstone data
-- `ideal_hornfrfr_farfield_phi0.txt` — Farfield cut at Phi=0 (E-plane)
-- `ideal_hornfrfr_farfield_phi90.txt` — Farfield cut at Phi=90 (H-plane)
+- `ideal_hornfrfr_farfield_phi0.txt` — Farfield H-plane cut
+- `ideal_hornfrfr_farfield_phi90.txt` — Farfield E-plane cut
 - `ideal_hornfrfr.pptx` — CST auto-generated report with plots
 
 **Key Results (ideal):**
 - Peak directivity: 16.9 dBi at boresight
-- 3 dB beamwidth: ~26° (E-plane), ~22° (H-plane)
-- First SLL: -36.9 dB (E-plane), -17.2 dB (H-plane)
+- 3 dB beamwidth: 25.2° (H-plane), 22.0° (E-plane)
+- Sidelobes: H-plane ≤ −36.8 dB (back lobe −20.5 dB); E-plane first sidelobe −8.8 dB (at ±29°).
 
 ### `assembly_worstcase/` — Realistic Sheet Metal Assembly
 
@@ -35,8 +35,10 @@ This simulation checks how much the imperfect construction degrades performance 
 **Files:**
 - `hornffrfr_assembly_worstcase.stp` — STEP export of the assembly geometry
 - `hornffrfr_assembly_worstcase.s1p` — S11 Touchstone data
-- `hornffrfr_assembly_worstcase_phi0.txt` — Farfield cut at Phi=0 (E-plane)
-- `hornffrfr_assembly_worstcase_phi90.txt` — Farfield cut at Phi=90 (H-plane)
+- `hornffrfr_assembly_worstcase_phi0.txt` — Farfield E-plane cut
+- `hornffrfr_assembly_worstcase_phi90.txt` — Farfield H-plane cut
+
+The two models use different CST axis conventions.
 - `hornffrfr_assembly_worstcase.pptx` — CST auto-generated report with plots
 
 ## Solver Settings

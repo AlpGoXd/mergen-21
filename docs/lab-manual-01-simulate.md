@@ -32,8 +32,8 @@ After completing this lab, students will be able to:
 | VBA macro (rebuilds full model) | `hardware/simulation/cst/ideal_horn/ideal_hornfrfr_creator.mcs.bas` |
 | Design parameters | `hardware/simulation/cst/ideal_horn/ideal_hornfrfr_all_parameters.txt` |
 | Expected S11 result | `hardware/simulation/cst/ideal_horn/ideal_hornfrfr.s1p` |
-| Expected far-field (E-plane) | `hardware/simulation/cst/ideal_horn/ideal_hornfrfr_farfield_phi0.txt` |
-| Expected far-field (H-plane) | `hardware/simulation/cst/ideal_horn/ideal_hornfrfr_farfield_phi90.txt` |
+| Expected far-field, H-plane (cut through the 608 mm aperture side) | `hardware/simulation/cst/ideal_horn/ideal_hornfrfr_farfield_phi0.txt` |
+| Expected far-field, E-plane (cut through the 514 mm aperture side) | `hardware/simulation/cst/ideal_horn/ideal_hornfrfr_farfield_phi90.txt` |
 
 ### Procedure
 
@@ -72,8 +72,8 @@ After the simulation completes, open the results navigator and extract:
 |---|---|---|
 | S11 (reflection coefficient) | Results → S-Parameters → S1,1 | −30 dB or better at 1420 MHz |
 | Peak directivity | Farfield → Farfield Plots | ≈ 16.9 dBi at 1420 MHz |
-| E-plane 3 dB beamwidth | Farfield, Phi=0 cut | ≈ 26° |
-| H-plane 3 dB beamwidth | Farfield, Phi=90 cut | ≈ 22° |
+| H-plane 3 dB beamwidth | Farfield, cut through the 608 mm aperture side | ≈ 25.2° |
+| E-plane 3 dB beamwidth | Farfield, cut through the 514 mm aperture side | ≈ 22.0° |
 
 Compare your S11 curve against `ideal_hornfrfr.s1p`. They should match exactly (the `.s1p` was exported from the same model).
 

@@ -21,7 +21,7 @@ Pyramidal horn antenna for 1420.405 MHz (21 cm hydrogen line), fabricated from 1
 | S11 at 1420.4 MHz | −42 dB |
 | Design frequency | 1420.405 MHz (HI line) |
 | Simulated directivity | 16.9 dBi |
-| Simulated 3 dB beamwidth | 26° (E-plane), 22° (H-plane) |
+| Simulated 3 dB beamwidth | 25.2° (H-plane), 22.0° (E-plane) |
 | Material | Aluminum 5754-H22, 1.5 mm |
 | Connector | N-type (Amphenol RF 000-49000-SRFX) |
 
