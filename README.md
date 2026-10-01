@@ -17,7 +17,7 @@ A radio telescope I built for my EE401 graduation project at Ozyegin University.
 <img src="docs/build-log/antenna_mounted.jpeg" alt="Antenna mounted for first-light observations" width="500">
 
 ### Antenna
-- **Type:** Pyramidal horn, 1.5 mm aluminum sheet, laser-cut & riveted
+- **Type:** Pyramidal horn, 1.5 mm aluminum sheet, laser-cut & bolted (M3, see ASSEMBLY.md)
 - **Design frequency:** 1420.405 MHz (HI 21 cm line)
 - **Measured S11:** better than −30 dB from 1410 to 1440 MHz (ZNB8, 10 MHz grid; −41.8 dB at the 1420.000 MHz sample, so the null depth is not resolved)
 - **Simulated S11 (CST Studio Suite):** ideal model −19.7 dB at 1420 MHz (minimum −30.7 dB at 1396 MHz); worst-case assembly model −21.8 dB at 1420 MHz (minimum −23.1 dB at 1410 MHz)

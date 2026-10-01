@@ -62,9 +62,9 @@ Antenna → ZX60-P162LN+ (LNA) → ZX75BP-1450-S+ (BPF) → ZX60-V63+ (Amp) → 
 |------|-----------|--------|----------|
 | **PDF Datasheet** | Complete manufacturer data sheet with specifications, application notes, pin diagrams, absolute maximum ratings, and typical performance curves | `.pdf` | [`datasheets/`](datasheets/) |
 | **S-Parameter File** | Frequency-dependent scattering parameters (S11, S21, S12, S22) extracted from the manufacturer's characterization data. Used for circuit simulation and cascade analysis. | `.s2p` (Touchstone) | [`datasheet-s-parameters/`](datasheet-s-parameters/) |
-| **VNA Measurement** | S-parameters measured in-house with a calibrated VNA. Reflects the actual device performance (including PCB, connectors, bias). | `.s2p` + `.pdf` | [`../../measurements/rf-chain/vna/`](../../measurements/rf-chain/vna/) |
+| **VNA Measurement** | S-parameters measured in-house with a calibrated VNA. Reflects the actual device performance (including connectors and bias). | `.s2p` + `.pdf` | [`../../measurements/rf-chain/vna/`](../../measurements/rf-chain/vna/) |
 
-The manufacturer S-parameter files come from Mini-Circuits' website and are provided at multiple temperatures (-45/40 C, +25 C, +85 C). The VNA measurements were taken at room temperature with the actual components soldered onto the RF chain PCB.
+The manufacturer S-parameter files come from Mini-Circuits' website and are provided at multiple temperatures (-45/40 C, +25 C, +85 C). The VNA measurements were taken at room temperature on the actual modules, which are connectorized SMA units (not mounted on a PCB).
 
 ## Missing Data
 

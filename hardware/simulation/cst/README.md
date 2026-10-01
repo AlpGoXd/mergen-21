@@ -28,7 +28,7 @@ A worst-case simulation of the actual fabricated horn. The real sheet-metal asse
 
 - **Gap fill blocks** — Extra metal blocks placed where the horn panels don't meet, simulating the worst-case leakage geometry
 - **All screws** modeled individually (not simplified)
-- **Asymmetric geometry** — The assembly is intentionally non-symmetric, matching the physical build
+- **Asymmetric geometry** — The assembly is intentionally non-symmetric, matching the physical build. The long waveguide seam lies on a 160 mm (broad) wall.
 
 This simulation checks how much the imperfect construction degrades performance compared to the ideal model.
 

@@ -18,7 +18,7 @@ hardware/
 
 ### Antenna (`antenna/`)
 
-Pyramidal horn antenna fabricated from 1.5 mm aluminum sheet (alloy 5754-H22), laser-cut and riveted. Waveguide-to-coax transition uses an N-type connector with a copper probe.
+Pyramidal horn antenna fabricated from 1.5 mm aluminum sheet (alloy 5754-H22), laser-cut and bolted (M3, see [ASSEMBLY.md](antenna/ASSEMBLY.md)). Waveguide-to-coax transition uses an N-type connector with a copper probe.
 
 | Subdirectory | Contents |
 |---|---|

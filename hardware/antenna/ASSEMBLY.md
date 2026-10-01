@@ -5,6 +5,7 @@
 This document provides complete assembly instructions for the Mergen-21 antenna. The assembly involves soldering the copper feed element to the N-type connector, followed by mechanical fastening of the antenna structure using M3 bolts with spring washers and nuts.
 
 **Antenna Material:** Aluminum 5754, 1.5 mm thickness
+**Waveguide seam:** The long waveguide seam lies on a 160 mm (broad) wall.
 **Waveguides:** Assembled separately (see separate documentation)
 **Assembly Status:** Field-tested with documented manufacturing challenges (see Notes section)
 

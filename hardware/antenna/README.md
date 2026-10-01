@@ -1,6 +1,6 @@
 # Horn Antenna
 
-Pyramidal horn antenna for 1420.405 MHz (21 cm hydrogen line), fabricated from 1.5 mm aluminum sheet (alloy 5754-H22) by laser cutting and riveting.
+Pyramidal horn antenna for 1420.405 MHz (21 cm hydrogen line), fabricated from 1.5 mm aluminum sheet (alloy 5754-H22) by laser cutting, bent and bolted (M3, see [ASSEMBLY.md](ASSEMBLY.md)).
 
 ## Directory Contents
 
