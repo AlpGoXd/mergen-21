@@ -33,9 +33,10 @@ Cascade: 39.52 dB gain (VNA), ~1.5 dB NF (cable-corrected)
 
 **PlutoSDR settings (receiver):**
 - Center frequency: 1420.405 MHz
-- Sample rate: 2 MSPS (~1 MHz baseband BW)
-- RF bandwidth: 20 MHz
-- PlutoSDR gain: 0 dB (cascade already provides ~40 dB)
+- Sample rate: 2.048 MS/s (2.048 MHz complex span, 1 kHz channels with fft_size = 2048)
+- RF bandwidth: 2 MHz (`rf_bandwidth = 2000000`)
+- PlutoSDR gain: 30 dB, manual (`rx_gain = 30`)
+- Device URI: `ip:192.168.10.1` (a stock Pluto on USB is `ip:192.168.2.1`; change `uri` in the Pluto source block)
 
 ## Installation
 
@@ -63,12 +64,12 @@ python3 reciver.py
 1. Connect antenna → LNA power supply → PlutoSDR → PC
 2. Verify PlutoSDR: `usb-devices | grep 0456`
 3. Launch `reciver.grc` in GRC
-4. Set center frequency to 1420.405 MHz, confirm sample rate 2 MSPS
-5. Run; output written to `logs/`
+4. Set center frequency to 1420.405 MHz, confirm sample rate 2.048 MS/s
+5. Create the output directory (`mkdir -p logs`; the file sink does not create it), then run; output is written to `logs/` relative to the working directory
 
 ## Output Format
 
-The receiver saves NumPy float32 power spectra (not raw I/Q). Recorded files go to `observations/data/`:
+The receiver saves NumPy float32 power spectra (not raw I/Q) to `logs/` (relative to the working directory). The released files were then copied to `observations/data/`:
 
 ```python
 import numpy as np
@@ -93,14 +94,14 @@ conda install -c conda-forge gr-iio
 - Check USB bandwidth (`dmesg`)
 
 **Flat / noisy spectrum:**
-- Verify LDO power supply (±5 V, ±12 V)
+- Verify LDO power supply (+4 V LNA and +5 V amplifier rails)
 - Check SMA connections
 
 ## Simulated HI-Line Injector
 
 `reciver.grc` also contains a simulated hydrogen-line transmit chain (`tx_noise` -> `tx_lpf` -> `tx_rotator` -> `iio_pluto_sink_0`) used to inject a synthetic Gaussian line for pipeline testing. All four blocks are saved with `state: disabled` in the flowgraph. The RX Pluto (`pluto_rx`, `uri: ip:192.168.10.1`) and the TX Pluto (`iio_pluto_sink_0`, `uri: ip:192.168.20.1`) are configured with different device URIs, so this is a loopback/self-test path that requires a second physical PlutoSDR; it is not a path that could inject into a live RX capture through the same device. This does not by itself establish whether the injector was disabled during any particular observing session.
 
-TODO(Alp): confirm injector was disabled during all 2026-04-29 captures
+The injector is a self-test path that needs a second PlutoSDR; the first-light build had one PlutoSDR, so the injector was not active during the 2026-04-29 captures.
 
 ## Known issue: truncated WOLA prototype filter
 

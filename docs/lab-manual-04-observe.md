@@ -158,14 +158,17 @@ Before running the flowgraph, set the output directory to a location of your cho
 self.log_dir = log_dir = "logs"   # relative to the directory where you run the script
 ```
 
-Or provide an absolute path to a directory that already exists on your system.
+Or provide an absolute path to a directory that already exists on your system. The file sink does not create the directory, so create it first (see B4).
 
 ### B4: Launch the receiver
 
 ```bash
 cd software/gnuradio
+mkdir -p logs
 python3 reciver.py
 ```
+
+The flowgraph addresses the Pluto at `ip:192.168.10.1` (`reciver.py:211`). A stock Pluto on USB is `ip:192.168.2.1`, so change `uri` in the Pluto source block.
 
 Or open the flowgraph in GNU Radio Companion:
 ```bash
@@ -182,8 +185,8 @@ The GUI shows three panels:
 With the antenna connected and pointed at the sky:
 
 1. Confirm that noise floor is visible in the Quick-Look FFT panel (flat noise power around −100 to −120 dBm/bin is expected).
-2. Confirm that the PlutoSDR is not receiving at its full digital range (saturation appears as a perfectly flat spectrum; if you see this, reduce the SDR gain from 30 dB to 0 dB in the GUI).
-3. After 1–2 minutes of integration, a broad emission feature should become visible near 1420.405 MHz in the integrated spectrum. The galactic disk is always above the horizon and produces detectable emission when the beam overlaps it.
+2. Confirm that the PlutoSDR is not receiving at its full digital range (saturation appears as a perfectly flat spectrum; if you see this, reduce rx_gain).
+3. After 1–2 minutes of integration, a broad emission feature should become visible about 80 to 190 kHz above 1420.405 MHz in the integrated spectrum (the narrow spike exactly at 1420.405 MHz is instrumental). The galactic disk is always above the horizon and produces detectable emission when the beam overlaps it.
 
 ### B6: Record an observation
 
