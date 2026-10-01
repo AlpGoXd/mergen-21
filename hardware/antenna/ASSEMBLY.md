@@ -148,7 +148,7 @@ During assembly of this antenna, the following manufacturing challenges were doc
 
 2. **Aluminum Material Quality**
    - Issue: Supplier provided aluminum sheet with slight concave deformation
-   - Cause: Cost-cutting measure (unclear if steel contamination or poor annealing)
+   - Cause: Not determined
    - Impact: Caused assembly misalignment and uneven bolt clamping
    - **Recommendation:** Specify material flatness tolerance (±0.5 mm over 200 mm) and request surface verification
 
@@ -188,7 +188,7 @@ Based on assembly experience, the following modifications are recommended:
    - Tighten aluminum flatness tolerance to ±0.5 mm maximum deviation
    - Request surface inspection report from supplier
    - Consider sourcing from dedicated aerospace-grade supplier
-   - Confirm material is aluminum 5754-H22 (not steel with aluminum cladding)
+   - Confirm material is aluminum 5754-H22 with a mill certificate
 
 3. **Manufacturing Process**
    - Provide detailed bending diagrams with angle tolerances (±1° maximum)

@@ -33,10 +33,8 @@ These are sky screenshots taken during the observation session to document where
 
 Observation plots are in `plots/`:
 - `east.png`, `south.png`, `west.png` — Spectra per direction
-- `east_100_integration.png` / `east 100 integration.png` — East direction with 100-sample integration
+- `east_100_integration.png` — East direction with 100-sample integration
 - `sweeping from east to west.png` — Full sweep waterfall
-
-An earlier plot, `allahyok.png` ("first signal detection attempt"), was removed from the repository in a prior commit and is no longer available.
 
 ## Acquisition Settings
 
