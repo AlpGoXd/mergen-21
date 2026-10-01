@@ -56,7 +56,8 @@ regenerated outputs in `software/analysis/outputs/` to the canonical values in
 
 The previous `reference_outputs/` were stale. Refreshing them changed:
 
-- **Elevation 35° → 30°** (observer-stated, not instrumented). This moves
+- **Elevation now 30°** (observer-stated, not instrumented; previously
+  assumed 35). This moves
   `l_deg`, `b_deg`, `v_bary_plus_solar_kms` and `v_lsr_kms` for the static
   pointings (previously S 17.2/-0.1, E 85.5/-30.8, W 22.0/71.4 for l/b, and
   39.0/2.6, 27.2/-2.1, 4.5/-11.9 km/s for the velocities), and
