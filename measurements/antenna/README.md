@@ -10,7 +10,7 @@ S11 measurements of the horn antenna under different conditions, listed in chron
 | 2 | `2_outside_calibrated/` | Yes (TOSM) | Outdoor | Calibrated VNA with cal kit, re-measured outdoors |
 | 3 | `3_inside_calibrated/` | Yes (TOSM) | Indoor | Brought antenna inside, measured again (same cal) |
 | 4 | `4_inside_aluminum_foil/` | Yes (TOSM) | Indoor | Aluminum foil added at E/H-plane merge point to test sealing (photo included) |
-| 5 | `5_inside_cleaned_backshort/` | Yes (TOSM) | Indoor | **FINAL** — Cleaned interior with wipes; backshort pin removed and re-inserted. Showed ~-40 dB — cause unknown |
+| 5 | `5_inside_cleaned_backshort/` | Yes (TOSM) | Indoor | **FINAL** — Cleaned interior with wipes; backshort pin removed and re-inserted. Better than −30 dB from 1410 to 1440 MHz; −41.8 dB at the 1420.000 MHz sample (10 MHz grid, so the null depth is not resolved) |
 
 > **Note:** Measurement #5 is the **definitive measurement** representing the antenna as-built.
 

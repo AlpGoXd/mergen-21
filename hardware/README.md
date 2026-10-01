@@ -30,7 +30,7 @@ Pyramidal horn antenna fabricated from 1.5 mm aluminum sheet (alloy 5754-H22), l
 | `assembly-photos/` | Photographs from the fabrication and assembly process |
 | `ASSEMBLY.md` | Step-by-step assembly instructions with photos |
 
-Key numbers: S11 = −42 dB at 1420.4 MHz (measured); directivity 16.9 dBi (simulated).
+Key numbers: S11 better than −30 dB from 1410 to 1440 MHz (ZNB8, 10 MHz grid; −41.8 dB at the 1420.000 MHz sample, so the null depth is not resolved); directivity 16.9 dBi (simulated).
 
 ### RF Chain (`rf-chain/`)
 

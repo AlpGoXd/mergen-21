@@ -18,7 +18,7 @@ Pyramidal horn antenna for 1420.405 MHz (21 cm hydrogen line), fabricated from 1
 
 | Parameter | Value |
 |---|---|
-| S11 at 1420.4 MHz | −42 dB |
+| Measured S11 | better than −30 dB from 1410 to 1440 MHz (ZNB8, 10 MHz grid; −41.8 dB at the 1420.000 MHz sample, so the null depth is not resolved) |
 | Design frequency | 1420.405 MHz (HI line) |
 | Simulated directivity | 16.9 dBi |
 | Simulated 3 dB beamwidth | 25.2° (H-plane), 22.0° (E-plane) |

@@ -70,7 +70,7 @@ After the simulation completes, open the results navigator and extract:
 
 | Result | How to access | Expected value |
 |---|---|---|
-| S11 (reflection coefficient) | Results → S-Parameters → S1,1 | −30 dB or better at 1420 MHz |
+| S11 (reflection coefficient) | Results → S-Parameters → S1,1 | ≈ −19.7 dB at 1420 MHz (minimum ≈ −30.7 dB at 1396 MHz) |
 | Peak directivity | Farfield → Farfield Plots | ≈ 16.9 dBi at 1420 MHz |
 | H-plane 3 dB beamwidth | Farfield, cut through the 608 mm aperture side | ≈ 25.2° |
 | E-plane 3 dB beamwidth | Farfield, cut through the 514 mm aperture side | ≈ 22.0° |
@@ -177,7 +177,7 @@ The VNA measurements in `measurements/rf-chain/vna/` were taken with the actual 
 
 | Metric | Simulated | Measured |
 |---|---|---|
-| Horn S11 at 1420 MHz | −30 dB (ideal) | −42 dB (actual) |
+| Horn S11 at 1420 MHz | −19.7 dB (ideal model), −21.8 dB (worst-case model) | −41.8 dB at the 1420.000 MHz sample; better than −30 dB from 1410 to 1440 MHz (10 MHz grid) |
 | Horn directivity at 1420 MHz | 16.9 dBi | — (no measurement setup available) |
 | Cascade gain near 1420 MHz | ~39.5 dB | 39.5 dB +/- 0.5 dB (no VNA sample exactly at 1420.405 MHz) |
 | Cascade NF | 0.77 dB (Friis) | about 1.5 dB (1.54 dB, cable-corrected) |

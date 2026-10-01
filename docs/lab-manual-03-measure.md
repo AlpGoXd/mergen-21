@@ -228,8 +228,8 @@ When all measurements are complete, fill in this table and compare to the refere
 
 | Parameter | Simulated | Mergen-21 measured | Your result |
 |---|---|---|---|
-| Antenna S11 at 1420 MHz (dB) | −30 | −42 | |
-| Antenna resonance frequency (MHz) | 1420 | 1420.4 | |
+| Antenna S11 at 1420 MHz (dB) | −19.7 (ideal), −21.8 (worst case) | −41.8 (1420.000 MHz sample, 10 MHz grid) | |
+| Antenna resonance frequency (MHz) | 1396 (ideal minimum) | 1420 (10 MHz grid) | |
 | Cascade gain (dB) | ~40 | 39.5 +/- 0.5 | |
 | Cascade NF (dB) | 0.77 (Friis) | about 1.5 (cable-corrected) | |
 | Cascade OIP3 (dBm) | — | +29.5 | |
