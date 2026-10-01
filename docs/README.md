@@ -13,7 +13,7 @@ Supporting documents for the Mergen-21 21 cm radio telescope project.
 | [`lab-manual-04-observe.md`](lab-manual-04-observe.md) | Lab 4: First-light observation and data analysis |
 | [`STATUS.md`](STATUS.md) | Subsystem completion status |
 | [`build-log/`](build-log/) | Construction photographs and process notes |
-| [`rf_system.drawio.svg`](rf_system.drawio.svg) | RF signal chain block diagram (editable Draw.io source in `rf system.drawio`) |
+| [`rf_system.drawio.svg`](rf_system.drawio.svg) | RF signal chain block diagram (editable Draw.io source in [`rf_system.drawio`](rf_system.drawio)) |
 
 ## Audience
 
