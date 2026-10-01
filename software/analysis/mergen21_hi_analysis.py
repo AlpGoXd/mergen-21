@@ -16,7 +16,8 @@ copied into the package. Set MERGEN21_ROOT or edit ROOT below.
 Usage:  python mergen21_hi_analysis.py [--root /path/to/mergen-21] [--outdir .]
 
 Provenance of every assumed (as opposed to measured) quantity is marked
-ASSUMED in the comments and recorded in mergen21_hi_methods.md.
+ASSUMED in the comments and recorded in observations/README.md
+("Assumed quantities").
 """
 
 import argparse

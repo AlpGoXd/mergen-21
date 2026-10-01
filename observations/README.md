@@ -45,6 +45,17 @@ Per-file acquisition provenance for the 2026-04-29 session is recorded in [`capt
 - The sweep file's name says "500int", but it actually ran with `integration_time = 1000`; the filename is wrong.
 - Azimuths were read from two phone compasses at the time of each static pointing. Elevation (roughly 35 degrees) was estimated by the observer and was not logged. The sweep capture has no angle log at all; it moved through pointings manually with pauses and is qualitative only (its azimuth is not recoverable and its effective bandwidth cannot be estimated by row differencing).
 
+### Assumed quantities
+
+These values are assumed rather than measured; they are marked `ASSUMED` in `software/analysis/mergen21_hi_analysis.py`.
+
+| quantity | value | why it is assumed | effect |
+|---|---|---|---|
+| elevation | 30° | observer-stated; no positioner or encoder on the mount | dominant systematic on `l`, `b` and the motion correction |
+| site | 41.0 N, 29.0 E, 100 m | no GPS fix logged | below 0.01 km/s on the motion correction |
+| local time offset | UTC+3 | filenames carry local time | 1 h error would shift the motion correction by about 1 km/s |
+| row cadence | 1.0 s per row (0.1 s for `..._050450_Dogu_100.dat`) | `integration_time` supplied by the observer; not stored in the `.dat` files | sets the time axis and the averaging-noise scaling |
+
 In addition to the five captures in `captures.csv`, `data/` contains 21 earlier `.dat` files with no direction suffix (plain `mergen21_spec_20260429_HHMMSS.dat`). These are earlier test and commissioning captures; their acquisition settings were not recorded and they are not included in `captures.csv`.
 
 ## Loading the Data

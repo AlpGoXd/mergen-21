@@ -9,7 +9,7 @@ reflects what was actually present in the working tree at the time of this audit
 
 The paper's discussion of the band-center instrumental artifact (see
 `software/analysis/mergen21_hi_analysis.py` line ~132, `first_light_and_averaging.py`
-line ~83, and `docs/analysis/mergen21_hi_methods.md` lines ~15-53) refers to an artifact
+line ~83, and `docs/analysis/archive/mergen21_hi_methods_superseded.md` lines ~17-55, archived) refers to an artifact
 that appears in the SDR power-spectrum output near band center.
 
 - **Not found:** an SDR power-spectrum `.dat` capture (NumPy float32, the format written by

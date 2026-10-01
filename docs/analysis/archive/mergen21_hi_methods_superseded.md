@@ -1,3 +1,5 @@
+**SUPERSEDED.** Written before the cadence correction (0.5 s → 1.0 s rows) and before the sweep, kelvin and sigma results were withdrawn; see [PROVENANCE_ADDENDUM.md](../PROVENANCE_ADDENDUM.md).
+
 # Mergen-21 first-light H I figure: methods, provenance and audit
 
 This document accompanies `mergen21_hi_analysis.py`, which regenerates the
