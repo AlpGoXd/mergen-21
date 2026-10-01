@@ -51,8 +51,8 @@ Antenna → ZX60-P162LN+ (LNA) → ZX75BP-1450-S+ (BPF) → ZX60-V63+ (Amp) → 
 
 | Resource | Path |
 |----------|------|
-| VNA measurement (cascade) | [`../../measurements/rf-chain/vna/cascade/cascaded chain.s2p`](../../measurements/rf-chain/vna/cascade/cascaded chain.s2p) |
-| VNA plot (cascade) | [`../../measurements/rf-chain/vna/cascade/cascade chain.pdf`](../../measurements/rf-chain/vna/cascade/cascade chain.pdf) |
+| VNA measurement (cascade) | [`../../measurements/rf-chain/vna/cascade/cascaded chain.s2p`](../../measurements/rf-chain/vna/cascade/cascaded%20chain.s2p) |
+| VNA plot (cascade) | [`../../measurements/rf-chain/vna/cascade/cascade chain.pdf`](../../measurements/rf-chain/vna/cascade/cascade%20chain.pdf) |
 | IP3 measurements (cascade) | [`../../measurements/rf-chain/ip3/cascade/`](../../measurements/rf-chain/ip3/cascade/) |
 | AWR cascade simulation | [`../simulation/awr/rf_chain_cascaded.s2p`](../simulation/awr/rf_chain_cascaded.s2p) |
 

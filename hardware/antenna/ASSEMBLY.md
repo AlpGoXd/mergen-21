@@ -74,7 +74,7 @@ This document provides complete assembly instructions for the Mergen-21 antenna.
    - Confirm wire dimensions: 1.0 mm diameter, ~38 mm length
 
 **Figure 1.1:** N-type connector with soldered copper feed element
-![N-type connector with copper feed](assembly-photos/n type connector copper.jpeg)
+![N-type connector with copper feed](assembly-photos/n%20type%20connector%20copper.jpeg)
 
 ---
 
@@ -122,7 +122,7 @@ This document provides complete assembly instructions for the Mergen-21 antenna.
 ![Horn antenna assembly](assembly-photos/horn-assemby.jpeg)
 
 **Figure 2.2:** Finished horn with N-type waveguide connector
-![Finished horn with N-type connector](assembly-photos/finished only horn nt waveguide.jpeg)
+![Finished horn with N-type connector](assembly-photos/finished%20only%20horn%20nt%20waveguide.jpeg)
 
 ---
 
@@ -136,7 +136,7 @@ During assembly of this antenna, the following manufacturing challenges were doc
 ![Laser cutting machine](assembly-photos/laser-cuting.jpeg)
 
 **Figure 3.2:** All antenna parts after laser cutting and bending
-![All parts cut and bent](assembly-photos/all_parts cut_and bent.jpeg)
+![All parts cut and bent](assembly-photos/all_parts%20cut_and%20bent.jpeg)
 
 1. **Waveguide Bending Problem**
    - Issue: Laser cutting and bending service misunderstood specifications
@@ -206,13 +206,13 @@ Based on assembly experience, the following modifications are recommended:
 The completed antenna after full assembly and testing:
 
 **Figure 4.1:** Finished antenna - front view
-![Finished horn front view](assembly-photos/finished horn front.jpeg)
+![Finished horn front view](assembly-photos/finished%20horn%20front.jpeg)
 
 **Figure 4.2:** Finished antenna - side profile
-![Finished horn side profile](assembly-photos/finished horn side profile.jpeg)
+![Finished horn side profile](assembly-photos/finished%20horn%20side%20profile.jpeg)
 
 **Figure 4.3:** Finished assembly with scale reference (banana for size comparison)
-![Finished assembly with banana scale](assembly-photos/finished assembly next to banana.jpeg)
+![Finished assembly with banana scale](assembly-photos/finished%20assembly%20next%20to%20banana.jpeg)
 
 ---
 
