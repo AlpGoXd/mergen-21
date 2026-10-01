@@ -82,10 +82,10 @@ TAU_ROW_SWEEP_S = 1.0
 # was logged. A 0.1 deg error moves v_bary by <0.01 km/s.
 SITE = EarthLocation(lat=41.0 * u.deg, lon=29.0 * u.deg, height=100 * u.m)
 
-# Pointing elevation. ASSUMED 35 deg, read off the Stellarium charts in
-# observations/. The observer states elevation was held only APPROXIMATELY
-# fixed. The mount has no positioner or encoder.
-ALT_DEG = 35.0
+# Pointing elevation. ASSUMED 30 deg: observer-stated, not instrumented.
+# The horn rested on its narrow (80 mm) wall; the mount has no positioner or
+# encoder.
+ALT_DEG = 30.0
 
 # File timestamps are local (UTC+3, Istanbul); converted to UTC here.
 LOCAL_UTC_OFFSET_H = 3.0

@@ -36,8 +36,8 @@ canonical values in `software/analysis/reference_outputs/`.
 | fitted peak % S/E/W | 18.13/7.87/5.45 | 18.13/7.87/5.45 | 0 | match |
 | FWHM kHz S/E/W | 77.2/88.9/151.9 | 77.2/88.9/151.9 | 0 | match |
 | centroid kHz S/E/W | 172.1/138.5/77.8 | 172.1/138.5/77.8 | 0 | match |
-| galactic l (deg) S/E/W | 17.2/85.4/21.9 | 17.2/85.5/22.0 | 0.0/0.1/0.1 | match (within IERS caveat) |
-| galactic b (deg) S/E/W | -0.0/-30.7/71.5 | -0.1/-30.8/71.4 | 0.1/0.1/0.1 | match (within IERS caveat) |
+| galactic l (deg) S/E/W, elevation 30° | 12.8/87.5/7.3 | 12.8/87.5/7.3 | 0 | match (elevation changed from 35° to 30°, observer-stated) |
+| galactic b (deg) S/E/W, elevation 30° | -2.4/-35.5/73.8 | -2.4/-35.5/73.8 | 0 | match (elevation changed from 35° to 30°, observer-stated) |
 | noise figure, cable-corrected | 1.54 dB (-133.46 + 0.6 - (-173.9) - 39.5) | 1.54 dB | 0 | match |
 
 All values not listed as differing (fitted peak, FWHM, centroid, noise

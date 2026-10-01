@@ -43,7 +43,7 @@ Per-file acquisition provenance for the 2026-04-29 session is recorded in [`capt
 - The west (`_bati`), south (`_guney`), and 05:02:04 east (`_doggu`) pointings, and the sweep (`_180partygirl_500int.dat`), all ran with `integration_time = 1000` on the flowgraph (1.0 s per row).
 - Only `..._050450_Dogu_100.dat` used `integration_time = 100` (0.1 s per row); this is the one file whose name correctly states its integration setting.
 - The sweep file's name says "500int", but it actually ran with `integration_time = 1000`; the filename is wrong.
-- Azimuths were read from two phone compasses at the time of each static pointing. Elevation (roughly 35 degrees) was estimated by the observer and was not logged. The sweep capture has no angle log at all; it moved through pointings manually with pauses and is qualitative only (its azimuth is not recoverable and its effective bandwidth cannot be estimated by row differencing).
+- Azimuths were read from two phone compasses at the time of each static pointing. Elevation (30°) was estimated by the observer and was not instrumented. The horn rested on its narrow (80 mm) wall with the N-connector axis horizontal (E-plane horizontal), not hand-held. The sweep capture has no angle log at all; it moved through pointings manually with pauses and is qualitative only (its azimuth is not recoverable and its effective bandwidth cannot be estimated by row differencing).
 
 ### Assumed quantities
 

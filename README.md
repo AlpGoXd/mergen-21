@@ -46,7 +46,7 @@ Here's what the GNU Radio receiver flowgraph looks like:
 ### Mechanical
 - Horn antenna from laser-cut aluminum sheet metal
 - Waveguide-to-coax transition with N-type connector
-- A 3D-printed tripod adapter was designed (files in `hardware/antenna/3d-print/`) but the mount did not work out in practice and wasn't used for observations
+- A 3D-printed tripod adapter was designed (files in `hardware/antenna/3d-print/`) but the mount did not work out in practice and wasn't used for observations. While observing, the horn rested on its narrow (80 mm) wall with the N-connector axis horizontal (E-plane horizontal), not hand-held.
 
 ---
 

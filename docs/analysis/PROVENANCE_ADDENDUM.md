@@ -32,7 +32,7 @@ either.
 | the 3.8 sigma exclusion of a fixed terrestrial frequency | same regression |
 | the correlation of amplitude against \|b\|, r = -0.70 | 12 of its 15 points are withdrawn |
 | every quantity in kelvin | T_sys was never measured; see section 2 |
-| elevation 35 degrees as a fixed value | held only approximately, and never instrumented |
+| elevation 35 degrees as a fixed value (now 30°, observer-stated) | held only approximately, and never instrumented |
 
 Panels (b) and (c) of the figure lose 12 of their 15 points. Three points do
 not support a regression, a correlation coefficient, or a significance.

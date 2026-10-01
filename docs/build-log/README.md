@@ -4,7 +4,7 @@ Chronological construction notes, issues, and solutions.
 
 ## 2026-04-29
 
-- First-light observations completed. Antenna held by hand / improvised — the 3D-printed tripod mount was not used (see note in hardware/antenna/3d-print/).
+- First-light observations completed. The horn rested on its narrow (80 mm) wall with the N-connector axis horizontal (E-plane horizontal), not hand-held; the 3D-printed tripod mount was not used (see note in hardware/antenna/3d-print/).
 
 ## 2026-03-30
 
