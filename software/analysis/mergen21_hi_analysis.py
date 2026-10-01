@@ -564,8 +564,10 @@ def make_figure(df, spectra, outpath):
     import matplotlib.pyplot as plt
     apply_figure_style()
 
+    # Only the three static pointings are plotted; the sweep blocks have no
+    # recoverable direction (PROVENANCE_ADDENDUM.md section 1).
+    df = df[df.kind != "sweep_block"]
     st = df.set_index("id")
-    sw = df[df.kind == "sweep_block"]
 
     fig = plt.figure(figsize=(7.0, 5.1))
     gs = fig.add_gridspec(2, 2, height_ratios=[1.05, 1.0], hspace=0.52, wspace=0.30)
@@ -581,22 +583,22 @@ def make_figure(df, spectra, outpath):
         ax.plot(FAX_KHZ / 1e3, norm, lw=1.5 if k == "S" else 1.0,
                 color=COL[k], label=lab[k], zorder=3 if k == "S" else 2)
     ax.axvspan(0.055, 0.340, color="#9ecae1", alpha=0.30, lw=0, zorder=0)
-    ax.annotate("instrumental artifact on the\nrest frequency (4.6$\\times$ continuum)",
+    ax.annotate("band-center (LO) artifact\n(4.6$\\times$ continuum)",
                 xy=(0.0, 1.45), xytext=(-0.62, 1.36), fontsize=6, ha="left",
                 color="0.25", arrowprops=dict(arrowstyle="-", lw=0.6, color="0.45"))
-    # Both numbers quoted here are the ones tabulated for the same pointing:
-    # the raw normalized peak (panel a's own scale) and the fitted FWHM.
+    # Both numbers quoted here are fitted values for the same pointing; the
+    # arrow points at the raw normalized peak on panel a's own scale.
     pk = st.loc["S", "raw_peak_excess_pct"]
+    amp = st.loc["S", "amp_pct"]
     fw = st.loc["S", "fwhm_kHz"]
     fv = st.loc["S", "fwhm_kms"]
-    ax.annotate(f"H I line: peak {pk:.0f}% above the reference band,\n"
+    ax.annotate(f"H I line (south): fitted amplitude {amp:.0f}%,\n"
                 f"fitted FWHM {fw:.0f} kHz ({fv:.0f} km s$^{{-1}}$)",
                 xy=(st.loc["S", "centroid_kHz"] / 1e3, 1.0 + pk / 100),
                 xytext=(0.36, 1.24), fontsize=6, ha="left", color="0.25",
                 arrowprops=dict(arrowstyle="-", lw=0.6, color="0.45"))
     ax.set_xlabel("frequency offset from 1420.405 MHz (MHz)")
     ax.set_ylabel("power (normalized)")
-    ax.set_title("H I detected above the rest frequency in all three pointings")
     ax.set_xlim(-1.02, 1.02)
     ax.set_ylim(0.40, 1.52)
     ax.legend(loc="lower right", fontsize=6)
@@ -612,9 +614,6 @@ def make_figure(df, spectra, outpath):
     lim = (0.85 * min(xe.min(), ym.min()), 1.18 * max(xe.max(), ym.max()))
     axb.plot(lim, lim, lw=3.0, color="#9ecae1", solid_capstyle="round", zorder=1,
              label="independent rows\n(prediction)")
-    axb.plot(sw["rms_expected_from_rows"] * 1e3, sw["rms_diff_frac"] * 1e3,
-             "o", ms=4, mfc="white", mec="0.35", mew=0.9, zorder=3,
-             label="12 sweep blocks\n(direction unknown)")
     for k in ("W", "E", "S"):
         axb.plot(st.loc[k, "rms_expected_from_rows"] * 1e3,
                  st.loc[k, "rms_diff_frac"] * 1e3, "s", ms=6, color=COL[k],
@@ -624,17 +623,9 @@ def make_figure(df, spectra, outpath):
                      textcoords="offset points",
                      xytext={"W": (9, -5), "S": (-3, 7), "E": (-11, 1)}[k],
                      fontsize=6, color=COL[k])
-    axb.set_xscale("log"); axb.set_yscale("log")
     axb.set_xlim(*lim); axb.set_ylim(*lim)
-    for ax_ in (axb.xaxis, axb.yaxis):
-        ax_.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:g}"))
-        ax_.set_minor_formatter(plt.NullFormatter())
-    axb.set_xticks([3, 5, 7, 10]); axb.set_yticks([3, 5, 7, 10])
-    axb.set_xlabel("predicted from single-row noise ($\\times10^{-3}$)")
-    axb.set_ylabel("measured in averaged spectrum ($\\times10^{-3}$)")
-    _rat = float(df["rms_ratio_meas_over_expected"].mean())
-    axb.set_title("Averaging integrates down to\nwithin %.0f%% of the row prediction"
-                  % (abs(1 - _rat) * 100))
+    axb.set_xlabel("predicted from single rows ($\\times10^{-3}$)")
+    axb.set_ylabel("measured, averaged ($\\times10^{-3}$)")
     axb.legend(loc="upper left", fontsize=5.2, handlelength=1.4, labelspacing=0.45)
     panel_letter(axb, "b")
 
@@ -648,11 +639,8 @@ def make_figure(df, spectra, outpath):
     wmean = float(np.sum(cen / cerr ** 2) / np.sum(1 / cerr ** 2))
     sd = float(cen.std(ddof=1))
     axc.axhspan(wmean - sd, wmean + sd, color="#9ecae1", alpha=0.30, lw=0, zorder=0,
-                label="all 15 measurements\n($\\pm$%.0f kHz)" % sd)
+                label="three pointings\n($\\pm$%.0f kHz)" % sd)
     axc.axhline(wmean, lw=0.8, ls="--", color=META_GREY, zorder=1)
-    axc.errorbar(sw["amp_pct"], sw["centroid_kHz"], yerr=sw["centroid_err_kHz"],
-                 fmt="o", ms=4, mfc="white", mec="0.35", mew=0.9, ecolor="0.6",
-                 elinewidth=0.6, zorder=3, label="12 sweep blocks")
     for k in ("W", "S", "E"):
         axc.errorbar(st.loc[k, "amp_pct"], st.loc[k, "centroid_kHz"],
                      yerr=st.loc[k, "centroid_err_kHz"], fmt="s", ms=6,
@@ -664,12 +652,6 @@ def make_figure(df, spectra, outpath):
                      fontsize=6, color=COL[k])
     axc.set_xlabel("fitted line amplitude (% of continuum)")
     axc.set_ylabel("fitted line centroid (kHz)")
-    # The scatter is reported against the formal errors, not against a
-    # pointing model: with the sweep azimuths withdrawn there is no direction
-    # to correlate it with. It is ~%s times the median fit error, so it is a
-    # property of the measurements, not of the fitting.
-    axc.set_title("Centroid scatters $\\pm$%.0f kHz, far beyond\nthe %.1f kHz median fit error"
-                  % (sd, float(cerr.median())))
     axc.margins(x=0.14, y=0.16)
     axc.legend(loc="lower right", fontsize=5.2, handlelength=1.4, labelspacing=0.4)
     panel_letter(axc, "c")
