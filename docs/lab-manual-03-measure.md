@@ -201,22 +201,20 @@ The third-order intercept point (IP3) characterizes the linearity of the receive
 #### D1: Setup
 
 ```
-Signal generator 1 (f1 = 1419 MHz) ─┐
-                                      ├── Power combiner ── Attenuator ── DUT ── Spectrum analyzer
-Signal generator 2 (f2 = 1421 MHz) ─┘
+Two-tone source (f1 = 1420.355 MHz, f2 = 1420.455 MHz) ── Attenuator ── DUT ── Spectrum analyzer
 ```
 
-The two tones must be separated by 2 MHz to place the IMD3 products at 1417 and 1423 MHz (clear of other signals). Use 20–30 dB attenuators on the generator outputs to prevent the generators from intermodulating each other.
+Mergen-21 used two tones 100 kHz apart around 1420.405 MHz (f1 = 1420.355 MHz, f2 = 1420.455 MHz), which places the IMD3 products at 1420.255 and 1420.555 MHz. A vector signal generator in two-tone mode is the simplest source. If you use two separate generators with a power combiner instead, put 20–30 dB attenuators on the generator outputs to prevent the generators from intermodulating each other.
 
 #### D2: Measurement
 
-1. Set both generators to −12 dBm at the DUT input. Record the DUT output power at f1 and f2 (fundamental) and at 2f1-f2 and 2f2-f1 (IMD3 products) on the spectrum analyzer.
-2. Repeat at −15 dBm and −18 dBm input.
+1. Set the two-tone input to −12 dBm total (the sum of both tones, i.e. about −15 dBm per tone) at the DUT input. Record the DUT output power at f1 and f2 (fundamental) and at 2f1-f2 and 2f2-f1 (IMD3 products) on the spectrum analyzer.
+2. Repeat at −15 dBm and −18 dBm total input.
 3. Calculate OIP3:
    - OIP3 = Pout (fundamental) + ΔP / 2
    - where ΔP = Pout(fundamental) − Pout(IMD3) in dB
 
-Expected OIP3 for the cascade: **+29.5 dBm** at −12 dBm per-tone input.
+Expected OIP3 for the cascade: **+29.5 dBm** (output-referred) at −12 dBm total two-tone input (−15 dBm per tone).
 
 Compare raw data against files in `measurements/rf-chain/ip3/`.
 

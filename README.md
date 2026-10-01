@@ -70,7 +70,7 @@ Here's what the GNU Radio receiver flowgraph looks like:
 ### RF Receiver
 - **Cascade gain:** 39.5 dB +/- 0.5 dB (measured via ZNB8; the VNA cascade file has ~42.5 MHz point spacing and has no sample at 1420.405 MHz, the nearest points being 1402.50835 MHz and 1445.0083 MHz)
 - **Cascade NF:** about 1.5 dB (1.54 dB, cable-corrected gain-method estimate: measured output noise density -133.46 dBm/Hz, +0.6 dB +/-0.2 dB estimated output-cable correction, minus the -173.9 dBm/Hz thermal floor, minus the 39.5 dB gain; add +/-0.5 dB from gain uncertainty). Friis-formula prediction: 0.77 dB. Design requirement: 0.96 dB.
-- **Cascade OIP3:** +29.54 dBm (-12 dBm tone input; TOI spread 0.3 dB)
+- **Cascade OIP3:** +29.54 dBm, output-referred (−12 dBm total two-tone input, i.e. −15 dBm per tone; TOI spread 0.3 dB)
 - Measurements traceable to R&S ZNB8 VNA & FSVA3044 spectrum analyzer
 
 ### Antenna

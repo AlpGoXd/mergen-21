@@ -8,7 +8,7 @@ Third-order intercept point (IP3) measurements for the RF chain components, char
 |-----------|---|---|---|
 | ZX60-P162LN+ (LNA) | +29.83 dBm | +29.8 dBm | Match (Delta = +0.03 dB) |
 | ZX60-V63+ (Amp) | +31.32 dBm | +32.2 dBm | Within spec (Delta = -0.88 dB; cable loss explains) |
-| Cascade (LNA+BPF+Amp) | +29.54 dBm | ~+29.8 dBm (predicted) | LNA-dominated as expected |
+| Cascade (LNA+BPF+Amp) | +29.54 dBm (output-referred) | about +31 dBm (predicted) | Set mainly by the second amplifier |
 
 **Best practice:** Use -12 dBm measurement for each component (highest input power -> most nonlinearity -> furthest from noise floor).
 
@@ -180,11 +180,13 @@ The -12 dBm measurement is free from this artifact.
 
 Best estimates use the -12 dBm measurement (highest input power, most nonlinearity, IMD3 products furthest above noise floor).
 
-| Component | OIP3 measured (dBm) | OIP3 datasheet (dBm) | Delta | Gain measured (dB) | Gain datasheet (dB) | Verdict |
-|-----------|--------------------|--------------------|-------|-------------------|--------------------|---------|
-| ZX60-P162LN+ (LNA) | **+29.83** | +29.8 | **+0.03** | 17.5 | 19.7 | **PASS** -- matches within 0.1 dB |
-| ZX60-V63+ (Amp) | **+31.32** | +32.2 | **-0.88** | 18.6 | 20.8 | **PASS** -- slightly below datasheet; test-path cable/connector loss contributes to the deficit |
-| Cascade | **+29.54** | N/A | -- | 39.7 | ~38.7 | Good agreement with the expected cascaded gain; OIP3 dominated by the LNA first stage, as expected |
+| Component | OIP3 measured (dBm) | OIP3 datasheet (dBm) | Delta | Tone-level gain (dB)¹ | Gain, VNA (dB) | Gain datasheet (dB) | Verdict |
+|-----------|--------------------|--------------------|-------|-------------------|----------------|--------------------|---------|
+| ZX60-P162LN+ (LNA) | **+29.83** | +29.8 | **+0.03** | 17.5 | 19.24 | 19.7 | **PASS** -- matches within 0.1 dB |
+| ZX60-V63+ (Amp) | **+31.32** | +32.2 | **-0.88** | 18.6 | 20.24 | 20.8 | **PASS** -- slightly below datasheet; test-path cable/connector loss contributes to the deficit |
+| Cascade | **+29.54** (output-referred) | about +31 (predicted) | -- | 22.5 | 39.52 | ~38.7 | OIP3 set mainly by the second amplifier (predicted about 31 dBm); see note below on the tone-level gain |
+
+¹ Tone-level gain from the IP3 captures (per-tone P_out − per-tone P_in, analyzer-referenced, includes about 0.6 dB of cable). Example, LNA at −12 dBm total: −15 dBm per tone in, +2.52 dBm out, 17.5 dB. VNA gains are from `software/analysis/outputs/stage_gains.csv` at 1420.405 MHz.
 
 ### Measurement Reliability Assessment
 
@@ -201,14 +203,15 @@ At lower input power levels, the IMD3 products approach the noise floor and the 
 
 ### Measured Gain vs. Datasheet
 
-| Component | Gain measured (dB) | Gain datasheet (dB) | Difference (dB) |
-|-----------|-------------------|--------------------|-----------------|
-| ZX60-P162LN+ (LNA) | 17.5 | 19.7 | -2.2 |
-| ZX60-V63+ (Amp) | 18.6 | 20.8 | -2.2 |
-| Cascade | 39.7 | ~38.7 (19.7 - 0.8 + 20.8) | +1.0 |
+| Component | Tone-level gain from IP3 captures (dB) | Gain, VNA (dB) | Gain datasheet (dB) |
+|-----------|-------------------|----------------|--------------------|
+| ZX60-P162LN+ (LNA) | 17.5 | 19.24 | 19.7 |
+| ZX60-V63+ (Amp) | 18.6 | 20.24 | 20.8 |
+| Cascade | 22.5 | 39.52 | ~38.7 (19.7 - 0.8 + 20.8) |
 
-- Individual component gains are ~2.2 dB below datasheet. A measured reference-path loss of about 0.61 dB confirms that cable/connector loss is one contributor to this deficit.
-- The uploaded VNA file `cascaded chain.s2p` gives a cascade gain of about 39.7 dB at 1.4025 GHz, which is in good agreement with the expected ~38.7 dB from the component datasheets. The earlier 22.5 dB figure was incorrect and has been removed.
+- The tone-level gains are per-tone P_out − per-tone P_in, analyzer-referenced, and include about 0.6 dB of cable (a measured reference-path loss of about 0.61 dB). For the single stages they sit about 1.7 dB below the VNA gains.
+- The VNA file `cascaded chain.s2p` gives a cascade gain of 39.52 dB (interpolated at 1420.405 MHz; `software/analysis/stage_gains.py`).
+- The cascade's tone-level gain is 22.5 dB (+7.54 dBm per tone out for −15 dBm per tone set at the generator). The tone-level figure reflects about 17 dB of loss between the generator setting and the chain input (pad not recorded); OIP3 is computed from output tones and IMD3 only, so it is unaffected. The chain was not compressed: +7.5 dBm per tone is about 11 dB below the ZX60-V63+ P1dB of +18.5 dBm.
 
 ### Assumptions and Limitations
 
