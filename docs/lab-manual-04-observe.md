@@ -2,7 +2,7 @@
 
 **Topic:** Setting up the software receiver, making hydrogen line observations, and analyzing the data  
 **Estimated time:** 2 hours (software only with example data) or 4–6 hours (with real hardware)  
-**Prerequisites:** Python 3.8+, NumPy, Matplotlib installed; GNU Radio 3.10+ for live acquisition
+**Prerequisites:** Python 3.11+ with the packages in `software/requirements.txt` and Tk (`python3-tk` on Debian/Ubuntu); GNU Radio 3.10+ for live acquisition
 
 ---
 
@@ -29,7 +29,7 @@ This part uses the example data files already included in the repository. A real
 pip install -r software/requirements.txt
 ```
 
-This installs: `numpy`, `scipy`, `matplotlib`, `astropy`.
+This installs: `numpy`, `scipy`, `pandas`, `matplotlib`, `astropy` (the pins require Python 3.11+). The waterfall viewer also needs Tk, which pip does not install (`sudo apt install python3-tk` on Debian/Ubuntu).
 
 ### A2: Explore the example data
 

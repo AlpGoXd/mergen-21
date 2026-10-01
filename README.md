@@ -147,7 +147,7 @@ pip install -r software/requirements.txt
 
 **Dependencies:**
 - GNU Radio 3.10+ with PlutoSDR block (gr-iio): only needed for live acquisition
-- Python 3.8+: `numpy`, `scipy`, `matplotlib`, `astropy`
+- Python 3.11+: `numpy`, `scipy`, `pandas`, `matplotlib`, `astropy` (pinned in `software/requirements.txt`); the viewer also needs Tk (`python3-tk` on Debian/Ubuntu)
 
 > CST, AWR, and Autodesk Inventor are only needed to re-run simulations or edit CAD. All exported results (S-parameters, STEP, Gerbers, PDFs) are already in the repo.
 
