@@ -77,10 +77,6 @@ Here's what the GNU Radio receiver flowgraph looks like:
 - **3 dB beamwidth (simulated):** 25.2° (H-plane), 22.0° (E-plane)
 - Material: 1.5 mm aluminum sheet, laser-cut
 
-### System Sensitivity
-- **System temperature:** ~30–40 K (sky + ground + receiver near zenith)
-- **MDS:** ~-150 dBm @ 1 MHz BW (conservative)
-
 ---
 
 ## Repository Structure
