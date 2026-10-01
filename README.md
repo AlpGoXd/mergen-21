@@ -133,7 +133,7 @@ pip install -r software/requirements.txt
 python software/analysis/mergen21_waterfall_viewer.py
 ```
 
-In the viewer, click **Add...** and open any `.dat` file from `observations/data/`. Set X axis to **Velocity [km/s]** and click **Plot**. You will see a spectrum with a peak near 0 km/s: galactic hydrogen emission detected from Istanbul in April 2026.
+In the viewer, click **Add...** and open any `.dat` file from `observations/data/`. Set X axis to **Velocity [km/s]** and click **Plot**. You will see two features. The narrow spike at the LO (0 kHz, 0 km/s on the velocity axis) is the band-center instrumental artifact, not hydrogen. The broad hump 80 to 190 kHz above the LO (about −16 to −36 km/s on the viewer's uncorrected topocentric axis) is the Galactic H I line.
 
 No SDR, no antenna, no GNU Radio needed for this step. The viewer reads the recorded spectra directly.
 

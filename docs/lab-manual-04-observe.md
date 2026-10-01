@@ -37,8 +37,8 @@ Example spectra from the Mergen-21 first-light session (2026-04-29, Istanbul, Tu
 
 ```
 observations/data/
-├── mergen21_spec_20260429_022811.dat   ← early session, pointing east
-├── mergen21_spec_20260429_041703.dat   ← later session, pointing east (100 integrations)
+├── mergen21_spec_20260429_022811.dat   ← early session (settings not recorded)
+├── mergen21_spec_20260429_041703.dat   ← later session (settings not recorded)
 ├── mergen21_spec_20260429_045525_bati.dat    ← pointing west  (Batı = West in Turkish)
 ├── mergen21_spec_20260429_045857_guney.dat   ← pointing south (Güney = South)
 ├── mergen21_spec_20260429_050204_doggu.dat   ← pointing east  (Doğu = East)
@@ -79,7 +79,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-**What to look for:** A peak at or near 1420.405 MHz is galactic hydrogen emission. A peak slightly shifted in frequency (by up to ±2 MHz) indicates a Doppler velocity.
+**What to look for:** The Galactic H I line appears as a broad hump 80 to 190 kHz above the nominal LO (1420.405 MHz). The narrow spike exactly at the LO is instrumental (the band-center artifact), not hydrogen. The recorded band spans only ±1.024 MHz around the LO.
 
 ### A3: Use the interactive waterfall viewer
 
@@ -93,7 +93,7 @@ In the viewer:
 1. Click **Add...** and select one or more `.dat` files from `observations/data/`.
 2. Verify that FFT size = 2048, sample rate = 2048000 Hz, LO = 1420405000 Hz.
 3. Click **Plot**. The upper panel shows power vs. time (waterfall); the lower panel shows the time-averaged spectrum.
-4. Switch the X axis to **Velocity [km/s]** to see the Doppler velocity scale. The hydrogen line rest frequency appears at 0 km/s.
+4. Switch the X axis to **Velocity [km/s]** to see the Doppler velocity scale. The nominal LO (the hydrogen rest frequency) maps to 0 km/s; the narrow spike there is the band-center instrumental artifact, and the H I line is the broad hump at about −16 to −36 km/s on this uncorrected topocentric axis.
 
 ### A4: Compare east vs. west pointing
 
@@ -257,13 +257,15 @@ These flowgraphs use a signal source block instead of a PlutoSDR source, so they
 
 ## Expected Observation Results
 
-From the Istanbul site (41.0°N, 29.0°E), galactic HI emission is detectable in most pointing directions. The following results were achieved in the 2026-04-29 session:
+From the Istanbul site (41.0°N, 29.0°E), galactic HI emission is detectable in most pointing directions. The released line fits from the 2026-04-29 session are:
 
-| Direction | File | Peak velocity (km/s) | Notes |
-|---|---|---|---|
-| East | `_doggu.dat` | ~+40 to +80 | Spiral arm components |
-| West | `_bati.dat` | ~+20 to +60 | Different arm crossing |
-| South | `_guney.dat` | ~0 to +40 | Near galactic center |
+| Pointing | File | Peak excess | Centroid above nominal LO | FWHM |
+|---|---|---|---|---|
+| South | `_guney` | 18.13 % | 172.1 kHz | 77.2 kHz |
+| East | `_doggu` | 7.87 % | 138.5 kHz | 88.9 kHz |
+| West | `_bati` | 5.45 % | 77.8 kHz | 151.9 kHz |
+
+Velocities are not quoted, because the frequency axis is not calibrated (see `docs/analysis/PROVENANCE_ADDENDUM.md`).
 
 Plots in `observations/plots/` show the spectra from this session.
 

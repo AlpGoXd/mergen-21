@@ -68,7 +68,7 @@ avg_spectrum = spectra.mean(axis=0)   # time-averaged spectrum
 python software/analysis/mergen21_waterfall_viewer.py
 ```
 
-In the viewer: click **Add...**, navigate to `observations/data/`, select one or more `.dat` files, then click **Plot**. Switch the X axis to **Velocity [km/s]** to see the Doppler scale.
+In the viewer: click **Add...**, navigate to `observations/data/`, select one or more `.dat` files, then click **Plot**. Switch the X axis to **Velocity [km/s]** to see the Doppler scale. The narrow spike at 0 km/s (exactly at the LO) is the band-center instrumental artifact, not hydrogen; the H I line is the broad hump 80 to 190 kHz above the LO (about −16 to −36 km/s on the viewer's uncorrected topocentric axis).
 
 See [`docs/lab-manual-04-observe.md`](../docs/lab-manual-04-observe.md) for a step-by-step walkthrough.
 
