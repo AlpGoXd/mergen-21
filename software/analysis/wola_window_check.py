@@ -24,7 +24,7 @@ makes `N_eff` sensitive to truncation. Run:
 
     python wola_window_check.py
 
-Reference values measured from `Dogu_100`: N_eff 81.5, B_eff 753 Hz,
+Reference values measured from `Dogu_100`: N_eff 81.5, B_eff 815 Hz,
 lag-1 channel correlation +0.051.
 """
 import argparse
@@ -41,7 +41,7 @@ CUTOFF_HZ = SAMP_RATE / (4 * FFT_SIZE)
 N_CONSUMED = K_BRANCHES * FFT_SIZE
 TAPS_FILE = pathlib.Path(__file__).with_name("wola_taps_firdes.npy")
 
-MEASURED = {"N_eff": 81.5, "B_eff_hz": 753.0, "lag1": 0.051}
+MEASURED = {"N_eff": 81.5, "B_eff_hz": 815.0, "lag1": 0.051}
 
 
 def firdes_taps(regenerate=False):
