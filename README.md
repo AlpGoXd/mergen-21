@@ -41,7 +41,7 @@ Gains are |S21| at 1420.405 MHz, computed by `software/analysis/stage_gains.py` 
 
 Here's what the GNU Radio receiver flowgraph looks like:
 
-![GNU Radio receiver flowgraph](gnuradio_recive.png)
+![GNU Radio receiver flowgraph](docs/figures/gnuradio_receiver.png)
 
 ### Mechanical
 - Horn antenna from laser-cut aluminum sheet metal
