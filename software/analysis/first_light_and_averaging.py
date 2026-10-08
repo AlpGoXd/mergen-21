@@ -2,7 +2,8 @@
 """
 Mergen-21: first-light spectra and the averaging comparison.
 
-Builds <outdir>/figures/first_light_and_averaging.pdf (+ .png preview) and
+Builds <outdir>/figures/first_light_and_averaging.pdf (+ .png preview; three
+panels: first-light spectra, fluctuation vs block duration, sweep waterfall) and
 <outdir>/averaging_noise.csv from the raw spectrometer captures.
 
 Captures are read from <root>/observations/data/, falling back to
@@ -50,8 +51,9 @@ METADATA DISCREPANCY, NOW CORRECTED IN THE FLOWGRAPH:
   software/gnuradio/receiver.grc has since had its integration_time default
   corrected to 1000 (see that file's variable comment); this script's
   hardcoded CAPTURES table is unaffected either way, since it always used
-  the observer's confirmed values, not the .grc default. Nothing in this
-  figure depends on the sweep capture.
+  the observer's confirmed values, not the .grc default. Only panel (c)
+  reads the sweep capture (SWEEP_FILE, 1 s rows despite the "500int" in its
+  name); panels (a) and (b) and averaging_noise.csv do not depend on it.
 """
 import argparse
 import pathlib
@@ -59,6 +61,7 @@ import numpy as np
 import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FixedLocator, FixedFormatter, NullLocator
 
 # ---------------------------------------------------------------- config
 SAMP_RATE = 2_048_000.0
@@ -195,6 +198,131 @@ def temporal_lag1(Xn, mask):
     return float(np.mean(num / den))
 
 
+# ------------------------------------------------------------ Fig. 7 (three panels)
+SWEEP_FILE = "mergen21_spec_20260429_050554_180partygirl_500int.dat"  # M = 1000 (1 s rows) despite the name
+FIG7_NAVY, FIG7_GREY, FIG7_RED, FIG7_LBLUE = "#1F4E79", "#8a8a8a", "#b2182b", "#6f9fcc"
+FIG7_W, FIG7_H_TOP, FIG7_H_C = 6.0, 2.55, 1.80          # inches; total height 4.35 in
+WF_BIN = 8                                              # channels (kHz) per waterfall bin
+WF_SPAN_KHZ = 600.0
+
+
+def sweep_waterfall(X):
+    """Fractional excess (%) of every row of the sweep, binned to WF_BIN kHz.
+
+    Each row is divided by its own mean over the line-free channels (same mask
+    as the panel (a) continuum fit); the cubic continuum of the mean normalized
+    spectrum is then divided out. All rows are kept (no startup skip).
+    """
+    ms = X.mean(0)
+    lf = (np.abs(FAX) <= FIT_KHZ) & (np.abs(FAX) > ART_KHZ) \
+        & ~((FAX > LINE_LO) & (FAX < LINE_HI)) & ~spur_mask(ms)
+    Xn = X / X[:, lf].mean(1, keepdims=True)
+    coef = np.polyfit(FAX[lf] / 1e3, Xn.mean(0)[lf], 3)
+    E = (Xn / np.polyval(coef, FAX / 1e3) - 1.0) * 100.0
+    k = np.abs(FAX) <= WF_SPAN_KHZ
+    f, e = FAX[k], E[:, k]
+    n = (len(f) // WF_BIN) * WF_BIN
+    return f[:n].reshape(-1, WF_BIN).mean(1), e[:, :n].reshape(e.shape[0], -1, WF_BIN).mean(2)
+
+
+def plot_fig7(raw, tab, figdir, root):
+    mpl.rcdefaults()
+    mpl.rcParams.update({
+        "font.family": ["Nimbus Sans", "Helvetica", "Arial", "DejaVu Sans"],
+        "font.size": 8, "axes.labelsize": 8, "legend.fontsize": 7,
+        "xtick.labelsize": 7, "ytick.labelsize": 7, "axes.linewidth": 0.6,
+        "xtick.direction": "in", "ytick.direction": "in", "xtick.top": True, "ytick.right": True,
+        "xtick.major.width": 0.6, "ytick.major.width": 0.6,
+        "xtick.minor.width": 0.5, "ytick.minor.width": 0.5,
+        "axes.unicode_minus": True,
+        "pdf.fonttype": 42, "savefig.dpi": 600,
+    })
+    from matplotlib import font_manager
+    if any(f.name == "Nimbus Sans" for f in font_manager.fontManager.ttflist):
+        mpl.rcParams.update({"mathtext.fontset": "custom", "mathtext.rm": "Nimbus Sans",
+                             "mathtext.it": "Nimbus Sans:italic"})
+    H = FIG7_H_TOP + FIG7_H_C
+    fig = plt.figure(figsize=(FIG7_W, H))
+    w = 0.91 / 2.28                                     # two panels, wspace 0.28
+    y0, h = (0.235 * FIG7_H_TOP + FIG7_H_C) / H, 0.745 * FIG7_H_TOP / H
+    axA = fig.add_axes([0.08, y0, w, h])
+    axB = fig.add_axes([0.08 + 1.28 * w, y0, w, h])
+    axC = fig.add_axes([0.08, 0.55 / H, 0.80, 1.15 / H])
+    caxC = fig.add_axes([0.895, 0.55 / H, 0.013, 1.15 / H])
+
+    # (a) first-light spectra
+    col = {"S": FIG7_RED, "E1": FIG7_NAVY, "W": FIG7_GREY}
+    lab = {"S": "South", "E1": "East", "W": "West"}
+    peak_art = {}
+    ex_by = {}
+    for k in ("W", "E1", "S"):
+        ex, _ = fractional_excess(raw[k][N_SKIP:].mean(0))
+        ex_by[k] = ex
+        peak_art[k] = ex[np.abs(FAX) <= 2].max()
+        axA.plot(FAX, ex, color=col[k], lw=0.75, label=lab[k], zorder={"S": 3, "E1": 2, "W": 1}[k])
+    axA.axhline(0, color="0.7", lw=0.5, zorder=0)
+    axA.set_xlim(-260, 500); axA.set_ylim(-4, 27)
+    axA.set_xlabel("Offset from nominal LO (kHz)"); axA.set_ylabel("Fractional excess (%)")
+    axA.annotate(f"Band-center\nartifact ({peak_art['S']:.0f} %,\noff scale)", xy=(-8, 25.5),
+                 xytext=(-238, 15.5), fontsize=7, color="0.25", ha="left", va="center",
+                 arrowprops=dict(arrowstyle="-", color="0.45", lw=0.5, shrinkA=1, shrinkB=1))
+    i406 = int(np.argmin(np.abs(FAX - 406)))
+    axA.annotate("Narrowband spur\n(east, +406 kHz)", xy=(406, ex_by["E1"][i406] + 0.4),
+                 xytext=(470, 21.5), fontsize=7, color="0.25", ha="right", va="center",
+                 arrowprops=dict(arrowstyle="-", color="0.45", lw=0.5, shrinkA=1, shrinkB=1))
+    hdl, lbl = axA.get_legend_handles_labels(); order = [lbl.index(x) for x in ("South", "East", "West")]
+    axA.legend([hdl[i] for i in order], [lbl[i] for i in order], frameon=False, loc="upper left",
+               bbox_to_anchor=(0.0, 1.0), handlelength=1.4, labelspacing=0.25, borderaxespad=0.3)
+    axA.set_xticks([-200, 0, 200, 400]); axA.xaxis.set_minor_locator(FixedLocator(np.arange(-250, 501, 50)))
+    axA.yaxis.set_minor_locator(FixedLocator(np.arange(-5, 27, 1))); axA.tick_params(which="minor", length=1.5)
+
+    # (b) fluctuation vs block duration; tau^-1/2 trend normalized to the M = 1000 record at 1 s
+    shown = tab[tab.included]
+    amp = float(shown[(shown.capture == "E1") & (np.isclose(shown.tau_s, 1.0))].sigma_pct.iloc[0])
+    tt = np.array([0.08, 10.0])
+    axB.plot(tt, amp * tt ** -0.5, color="0.55", lw=0.8, ls=(0, (4, 2)), zorder=1, label=r"$\tau^{-1/2}$")
+    for k, st in (("E1", dict(fmt="o", ms=6.0, mfc="white", mec=FIG7_NAVY, mew=1.0, zorder=3)),
+                  ("E2", dict(fmt="s", ms=3.4, mfc=FIG7_LBLUE, mec=FIG7_LBLUE, mew=0.5, zorder=4))):
+        s = shown[shown.capture == k]
+        axB.errorbar(s.tau_s, s.sigma_pct, yerr=s.sem_frac * 100, color=st["mec"], elinewidth=0.7,
+                     capsize=1.5, label=f"East, $M$ = {int(s.M_frames.iloc[0])}", **st)
+    axB.set_xscale("log"); axB.set_yscale("log"); axB.set_xlim(0.07, 12); axB.set_ylim(0.9, 15)
+    xt, yt = [0.1, 0.2, 0.5, 1, 2, 5, 10], [1, 2, 3, 5, 10]
+    axB.xaxis.set_major_locator(FixedLocator(xt)); axB.xaxis.set_major_formatter(FixedFormatter([f"{v:g}" for v in xt]))
+    axB.yaxis.set_major_locator(FixedLocator(yt)); axB.yaxis.set_major_formatter(FixedFormatter([f"{v:g}" for v in yt]))
+    axB.xaxis.set_minor_locator(NullLocator()); axB.yaxis.set_minor_locator(NullLocator())
+    axB.set_xlabel(r"Block duration, $\tau$ (s)"); axB.set_ylabel("Fractional fluctuation (%)")
+    hdl, lbl = axB.get_legend_handles_labels()
+    axB.legend(hdl[1:] + hdl[:1], lbl[1:] + lbl[:1], frameon=False, loc="lower left",
+               handlelength=1.6, labelspacing=0.3, borderaxespad=0.3)
+
+    # (c) waterfall of the east-to-west hand sweep (1 s rows)
+    Xs = load_rows(root, SWEEP_FILE)
+    fb, eb = sweep_waterfall(Xs)
+    nrow = Xs.shape[0]
+    im = axC.pcolormesh(fb, np.arange(nrow) + 0.5, eb, cmap="viridis", vmin=-4, vmax=25,
+                        shading="nearest", rasterized=True, zorder=0)
+    axC.set_xlim(-260, 500); axC.set_ylim(0, nrow)
+    axC.set_xticks([-200, 0, 200, 400]); axC.xaxis.set_minor_locator(FixedLocator(np.arange(-250, 501, 50)))
+    axC.yaxis.set_minor_locator(FixedLocator(np.arange(0, nrow, 25)))
+    axC.tick_params(which="minor", length=1.5); axC.tick_params(which="both", color="white")
+    axC.set_xlabel("Offset from nominal LO (kHz)"); axC.set_ylabel("Time (s)")
+    for y, t, va in ((8, "East (start)", "bottom"), (nrow - 8, "West (end)", "top")):
+        axC.text(490, y, t, color="white", fontsize=7, ha="right", va=va)
+    axC.annotate("Band-center artifact\n(off scale)", xy=(-4, 250), xytext=(-120, 250), fontsize=7,
+                 color="white", ha="center", va="center",
+                 arrowprops=dict(arrowstyle="-", color="white", lw=0.5, shrinkA=1, shrinkB=1))
+    cb = fig.colorbar(im, cax=caxC, extend="max"); cb.set_label("Fractional excess (%)")
+    cb.outline.set_linewidth(0.6); caxC.tick_params(direction="in", width=0.6, length=2.5, labelsize=7)
+
+    for ax, t, yy in ((axA, "(a)", -0.215), (axB, "(b)", -0.215), (axC, "(c)", -0.41 / 1.15)):
+        ax.text(0.5, yy, t, transform=ax.transAxes, ha="center", va="top", fontsize=8)
+
+    fig.savefig(figdir / "first_light_and_averaging.pdf")
+    fig.savefig(figdir / "first_light_and_averaging.png", dpi=300)
+    plt.close(fig)
+
+
 # ------------------------------------------------------------ main
 def main(root, outdir):
     root, outdir = pathlib.Path(root), pathlib.Path(outdir)
@@ -281,71 +409,9 @@ def main(root, outdir):
                 f"M={int(r.M_frames)} {r.sigma_pct:.4f}%" for r in sub.itertuples())
                 + f"  ratio {sub.sigma_pct.max()/sub.sigma_pct.min():.3f}")
 
-    # ---- figure -------------------------------------------------------
-    mpl.rcParams.update({
-        "font.family": "DejaVu Sans", "font.size": 8.5,
-        "axes.labelsize": 9, "axes.titlesize": 9.5, "legend.fontsize": 8,
-        "xtick.labelsize": 8, "ytick.labelsize": 8,
-        "axes.spines.top": False, "axes.spines.right": False,
-        "axes.linewidth": 0.7, "lines.linewidth": 1.0,
-        "xtick.major.width": 0.7, "ytick.major.width": 0.7,
-        "figure.dpi": 150, "savefig.dpi": 400, "pdf.fonttype": 42,
-    })
-    fig, (axA, axB) = plt.subplots(1, 2, figsize=(7.16, 2.85),
-                                   gridspec_kw=dict(wspace=0.30))
-
-    # (a) first-light spectra
-    peak_art = {}
-    for k in ("S", "E1", "W"):
-        m = raw[k][N_SKIP:].mean(0)
-        ex, _ = fractional_excess(m)
-        peak_art[k] = ex[np.abs(FAX) <= 2].max()
-        axA.plot(FAX, ex, color=COLOR[k], label=LABEL[k],
-                 lw=0.9, zorder=3 if k == "S" else 2)
-    axA.axhline(0, color="0.75", lw=0.6, zorder=1)
-    axA.set_xlim(-260, 500)
-    axA.set_ylim(-4, 27)
-    axA.set_xlabel("Offset from nominal LO (kHz)")
-    axA.set_ylabel("Fractional excess (%)")
-    axA.annotate(f"band-center\ninstrumental artifact\n(off scale, {peak_art['S']:.0f}%)",
-                 xy=(-6, 24.5), xytext=(-250, 21.0), fontsize=7, color="0.35",
-                 ha="left", va="top",
-                 arrowprops=dict(arrowstyle="-", color="0.55", lw=0.6,
-                                 shrinkA=2, shrinkB=2))
-    axA.annotate("narrowband spurs", xy=(404, 12.4), xytext=(470, 7.5),
-                 fontsize=7, color="0.35", ha="right", va="bottom",
-                 arrowprops=dict(arrowstyle="-", color="0.55", lw=0.6,
-                                 shrinkA=0, shrinkB=3))
-    axA.legend(frameon=False, loc="upper right", handlelength=1.3,
-               borderaxespad=0.1, labelspacing=0.3,
-               bbox_to_anchor=(1.02, 1.03))
-
-    # (b) noise versus integration time
-    tt = np.array([shown.tau_s.min() * 0.8, shown.tau_s.max() * 1.25])
-    axB.plot(tt, amp * tt ** -0.5, color="0.6", lw=0.9, ls=(0, (4, 2)),
-             zorder=1, label=r"$\tau^{-1/2}$, normalized to $M$ = 1000 at 1 s")
-    style = {"E1": dict(fmt="o", ms=7.0, mfc="none", mew=1.2, zorder=3),
-             "E2": dict(fmt="s", ms=3.6, mew=0.5, zorder=4)}
-    for k in ("E1", "E2"):
-        s = shown[shown.capture == k]
-        st = dict(style[k])
-        st.setdefault("mfc", COLOR[k])
-        axB.errorbar(s.tau_s, s.sigma_pct, yerr=s.sem_frac * 100,
-                     color=COLOR[k], mec=COLOR[k], elinewidth=0.8, capsize=2,
-                     label=f"East, $M$ = {CAPTURES[k][1]}", **st)
-    axB.set_xscale("log"); axB.set_yscale("log")
-    axB.set_xlabel(r"Nominal integration time per block, $\tau$ (s)")
-    axB.set_ylabel("Fractional fluctuation (%)")
-    axB.legend(frameon=False, loc="lower left", handlelength=1.6,
-               borderaxespad=0.2, labelspacing=0.35)
-    for ax, lab in ((axA, "a"), (axB, "b")):
-        ax.text(-0.155, 1.06, lab, transform=ax.transAxes,
-                fontsize=11, fontweight="bold", va="bottom")
-
-    fig.savefig(figdir / "first_light_and_averaging.pdf", bbox_inches="tight")
-    fig.savefig(figdir / "first_light_and_averaging.png", bbox_inches="tight")
+    plot_fig7(raw, tab, figdir, root)
     print("\n".join(report))
-    return fig, tab
+    return tab
 
 
 if __name__ == "__main__":
