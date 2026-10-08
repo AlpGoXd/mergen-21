@@ -5,19 +5,16 @@ what path, or whether it is absent. Nothing here is fabricated or reconstructed;
 reflects what was actually present in the working tree at the time of this audit
 (2026-09-23, branch `paper-release`).
 
-## 1. 50 ohm-terminated SDR capture (band-center artifact)
+## 1. 50 ohm-terminated SDR capture (band-center artifact): now included
 
 The paper's discussion of the band-center instrumental artifact (see
 `software/analysis/mergen21_hi_analysis.py` line ~132, `first_light_and_averaging.py`
 line ~83, and `docs/analysis/archive/mergen21_hi_methods_superseded.md` lines ~17-55, archived) refers to an artifact
 that appears in the SDR power-spectrum output near band center.
 
-- **Not found:** an SDR power-spectrum `.dat` capture (NumPy float32, the format written by
-  `software/gnuradio/receiver.grc`/`receiver.py`) taken with the Pluto's RF input terminated
-  in 50 ohms, specifically to demonstrate this artifact in isolation. The no-suffix files
-  under `observations/data/` (for example `mergen21_spec_20260429_022811.dat` through
-  `..._045352.dat`) are sky pointings, not identified as terminated-input captures by their
-  filenames or by `observations/captures.csv`.
+- **Now included:** `observations/data/band_center_tests/` (re-measured 2026-10-08, Pluto input terminated
+  in 50 ohms at three LO settings; see its README). The April sky files under `observations/data/` remain
+  sky pointings.
 - **Found, but a different measurement:** `measurements/extras/50ohm-match/` contains
   `MCL ANNE-50+.s1p` (a VNA S11 measurement of the 50 ohm matched load itself, i.e. how well
   it is matched) and `50-match.pdf`. This is a VNA characterization of the termination
@@ -31,11 +28,7 @@ Searched the whole repository (all file types, filenames and content) for any re
 an SDR-stage noise figure of about 0.056 dB, or to a paired comparison of "receiver
 connected" vs. "SDR input terminated" spectra.
 
-- **Not found.** No file, script, or documentation in the repository contains this figure
-  or describes this specific comparison. `measurements/rf-chain/nf/README.md` documents a
-  different noise-figure measurement (spectrum-analyzer-based, full receiver chain into a
-  50 ohm load, `just cooked reciver.DAT` / `match noise.DAT`), which is not the SDR-only
-  comparison the paper references.
+- The original receiver-connected comparison was not archived, and the receiver chain is no longer available. The SDR noise contribution is instead bounded by comparing the Pluto-terminated capture with the first-light sky records (same Pluto, gain and flowgraph): the SDR raises the system noise by about 4 % (0.18 dB). See `observations/data/band_center_tests/README.md`.
 
 ## 3. Output-cable loss file
 
