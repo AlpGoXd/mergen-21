@@ -1,0 +1,34 @@
+% Receiver-chain S-parameters (paper Fig. 5). Data: \mgdata/rx_sparams.dat,
+% written by software/figures/rx_sparams_data.py from the cascade .s2p file.
+% Requires in the preamble:
+%   \usepackage{pgfplots}\pgfplotsset{compat=1.18}
+%   \definecolor{mgnavy}{HTML}{1F4E79}\definecolor{mgrust}{HTML}{B0552A}
+%   \newcommand{\mgdata}{figures/tikz/data}   % folder holding the .dat files
+\begin{tikzpicture}
+\begin{axis}[
+  width=\linewidth, height=0.42\linewidth,
+  xmin=0.5, xmax=2.5, xtick={0.5,0.75,...,2.5},
+  xticklabel style={/pgf/number format/fixed,/pgf/number format/precision=2},
+  ymin=-90, ymax=60, ytick={-80,-60,...,40},
+  xlabel={Frequency (GHz)}, ylabel={Magnitude (dB)},
+  tick align=inside, xtick pos=both, ytick pos=both,
+  grid=major, grid style={gray!25, line width=0.3pt},
+  tick label style={font=\scriptsize}, label style={font=\small},
+  legend style={at={(0.5,0.04)}, anchor=south, draw=none, fill=white,
+                fill opacity=0.85, text opacity=1, font=\footnotesize},
+  legend cell align=left,
+]
+\addplot[mgnavy, line width=1pt, mark=*, mark size=0.9pt] table[x=f, y=s21] {\mgdata/rx_sparams.dat};
+\addlegendentry{$|S_{21}|$}
+\addplot[mgrust, line width=1pt, mark=*, mark size=0.9pt] table[x=f, y=s11] {\mgdata/rx_sparams.dat};
+\addlegendentry{$|S_{11}|$}
+\draw[gray!70!black, densely dashed, line width=0.6pt] (1.42,-90) -- (1.42,60);
+\node[font=\footnotesize, anchor=south west, inner sep=1pt] at (1.425,48) {1.42 GHz};
+\addplot[only marks, mark=o, mark size=2.2pt, black, forget plot]
+  coordinates {(1.4204,39.52) (1.4204,-16.50)};
+\draw[thin] (1.4204,39.52) -- (1.48,24)
+  node[anchor=north, font=\footnotesize, inner sep=1pt] {$39.5\pm0.5$\,dB};
+\draw[thin] (1.4204,-16.50) -- (1.48,-30)
+  node[anchor=north, font=\footnotesize, inner sep=1pt] {$-16.5$\,dB};
+\end{axis}
+\end{tikzpicture}
