@@ -180,7 +180,7 @@ The VNA measurements in `measurements/rf-chain/vna/` were taken with the actual 
 | Horn S11 at 1420 MHz | −19.7 dB (ideal model), −21.8 dB (worst-case model) | −41.8 dB at the 1420.000 MHz sample; better than −30 dB from 1410 to 1440 MHz (10 MHz grid) |
 | Horn directivity at 1420 MHz | 16.9 dBi | — (no measurement setup available) |
 | Cascade gain near 1420 MHz | ~39.5 dB | 39.5 dB +/- 0.5 dB (no VNA sample exactly at 1420.405 MHz) |
-| Cascade NF | 0.77 dB (Friis) | about 1.5 dB (1.54 dB, cable-corrected) |
+| Cascade NF | 0.81 dB (Friis, VNA gains) | about 1.5 dB (1.54 dB, cable-corrected) |
 
 ---
 

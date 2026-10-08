@@ -2,7 +2,7 @@
 
 ## Summary
 - **Measured cascade NF (cable-corrected):** about 1.5 dB (1.54 dB)
-- **Friis-formula prediction:** 0.77 dB
+- **Friis-formula prediction:** 0.81 dB with the VNA stage gains (0.77 dB with datasheet gains)
 - **Design requirement:** 0.96 dB
 
 The measured value is referenced to the device plane (before the output
@@ -54,16 +54,16 @@ F_total = F1 + (F2 - 1)/G1 + (F3 - 1)/(G1 * G2) + ...
 - F2 (BPF): 1.202 (0.8 dB = insertion loss) @ gain G2 = 0.832 (-0.8 dB)
 - F3 (Amp): 2.344 (3.7 dB)
 
-**Calculated F_total:** 1.175 + 0.202/93.3 + 1.344/(93.3 x 0.832) = 1.175 + 0.002 + 0.017 = 1.194 (0.77 dB NF)
+**Calculated F_total (datasheet gains):** 1.175 + 0.202/93.3 + 1.344/(93.3 x 0.832) = 1.175 + 0.002 + 0.017 = 1.194 (0.77 dB NF)
 
-With the VNA stage gains instead (G1 = 83.9 for 19.24 dB; BPF G2 = 0.671 for -1.73 dB, so F2 = 1.489), the same calculation gives 1.175 + 0.489/83.9 + 1.344/(83.9 x 0.671) = 1.205 (0.81 dB NF).
+With the VNA stage gains instead (G1 = 83.9 for 19.24 dB; BPF G2 = 0.671 for -1.73 dB, so F2 = 1.489), the same calculation (F3 = 2.344) gives 1.175 + 0.489/83.9 + 1.344/(83.9 x 0.671) = 1.205, i.e. **0.81 dB NF**. This is the Friis value quoted in the paper.
 
 The LNA contributes 1.175 to the total noise factor. The BPF adds only 0.002 and the amplifier adds only 0.017 (datasheet case). This confirms that the LNA's low noise figure and high gain effectively shield the system from downstream noise contributions.
 
 ### Why measurement and Friis prediction differ
 
-The cable-corrected measured NF (1.54 dB) is about 0.8 dB higher than the
-0.77 dB Friis prediction from datasheet values, and above the 0.96 dB
+The cable-corrected measured NF (1.54 dB) is about 0.7 dB higher than the
+0.81 dB Friis prediction (VNA stage gains; 0.77 dB with datasheet gains), and above the 0.96 dB
 design requirement. Candidate contributors, none confirmed or excluded by
 data currently in this repository:
 
