@@ -130,3 +130,8 @@ mergen21_incoming.zip
 *.PrjSch
 *.PcbLib
 *.SchLib
+
+# LDO regulator board sources are released (CERN-OHL-S v2); keep the rules above for every other folder
+!hardware/ldo-regulator/altium/*.SchDoc
+!hardware/ldo-regulator/altium/*.PcbDoc
+!hardware/ldo-regulator/altium/*.PrjPcb
