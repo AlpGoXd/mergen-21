@@ -10,7 +10,7 @@ Python scripts for processing raw spectra into first-light line fits and averagi
 | `first_light_and_averaging.py` | Builds the three-panel first-light figure (spectra, fluctuation versus block duration, sweep waterfall) and `averaging_noise.csv` (the tau=1/2/4/8 s averaging-noise table for the E1/E2 captures) from the raw captures. Run with `--root`/`--outdir`. |
 | `mergen21_waterfall_viewer.py` | Interactive waterfall / spectrum viewer for `.dat` files |
 | `sanitize_sps.py` | S-parameter file cleanup utility |
-| `wola_window_check.py` | Reproduces the WOLA prototype-filter truncation check. Runs only with GNU Radio installed: the designed taps (`wola_taps_firdes.npy`) are not committed, so the first run designs them with `firdes` and caches them next to the script |
+| `wola_window_check.py` | Reproduces the WOLA prototype-filter truncation check. Runs only with GNU Radio installed: the designed taps (`wola_taps_firdes.npy`) are not committed, so the first run designs them with `firdes` and caches them next to the script. GNU Radio is needed to rebuild the taps; the as-built result (824 Hz) is documented in `docs/analysis/PROVENANCE_ADDENDUM.md` |
 
 `outputs/VERIFICATION.md` records an independent re-run of `mergen21_hi_analysis.py` and `first_light_and_averaging.py` against this checkout, verified against `reference_outputs/`. See that file for the full comparison and for the offline-IERS caveat on galactic l/b.
 
