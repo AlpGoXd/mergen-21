@@ -4,6 +4,7 @@ message: >-
   the information below.
 title: "Mergen-21: Low-Cost 21 cm Hydrogen Line Radio Telescope"
 version: "v1.0-apm"
+doi: "10.5281/zenodo.23239045"
 date-released: "2026-10-08"
 url: "https://github.com/AlpGoXd/mergen-21"
 repository-code: "https://github.com/AlpGoXd/mergen-21"

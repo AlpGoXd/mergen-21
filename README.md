@@ -4,6 +4,8 @@
 
 # Mergen-21: Low-Cost 21 cm Hydrogen Line Radio Telescope
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23239045.svg)](https://doi.org/10.5281/zenodo.23239045)
+
 A radio telescope I built for my EE401 graduation project at Ozyegin University. It listens at 1420.405 MHz (the hydrogen line), and I used it to detect hydrogen emission from the Milky Way at several pointings. Mapping its rotation is future work.
 
 **Science goal (future work):** a Galactic rotation curve via the tangent-point method, observed from Istanbul, Turkey. The released results are first-light hydrogen-line detections with pointing dependence (south/east/west); velocity/rotation-curve analysis is not yet complete (see "Reproducing the paper" below).
