@@ -48,7 +48,7 @@ Three-stage front-end: LNA → bandpass filter → second amplifier. All Mini-Ci
 
 Custom dual-rail LDO PCB supplying clean DC to the two amplifiers. Two TPS7A4701RGWT ultra-low-noise LDOs. Designed in Altium Designer.
 
-Fabrication-ready outputs: `gerbers/` (Gerber + drill), `pick-and-place/` (assembly coordinates), `schematic.pdf`, `pcb.pdf`, `bom.pdf`, `PCB1.step`.
+Fabrication-ready outputs: `gerbers/` (Gerber layers `PCB1_*.gbr` + NC drill file `PCB1.TXT`), `pick-and-place/` (assembly coordinates), `schematic.pdf`, `pcb.pdf`, `bom.pdf`, `PCB1.step`.
 
 ### Simulations (`simulation/`)
 

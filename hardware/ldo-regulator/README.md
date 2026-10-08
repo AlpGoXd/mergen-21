@@ -9,7 +9,7 @@ Designed in Altium Designer.
 | Path | Description |
 |------|-------------|
 | `altium/` | Altium Designer source files (schematic + PCB project) |
-| `gerbers/` | Fabrication-ready Gerber and NC drill files |
+| `gerbers/` | Fabrication-ready Gerber layers (`PCB1_*.gbr`) and the Altium NC drill export `PCB1.TXT` |
 | `pick-and-place/` | Assembly pick-and-place coordinates (Altium export) |
 | `schematic.pdf` | Circuit schematic (PDF export) |
 | `pcb.pdf` | PCB layout (PDF export) |
