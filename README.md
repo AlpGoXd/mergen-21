@@ -61,7 +61,7 @@ Here's what the GNU Radio receiver flowgraph looks like:
 | GNU Radio flowgraphs | Complete | `receiver.grc` (main) + `21cm synth/` test flowgraphs |
 | Analysis software | Complete | `mergen21_hi_analysis.py` and `first_light_and_averaging.py` reproduce the manuscript's line fits and averaging-noise tables; see "Reproducing the paper" below and `software/analysis/outputs/VERIFICATION.md` |
 | First-light observations | Complete | South/east/west pointings, 2026-04-29; data in `observations/data/`. Azimuth sweep and rotation-curve analysis are not part of the released results (see `docs/analysis/PROVENANCE_ADDENDUM.md`) |
-| Open-source release | In Progress | Final cleanup underway |
+| Open-source release | Released as v1.0-apm | Tagged release for the IEEE AP Magazine submission |
 
 ---
 
