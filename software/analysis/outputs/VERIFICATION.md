@@ -49,6 +49,7 @@ regenerated outputs in `software/analysis/outputs/` to the canonical values in
 | v_bary_plus_solar / v_lsr (km/s) S | 38.2 / 1.8 | 38.2 / 1.8 | match |
 | v_bary_plus_solar / v_lsr (km/s) E | 25.7 / -3.5 | 25.7 / -3.5 | match |
 | v_bary_plus_solar / v_lsr (km/s) W | 1.8 / -14.7 | 1.8 / -14.7 | match |
+| observer-motion line shift (kHz) S/E/W | 180.8/121.7/8.3 | 180.8/121.7/8.3 | match |
 | noise figure, cable-corrected | 1.54 dB (-133.46 + 0.6 - (-173.9) - 39.5) | 1.54 dB | match |
 | stage gains at 1420.405 MHz, VNA (dB) LNA/BPF/AMP/cascade | 19.24/-1.73/20.24/39.52 | 19.24/-1.73/20.24/39.52 | match |
 
@@ -58,7 +59,8 @@ The previous `reference_outputs/` were stale. Refreshing them changed:
 
 - **Elevation now 30°** (observer-stated, not instrumented; previously
   assumed 35). This moves
-  `l_deg`, `b_deg`, `v_bary_plus_solar_kms` and `v_lsr_kms` for the static
+  `l_deg`, `b_deg`, `v_bary_plus_solar_kms`, `v_lsr_kms` and `motion_shift_kHz` (a new
+  column, `v_bary_plus_solar_kms * F0 / c`) for the static
   pointings (previously S 17.2/-0.1, E 85.5/-30.8, W 22.0/71.4 for l/b, and
   39.0/2.6, 27.2/-2.1, 4.5/-11.9 km/s for the velocities), and
   `assumptions.pointing_elevation_deg_approximate` in the derived JSON. Peak,

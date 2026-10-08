@@ -682,6 +682,8 @@ def main(root, outdir):
         "fwhm_kms": round(st.loc[k, "fwhm_kms"], 1),
         "v_bary_plus_solar_kms": round(st.loc[k, "v_motion_kms"], 1),
         "v_lsr_kms": round(st.loc[k, "v_lsr_kms"], 1),
+        # observer-motion line shift: v_motion * F0 / c, in kHz
+        "motion_shift_kHz": round(st.loc[k, "v_motion_kms"] * F0_KHZ / C_KMS, 1),
     } for k in ("S", "E", "W")])
     summary.to_csv(outdir / "mergen21_hi_line_parameters.csv", index=False, lineterminator="\n")
 

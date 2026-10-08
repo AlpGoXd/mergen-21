@@ -1,4 +1,4 @@
-pointing,l_deg,b_deg,peak_pct,centroid_kHz,fwhm_kHz,fwhm_kms,v_bary_plus_solar_kms,v_lsr_kms
-S,12.8,-2.4,18.13,172.1,77.2,16.3,38.2,1.8
-E,87.5,-35.5,7.87,138.5,88.9,18.8,25.7,-3.5
-W,7.3,73.8,5.45,77.8,151.9,32.0,1.8,-14.7
+pointing,l_deg,b_deg,peak_pct,centroid_kHz,fwhm_kHz,fwhm_kms,v_bary_plus_solar_kms,v_lsr_kms,motion_shift_kHz
+S,12.8,-2.4,18.13,172.1,77.2,16.3,38.2,1.8,180.8
+E,87.5,-35.5,7.87,138.5,88.9,18.8,25.7,-3.5,121.7
+W,7.3,73.8,5.45,77.8,151.9,32.0,1.8,-14.7,8.3
