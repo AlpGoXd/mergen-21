@@ -163,6 +163,8 @@ P_in = total input power (sum of both tones). The instrument reports TOI (= OIP3
 | cascade_ip3_-15dBm | -15 | +4.14 | +4.16 | -52.56 | -52.87 | **+32.58** | +32.68 | +32.49 | 0.2 dB | Excellent |
 | cascade_ip3_-18dBm | -18 | +1.17 | +1.19 | -62.99 | -62.96 | **+33.26** | +33.29 | +33.24 | 0.05 dB | Excellent |
 
+The -12 dBm row is the reference value. The marker values in the -15 and -18 dBm rows do not match the stored traces (`cascade_ip3_-15dBm.DAT` and `cascade_ip3_-18dBm.DAT` give IMD3 near -48 and -58 dBm, OIP3 30 to 31.5 dBm); OIP3 rises at lower drive, so 29.5 dBm is a lower bound.
+
 ### Why We Trust the -12 dBm Measurement Most
 
 | Aspect | -12 dBm | -15 dBm | -18 dBm |
