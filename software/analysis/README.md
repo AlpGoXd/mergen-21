@@ -7,7 +7,7 @@ Python scripts for processing raw spectra into first-light line fits and averagi
 | Script | Purpose |
 |--------|---------|
 | `mergen21_hi_analysis.py` | End-to-end reproduction from the raw GNU Radio captures: `mergen21_hi_measurements.csv` (full parameter set), `mergen21_hi_line_parameters.csv` (S/E/W summary: peak %, FWHM, centroid, galactic l/b), `mergen21_data_manifest.csv` (sha256 of every input), `mergen21_hi_derived.json` (scalar results quoted in the manuscript, including the noise-figure arithmetic), and `mergen21_hi_validation.png`. Run with `--root`/`--outdir`. |
-| `first_light_and_averaging.py` | Builds the first-light spectra figure and `averaging_noise.csv` (the tau=1/2/4/8 s averaging-noise table for the E1/E2 captures) from the raw captures. Run with `--root`/`--outdir`. |
+| `first_light_and_averaging.py` | Builds the three-panel first-light figure (spectra, fluctuation versus block duration, sweep waterfall) and `averaging_noise.csv` (the tau=1/2/4/8 s averaging-noise table for the E1/E2 captures) from the raw captures. Run with `--root`/`--outdir`. |
 | `mergen21_waterfall_viewer.py` | Interactive waterfall / spectrum viewer for `.dat` files |
 | `sanitize_sps.py` | S-parameter file cleanup utility |
 | `wola_window_check.py` | Reproduces the WOLA prototype-filter truncation check. Runs only with GNU Radio installed: the designed taps (`wola_taps_firdes.npy`) are not committed, so the first run designs them with `firdes` and caches them next to the script |
