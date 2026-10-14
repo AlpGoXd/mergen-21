@@ -37,9 +37,12 @@ regenerated outputs in `software/analysis/outputs/` to the canonical values in
 |---|---|---|---|
 | `averaging_noise.csv` E1 @ tau=1s `sigma_pct` | 3.528470 | 3.528470 | match |
 | `averaging_noise.csv` E2 @ tau=1s `sigma_pct` | 3.526871 | 3.526871 | match |
-| rows_used E1 / E2 | 98 / 165 | 98 / 165 | match |
+| rows_used E1 / E2 / S / W | 98 / 165 / 97 / 100 | 98 / 165 / 97 / 100 | match |
 | rows_skipped | 6 | 6 | match |
 | n_pairs E1 @ tau=1/2/4/8 s | 49/24/12/6 | 49/24/12/6 | match |
+| n_pairs E1 @ tau=16/24/32/48 s | 3/2/1/1 | 3/2/1/1 | match |
+| `averaging_noise.csv` S, W @ tau=1s `sigma_pct` | 3.505305, 3.519058 | 3.505305, 3.519058 | match |
+| `averaging_noise.csv` row count (E1, S, W: 8 block sizes each; E2: 7) | 31 | 31 | match |
 | line-free channels in common mask | 1437 | 1437 | match |
 | fitted peak % S/E/W | 18.13/7.87/5.45 | 18.13/7.87/5.45 | match |
 | FWHM kHz S/E/W | 77.2/88.9/151.9 | 77.2/88.9/151.9 | match |
@@ -55,7 +58,23 @@ regenerated outputs in `software/analysis/outputs/` to the canonical values in
 
 ## Changes against the previous reference set
 
-The previous `reference_outputs/` were stale. Refreshing them changed:
+`first_light_and_averaging.py` was revised for Fig. 7: panel (b) now shows all
+four first-light records (E1, E2, S, W) with blocks up to 48 s against the
+zero-parameter radiometer line 1/sqrt(B tau) with B = 813.8 Hz, and panel (c)
+uses 0.5 s sweep rows (`TAU_ROW_SWEEP_S`). Regenerating changed:
+
+- **`averaging_noise.csv`** (and its `reference_outputs/` copy): the 10 rows
+  of the previous file are unchanged; 21 rows were added (E1 at tau = 24, 32,
+  48 s; E2 at 4 and 8 s; S and W at tau = 1 to 48 s, 8 block sizes each). The
+  `included` flag still marks tau = 1 to 8 s for E1, S and W and 0.1 to 1 s
+  for E2. S and W at tau = 1 s are 3.505 % and 3.519 %, against 3.528 % (E1)
+  and 3.527 % (E2).
+- **`figures/first_light_and_averaging.pdf`/`.png`**: panels (b) and (c) as
+  above; panel (a) is unchanged. These figures are not in `reference_outputs/`.
+- Every other output is unchanged (`mergen21_hi_*`, `mergen21_data_manifest.csv`,
+  `stage_gains.csv`).
+
+An earlier refresh of `reference_outputs/`, which had gone stale, changed:
 
 - **Elevation now 30°** (observer-stated, not instrumented; previously
   assumed 35). This moves
