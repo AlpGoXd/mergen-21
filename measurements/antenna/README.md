@@ -14,6 +14,8 @@ S11 measurements of the horn antenna under different conditions, listed in chron
 
 > **Note:** Measurement #5 is the **definitive measurement** representing the antenna as-built.
 
+Folders 1 to 4 resonate near 1.53 to 1.54 GHz. That resonance was unintended; it moved to 1.42 GHz after the interior was cleaned and the backshort pin re-seated (folder 5, the configuration reported in the paper).
+
 ## Known Manufacturing Defect
 
 The aluminum sheet used for the horn was obtained for free because it was bent by the manufacturer. As a result, the horn walls are **concave in** (bowed inward along the length of the antenna). See [`antenna_photos/`](antenna_photos/) for photo documentation.
@@ -22,6 +24,8 @@ This concavity may affect:
 - Aperture efficiency (non-planar phase front)
 - Gain reduction compared to the ideal horn simulation
 - Slight pattern asymmetry
+
+In addition, the shop bent the waveguide-side edge of all four flare walls 90 degrees away from the drawing; each was hammered back by hand.
 
 Compare with simulations:
 - [`simulation/cst/ideal_horn/`](../../hardware/simulation/cst/ideal_horn/) — Ideal geometry

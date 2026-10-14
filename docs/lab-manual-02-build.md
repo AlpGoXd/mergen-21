@@ -158,7 +158,7 @@ Before connecting any RF components:
 2. Connect to the board input with current limiting set to 100 mA.
 3. Power on and verify:
    - Input current should be < 20 mA at no load
-   - Output voltage should be 5.0 V ±0.1 V at each output
+   - LNA output 4.0 V ±0.1 V and amplifier output 5.0 V ±0.1 V
    - No excessive heat from any component
 
 If the output voltage is incorrect, check the resistor divider values against `schematic.pdf`. The TPS7A4701 output is set by an external resistor network.

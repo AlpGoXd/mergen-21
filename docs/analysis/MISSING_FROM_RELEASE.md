@@ -20,7 +20,8 @@ that appears in the SDR power-spectrum output near band center.
   it is matched) and `50-match.pdf`. This is a VNA characterization of the termination
   component, not an SDR power-spectrum capture, and it does not show the band-center
   artifact. Do not conflate the two: the matched-load S11 measurement exists; the SDR
-  capture with that load on the Pluto input does not appear to be in the repository.
+  capture with that load on the Pluto input is now in `observations/data/band_center_tests/`
+  (recorded 2026-10-08).
 
 ## 2. "Receiver connected vs. SDR input terminated" comparison spectra (0.056 dB SDR NF)
 
