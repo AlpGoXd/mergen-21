@@ -52,7 +52,7 @@ METADATA DISCREPANCY, NOW CORRECTED IN THE FLOWGRAPH:
   corrected to 1000 (see that file's variable comment); this script's
   hardcoded CAPTURES table is unaffected either way, since it always used
   the observer's confirmed values, not the .grc default. Only panel (c)
-  reads the sweep capture (SWEEP_FILE, 1 s rows despite the "500int" in its
+  reads the sweep capture (SWEEP_FILE, 0.5 s rows as the "500int" in its
   name); panels (a) and (b) and averaging_noise.csv do not depend on it.
 """
 import argparse
@@ -199,7 +199,9 @@ def temporal_lag1(Xn, mask):
 
 
 # ------------------------------------------------------------ Fig. 7 (three panels)
-SWEEP_FILE = "mergen21_spec_20260429_050554_180partygirl_500int.dat"  # M = 1000 (1 s rows) despite the name
+SWEEP_FILE = "mergen21_spec_20260429_050554_180partygirl_500int.dat"  # M = 500 (0.5 s rows), as the name says
+TAU_ROW_SWEEP_S = 0.5      # within-row channel scatter 4.94 % vs 3.49 % in the 1 s records (ratio sqrt 2)
+B_RAD_HZ = 813.8           # radiometric bandwidth (independent power samples per channel per s) of the as-built taps
 FIG7_NAVY, FIG7_GREY, FIG7_RED, FIG7_LBLUE = "#1F4E79", "#8a8a8a", "#b2182b", "#6f9fcc"
 FIG7_W, FIG7_H_TOP, FIG7_H_C = 6.0, 2.55, 1.80          # inches; total height 4.35 in
 WF_BIN = 8                                              # channels (kHz) per waterfall bin
@@ -276,40 +278,46 @@ def plot_fig7(raw, tab, figdir, root):
     axA.set_xticks([-200, 0, 200, 400]); axA.xaxis.set_minor_locator(FixedLocator(np.arange(-250, 501, 50)))
     axA.yaxis.set_minor_locator(FixedLocator(np.arange(-5, 27, 1))); axA.tick_params(which="minor", length=1.5)
 
-    # (b) fluctuation vs block duration; tau^-1/2 trend normalized to the M = 1000 record at 1 s
-    shown = tab[tab.included]
-    amp = float(shown[(shown.capture == "E1") & (np.isclose(shown.tau_s, 1.0))].sigma_pct.iloc[0])
-    tt = np.array([0.08, 10.0])
-    axB.plot(tt, amp * tt ** -0.5, color="0.55", lw=0.8, ls=(0, (4, 2)), zorder=1, label=r"$\tau^{-1/2}$")
-    for k, st in (("E1", dict(fmt="o", ms=6.0, mfc="white", mec=FIG7_NAVY, mew=1.0, zorder=3)),
-                  ("E2", dict(fmt="s", ms=3.4, mfc=FIG7_LBLUE, mec=FIG7_LBLUE, mew=0.5, zorder=4))):
-        s = shown[shown.capture == k]
-        axB.errorbar(s.tau_s, s.sigma_pct, yerr=s.sem_frac * 100, color=st["mec"], elinewidth=0.7,
-                     capsize=1.5, label=f"East, $M$ = {int(s.M_frames.iloc[0])}", **st)
-    axB.set_xscale("log"); axB.set_yscale("log"); axB.set_xlim(0.07, 12); axB.set_ylim(0.9, 15)
-    xt, yt = [0.1, 0.2, 0.5, 1, 2, 5, 10], [1, 2, 3, 5, 10]
+    # (b) fluctuation vs block duration against the zero-parameter radiometer prediction
+    shown = tab[tab.n_pairs >= 1]
+    tt = np.array([0.07, 60.0])
+    axB.plot(tt, 100.0 / np.sqrt(B_RAD_HZ * tt), color="0.55", lw=0.8, ls=(0, (4, 2)), zorder=1,
+             label=r"$1/\sqrt{B\tau}$, $B$ = 814 Hz")
+    styles = (("E1", "East, $M$ = 1000", dict(fmt="o", ms=6.0, mfc="white", mec=FIG7_NAVY, mew=1.0, zorder=3)),
+              ("E2", "East, $M$ = 100", dict(fmt="s", ms=3.4, mfc=FIG7_LBLUE, mec=FIG7_LBLUE, mew=0.5, zorder=4)),
+              ("S", "South, $M$ = 1000", dict(fmt="D", ms=2.6, mfc=FIG7_RED, mec=FIG7_RED, mew=0.5, zorder=5)),
+              ("W", "West, $M$ = 1000", dict(fmt="^", ms=3.0, mfc=FIG7_GREY, mec=FIG7_GREY, mew=0.5, zorder=4)))
+    xoff = {"E1": 1.0, "E2": 1.0, "S": 0.87, "W": 1.15}   # south/west offset horizontally for clarity
+    for k, lbl_k, st in styles:
+        s_ = shown[shown.capture == k]
+        yerr = np.where(s_.n_pairs >= 2, s_.sem_frac * 100, np.nan)
+        axB.errorbar(s_.tau_s * xoff[k], s_.sigma_pct, yerr=yerr, color=st["mec"], elinewidth=0.7,
+                     capsize=1.5, label=lbl_k, **st)
+    axB.set_xscale("log"); axB.set_yscale("log"); axB.set_xlim(0.07, 70); axB.set_ylim(0.4, 15)
+    xt, yt = [0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50], [0.5, 1, 2, 3, 5, 10]
     axB.xaxis.set_major_locator(FixedLocator(xt)); axB.xaxis.set_major_formatter(FixedFormatter([f"{v:g}" for v in xt]))
     axB.yaxis.set_major_locator(FixedLocator(yt)); axB.yaxis.set_major_formatter(FixedFormatter([f"{v:g}" for v in yt]))
     axB.xaxis.set_minor_locator(NullLocator()); axB.yaxis.set_minor_locator(NullLocator())
     axB.set_xlabel(r"Block duration, $\tau$ (s)"); axB.set_ylabel("Fractional fluctuation (%)")
     hdl, lbl = axB.get_legend_handles_labels()
     axB.legend(hdl[1:] + hdl[:1], lbl[1:] + lbl[:1], frameon=False, loc="lower left",
-               handlelength=1.6, labelspacing=0.3, borderaxespad=0.3)
+               handlelength=1.6, labelspacing=0.25, borderaxespad=0.3)
 
-    # (c) waterfall of the east-to-west hand sweep (1 s rows)
+    # (c) waterfall of the east-to-west hand sweep (0.5 s rows)
     Xs = load_rows(root, SWEEP_FILE)
     fb, eb = sweep_waterfall(Xs)
     nrow = Xs.shape[0]
-    im = axC.pcolormesh(fb, np.arange(nrow) + 0.5, eb, cmap="viridis", vmin=-4, vmax=25,
+    tmax = nrow * TAU_ROW_SWEEP_S
+    im = axC.pcolormesh(fb, (np.arange(nrow) + 0.5) * TAU_ROW_SWEEP_S, eb, cmap="viridis", vmin=-4, vmax=25,
                         shading="nearest", rasterized=True, zorder=0)
-    axC.set_xlim(-260, 500); axC.set_ylim(0, nrow)
+    axC.set_xlim(-260, 500); axC.set_ylim(0, tmax)
     axC.set_xticks([-200, 0, 200, 400]); axC.xaxis.set_minor_locator(FixedLocator(np.arange(-250, 501, 50)))
-    axC.yaxis.set_minor_locator(FixedLocator(np.arange(0, nrow, 25)))
+    axC.yaxis.set_major_locator(FixedLocator([0, 50, 100])); axC.yaxis.set_minor_locator(FixedLocator(np.arange(0, tmax, 10)))
     axC.tick_params(which="minor", length=1.5); axC.tick_params(which="both", color="white")
     axC.set_xlabel("Offset from nominal LO (kHz)"); axC.set_ylabel("Time (s)")
-    for y, t, va in ((8, "East (start)", "bottom"), (nrow - 8, "West (end)", "top")):
+    for y, t, va in ((4, "East (start)", "bottom"), (tmax - 4, "West (end)", "top")):
         axC.text(490, y, t, color="white", fontsize=7, ha="right", va=va)
-    axC.annotate("Band-center artifact\n(off scale)", xy=(-4, 250), xytext=(-120, 250), fontsize=7,
+    axC.annotate("Band-center artifact\n(off scale)", xy=(-4, 0.85 * tmax), xytext=(-120, 0.85 * tmax), fontsize=7,
                  color="white", ha="center", va="center",
                  arrowprops=dict(arrowstyle="-", color="white", lw=0.5, shrinkA=1, shrinkB=1))
     cb = fig.colorbar(im, cax=caxC, extend="max"); cb.set_label("Fractional excess (%)")
@@ -364,7 +372,8 @@ def main(root, outdir):
                       + "/".join(f"{v:.3f}" for v in vals) + " %")
 
     # ---- panel (b) curves --------------------------------------------
-    plans = {"E1": [1, 2, 4, 8, 16], "E2": [1, 2, 5, 10, 20]}
+    plans = {"E1": [1, 2, 4, 8, 16, 24, 32, 48], "E2": [1, 2, 5, 10, 20, 40, 80],
+             "S": [1, 2, 4, 8, 16, 24, 32, 48], "W": [1, 2, 4, 8, 16, 24, 32, 48]}
     recs = []
     for k, sizes in plans.items():
         Xn = normalize_rows(raw[k][N_SKIP:], mask)
@@ -409,6 +418,10 @@ def main(root, outdir):
                 f"M={int(r.M_frames)} {r.sigma_pct:.4f}%" for r in sub.itertuples())
                 + f"  ratio {sub.sigma_pct.max()/sub.sigma_pct.min():.3f}")
 
+    for r in tab.itertuples():
+        pred = 100.0 / np.sqrt(B_RAD_HZ * r.tau_s)
+        report.append(f"{r.capture} tau={r.tau_s:g} s pairs={r.n_pairs}: {r.sigma_pct:.4f} % vs "
+                      f"radiometer {pred:.4f} % (ratio {r.sigma_pct / pred:.3f})")
     plot_fig7(raw, tab, figdir, root)
     print("\n".join(report))
     return tab
