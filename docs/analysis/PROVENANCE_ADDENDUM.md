@@ -192,6 +192,30 @@ in the graph drives only the on-screen display. All four transmit blocks are
 
 ### Prototype filter length: settled, and the truncation is real
 
+**Correction (2026-10, v1.1-apm).** The radiometric bandwidth of the
+as-built window is computed exactly from the GNU Radio 3.10.12 taps, not by
+Monte Carlo. With `rho_l = sum_n h[n] h[n+l*N] / sum_n h[n]^2`, `N = 2048`
+and `F = 1000` frames/s,
+
+    B_rad = F / sum_{l=-7..7} rho_l^2
+
+is the number of independent power samples per channel per second.
+
+| design | B_rad | response at the adjacent channel center |
+|---|---|---|
+| as built: first 16 384 of 32 299 `firdes` taps, 250 Hz cutoff | 813.8 Hz | -16.7 dB |
+| resizing only: 16 384 taps, 250 Hz cutoff | 518.7 Hz | channels only 381 Hz wide at -3 dB; gaps between channels |
+| correct design: 16 384 taps, 500 Hz cutoff | 962.6 Hz | -88.5 dB |
+
+The 824 Hz quoted before is one Monte Carlo draw of `wola_window_check.py`
+(seed 11); over seeds 1 to 20 the script gives 822 +/- 20 Hz. Resizing alone
+is not a correct fix. The as-built window needs 1.18 times the integration
+time of the correct design for the same noise, so the earlier statements "its
+cost is spectral purity, not sensitivity" and "Sensitivity is not degraded"
+are **withdrawn**. Measured on the sky records, `B_rad` is 803 to 818 Hz
+depending on the estimator (818.1 +/- 2.9 Hz with gain-normalised
+differencing).
+
 GNU Radio is now installed, so the call was run rather than reconstructed:
 
 ```python
@@ -231,8 +255,9 @@ eighths of their samples -- gives:
 | candidate window | `N_eff` at N_int = 100 | `B_eff` | lag-1 corr. |
 |---|---|---|---|
 | **measured (`Dogu_100`)** | **81.5** | **815 Hz** | **+0.051** |
-| as built: first 16 384 of 32 299 | 82.4 | 824 Hz | +0.085 |
-| complete symmetric 16 384-tap taper | 53.6 | 536 Hz | +0.023 |
+| as built: first 16 384 of 32 299 | 82.4 | 813.8 Hz (exact; Monte Carlo 822 +/- 20) | +0.085 |
+| complete symmetric 16 384-tap taper, 250 Hz cutoff; leaves gaps between channels | 53.6 | 536 Hz (Monte Carlo); exact 518.7 Hz | +0.023 |
+| correct design: 16 384 taps, 500 Hz cutoff | 96.3 (= 0.1 s x B) | 962.6 Hz (exact) | not computed |
 
 `N_eff` is the discriminating statistic and it is decisive: the as-built
 window predicts 82.4 against 81.5 measured, a one percent agreement, while a
@@ -246,8 +271,9 @@ independently reproduce, from first principles, the +0.043 to
 +0.050 measured on the real captures and quoted in the superseded methods document.
 
 **What it costs the instrument.** The truncation is a genuine defect and may
-be described as one in print, but its cost is spectral purity, not
-sensitivity:
+be described as one in print, but ~~its cost is spectral purity, not
+sensitivity~~ (withdrawn 2026-10: it also costs sensitivity, see the
+correction at the top of this subsection):
 
 * Adjacent-channel rejection collapses from -95.6 dB to **-16.7 dB**. A
   monochromatic signal spills about 2 percent of its power into each
@@ -258,13 +284,16 @@ sensitivity:
   spectra is broader than the instrument's designed channel response.
 * It does **not** measurably broaden the H I line. The leakage spans a few
   1 kHz channels against a fitted line width of 77 to 152 kHz.
-* Sensitivity is not degraded. `B_eff` is 824 Hz as built against 536 Hz for
-  a correct taper, so the radiometric noise per unit integration time is
-  slightly *lower* than a correct implementation would deliver. No
-  sensitivity figure in the manuscript is invalidated by this.
-* The fix is one line: design the prototype to exactly `K*fft_size` taps, or
-  pass the tap count explicitly, rather than letting `firdes` choose a length
-  from the attenuation and transition width.
+* ~~Sensitivity is not degraded.~~ **Withdrawn (2026-10, v1.1-apm):**
+  sensitivity is degraded. As built, `B_rad` is 813.8 Hz against 962.6 Hz for
+  the correct design, so the as-built window needs 1.18 times the
+  integration time for the same noise. (The 536 Hz comparison that supported
+  the earlier statement was a 16 384-tap taper with the 250 Hz cutoff, which
+  is not a correct design: exact 518.7 Hz, with gaps between channels.)
+* The fix needs both 16 384 taps (exactly `K*fft_size`, rather than letting
+  `firdes` choose a length from the attenuation and transition width) and a
+  500 Hz cutoff, `samp_rate/(2*fft_size)`. Resizing alone, with the 250 Hz
+  cutoff, is not a correct fix.
 
 A two-panel truncation figure (not included in this release) showed the
 designed prototype with the consumed and discarded spans, and the resulting
@@ -275,6 +304,19 @@ GNU Radio on its first run to design the 32 299 taps (the cached
 carry a few percent of run-to-run scatter.
 
 ### Effective channel bandwidth: confirmed at 818 Hz
+
+**Correction (2026-10, v1.1-apm).** The as-built radiometric bandwidth is
+**813.8 Hz exactly**, `B_rad = F / sum_{l=-7..7} rho_l^2` with
+`rho_l = sum_n h[n] h[n+l*N] / sum_n h[n]^2`, `N = 2048`, `F = 1000`
+frames/s, from the GNU Radio 3.10.12 taps (first 16 384 of the 32 299
+`firdes` taps, 250 Hz cutoff; response -16.7 dB at the adjacent channel
+center). The 824 Hz quoted before is one Monte Carlo draw (seed 11); over seeds 1 to
+20 the script gives 822 +/- 20 Hz. Resizing only (16 384 taps, 250 Hz cutoff)
+gives 518.7 Hz and leaves gaps between channels; the correct design (16 384
+taps, 500 Hz cutoff) gives 962.6 Hz at -88.5 dB, so the as-built window needs
+1.18 times its integration time. The statements "its cost is spectral purity,
+not sensitivity" and "Sensitivity is not degraded" are withdrawn. Measured on
+the sky records the value is 803 to 818 Hz depending on the estimator.
 
 **This section was withdrawn two revisions ago, restored at 753 Hz in the
 previous revision, and is now confirmed at 818 Hz.** The withdrawal argued
@@ -294,13 +336,15 @@ the receiver level drift described in section 4.
 | | `B_eff` |
 |---|---|
 | **measured, four stationary captures** | **818.1 +- 2.9 Hz** |
-| simulated, window as built | 824 Hz |
-| simulated, complete taper (counterfactual) | 536 Hz |
+| window as built | 813.8 Hz (exact; Monte Carlo 822 +/- 20) |
+| complete taper, 250 Hz cutoff (counterfactual; leaves gaps between channels) | 536 Hz (Monte Carlo); exact 518.7 Hz |
+| correct design: 16 384 taps, 500 Hz cutoff | 962.6 Hz (exact) |
 | channel spacing, for reference | 1000 Hz |
 
-Measurement and simulation now agree to **0.7 percent**, against 9 percent in
-the previous revision, and the four captures agree among themselves to 0.8
-percent. The counterfactual complete taper is off by 35 percent. **This is
+Measurement and the exact as-built value now agree to **0.5 percent**, against
+9 percent in the previous revision, and the four captures agree among
+themselves to 0.8 percent. The counterfactual complete taper (exact 518.7 Hz)
+is off by 37 percent. **This is
 the strongest available confirmation that the analysis window is truncated as
 section 5 describes**, and it is independent of the tap-count argument: it
 uses only the measured noise of four captures and a simulation of the
