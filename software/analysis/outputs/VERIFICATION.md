@@ -71,7 +71,18 @@ uses 0.5 s sweep rows (`TAU_ROW_SWEEP_S`). Regenerating changed:
   and 3.527 % (E2).
 - **`figures/first_light_and_averaging.pdf`/`.png`**: panels (b) and (c) as
   above; panel (a) is unchanged. These figures are not in `reference_outputs/`.
-- Every other output is unchanged (`mergen21_hi_*`, `mergen21_data_manifest.csv`,
+- **Sweep row cadence 1.0 → 0.5 s** (v1.1 correction: the sweep ran with
+  `integration_time = 500`, see `observations/captures.csv` and
+  `docs/analysis/PROVENANCE_ADDENDUM.md` section 4). `TAU_ROW_SWEEP_S` in
+  `mergen21_hi_analysis.py` is now 0.5, which changes
+  `frequency_axis.tau_per_row_s_sweep` in `mergen21_hi_derived.json` and
+  `utc_mid`, `on_source_s`, `tau_row_s` for the withdrawn `SW01`-`SW12` rows
+  of `mergen21_hi_measurements.csv`. No static-pointing number changes.
+  `reference_outputs/mergen21_capture_metadata.csv` (hand-maintained) was
+  updated to the same SW row as `observations/captures.csv`.
+- **Manifest.** `software/gnuradio/receiver.grc` (comment text only) has a new
+  sha256 in `mergen21_data_manifest.csv`.
+- Every other output is unchanged (`mergen21_hi_line_parameters.csv`,
   `stage_gains.csv`).
 
 An earlier refresh of `reference_outputs/`, which had gone stale, changed:
@@ -86,7 +97,8 @@ An earlier refresh of `reference_outputs/`, which had gone stale, changed:
   FWHM and centroid do not depend on elevation and are unchanged.
 - **Sweep row cadence 0.5 → 1.0 s** (`frequency_axis.tau_per_row_s_sweep`, and
   `utc_mid`, `on_source_s`, `tau_row_s` for the withdrawn `SW01`-`SW12` rows).
-  No static-pointing number changes.
+  No static-pointing number changes. This was later reversed (see above): the
+  sweep's 0.5 s cadence was correct.
 - **`withdrawn.note`** now cites PROVENANCE_ADDENDUM.md sections 1 and 6.
 - **Manifest.** Paths are written with forward slashes on every platform
   (`as_posix()`), and the hashes of `measurements/rf-chain/nf/README.md` and

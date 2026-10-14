@@ -90,7 +90,7 @@ the 05:04:50 east capture used 100. The frame period is
 | `..._045857_guney.dat` (south) | 1000 | 1.0 s | 103 | 103.0 s | observer |
 | `..._050204_doggu.dat` (east) | 1000 | 1.0 s | 104 | 104.0 s | observer |
 | `..._050450_Dogu_100.dat` (east repeat) | 100 | 0.1 s | 171 | 17.1 s | observer, filename agrees |
-| `..._050554_180partygirl_500int.dat` (sweep) | 1000 | 1.0 s | 293 | 293.0 s | observer; **filename disagrees** |
+| `..._050554_180partygirl_500int.dat` (sweep) | 500 | 0.5 s | 293 | 146.5 s | observer setting corrected; filename agrees |
 
 Every nominal duration is shorter than the gap to the next capture's start
 time, which is a necessary consistency check and it passes for all five.
@@ -103,6 +103,15 @@ likewise does not record that capture's setting. The observer states the
 filename is misleading. Both disagreements are recorded here rather than
 resolved silently, because a reader who opens the flowgraph will otherwise
 find a number that matches nothing.
+
+**Correction (2026-10, v1.1-apm):** the sweep capture did run with
+`integration_time = 500`, as its filename says, so `receiver.grc`'s saved 500
+matches that capture. The 2026-09-13 reading above that put it at 1000 is
+withdrawn. Evidence: the sweep's within-row channel scatter is 4.95 % against
+3.49 % in the three 1 s captures (ratio sqrt(2)), and its `N_eff` of 408.8 per
+row equals about 0.5 s x 814 Hz. Rows are 0.5 s, 293 rows, 146.5 s
+(02:05:54 to 02:08:20 UTC). The west, south and 05:02:04 east pointings used
+1000 and `Dogu_100` used 100, as tabulated.
 
 **What the previous revision inferred, and where it was wrong.** That
 revision derived the cadence from per-row noise, calibrating `N_eff` against
@@ -144,6 +153,14 @@ value. `analysis/mergen21_hi_analysis.py` no longer holds a single cadence
 constant; it carries `INTEGRATION_FRAMES` per file, and
 `analysis/outputs/mergen21_capture_metadata.csv` records the setting, the
 derived cadence and the provenance of each alongside.
+
+**Correction (2026-10, v1.1-apm):** the sweep's duration is **146.5 s**
+(293 rows of 0.5 s) and each sweep block is 12 to 12.5 s, as the 0.5 s
+cadence of the earlier revision implied; the 293 s and 24 to 25 s above come from the 2026-09-13
+reading, which is withdrawn (see the note after the cadence table). The
+within-row scatter (4.95 % against 3.49 %, ratio sqrt(2)) and the `N_eff` of
+408.8 per row (0.5 s x 814 Hz) support the 0.5 s cadence. The static captures'
+rows are unchanged.
 
 ## 5. Exact filter and averaging implementation
 

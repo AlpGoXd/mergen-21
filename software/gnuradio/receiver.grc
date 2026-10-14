@@ -117,9 +117,9 @@ blocks:
 - name: integration_time
   id: variable
   parameters:
-    comment: 'Saved as 500 before the 2026-05-14 release, which matched no capture.
-      The 2026-04-29 observing run used 1000 for all pointings (west, south, east
-      at 05:02:04, and the sweep) except Dogu_100, which used 100. See observations/captures.csv.'
+    comment: '500 matches the sweep capture (..._500int.dat, 0.5 s rows). The 2026-04-29
+      run used 1000 for the west, south and 05:02:04 east pointings and 100 for
+      Dogu_100. See observations/captures.csv.'
     value: '1000'
   states:
     bus_sink: false

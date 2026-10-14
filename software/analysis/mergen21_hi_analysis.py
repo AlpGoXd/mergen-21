@@ -63,10 +63,12 @@ CHAN_BW_HZ = SAMP_RATE / FFT_SIZE            # 1000.0 Hz channel SPACING.
 # the spacing and its exact width is unsettled. See PROVENANCE_ADDENDUM.md
 # section 5. Nothing below uses CHAN_BW_HZ for a noise prediction.
 
-# Row cadence. The observer confirmed on 2026-09-13 that every capture from
-# the April 29 session, including the sweep ("_180partygirl_500int.dat"),
-# ran with integration_time = 1000 (1.0 s per row), despite that filename's
-# misleading "500int". The committed flowgraph's saved integration_time
+# Row cadence. The observer confirmed on 2026-09-13 that the west, south and
+# 05:02:04 east captures ran with integration_time = 1000 (1.0 s per row).
+# The sweep ("_180partygirl_500int.dat") ran with integration_time = 500
+# (0.5 s per row), as its filename says (corrected 2026-10: within-row scatter
+# 4.95 % vs 3.49 % in the 1 s captures, ratio sqrt(2); N_eff 408.8 per row).
+# The committed flowgraph's saved integration_time
 # (500 at session time, since corrected to 1000; see
 # software/gnuradio/receiver.grc) records the END of the session and was
 # never authoritative for any individual capture's cadence.
@@ -76,7 +78,7 @@ CHAN_BW_HZ = SAMP_RATE / FFT_SIZE            # 1000.0 Hz channel SPACING.
 # identical except for the withdrawn sweep-block on_source_s/utc_mid/tau_row_s
 # columns and frequency_axis.tau_per_row_s_sweep in the derived JSON).
 TAU_ROW_STATIC_S = 1.0
-TAU_ROW_SWEEP_S = 1.0
+TAU_ROW_SWEEP_S = 0.5
 
 # Site. ASSUMED from observations/README.md ("~41.0 N, 29.0 E"); no GPS fix
 # was logged. A 0.1 deg error moves v_bary by <0.01 km/s.

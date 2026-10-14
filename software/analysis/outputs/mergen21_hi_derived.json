@@ -2,7 +2,7 @@
   "frequency_axis": {
     "channel_spacing_Hz": 1000.0,
     "tau_per_row_s_static": 1.0,
-    "tau_per_row_s_sweep": 1.0,
+    "tau_per_row_s_sweep": 0.5,
     "f0_MHz": 1420.405751768
   },
   "withdrawn": {

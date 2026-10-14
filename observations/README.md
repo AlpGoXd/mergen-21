@@ -40,9 +40,9 @@ Observation plots are in `plots/`:
 
 Per-file acquisition provenance for the 2026-04-29 session is recorded in [`captures.csv`](captures.csv), derived from the observer's confirmed capture metadata. Summary:
 
-- The west (`_bati`), south (`_guney`), and 05:02:04 east (`_doggu`) pointings, and the sweep (`_180partygirl_500int.dat`), all ran with `integration_time = 1000` on the flowgraph (1.0 s per row).
-- Only `..._050450_Dogu_100.dat` used `integration_time = 100` (0.1 s per row); this is the one file whose name correctly states its integration setting.
-- The sweep file's name says "500int", but it actually ran with `integration_time = 1000`; the filename is wrong.
+- The west (`_bati`), south (`_guney`), and 05:02:04 east (`_doggu`) pointings ran with `integration_time = 1000` on the flowgraph (1.0 s per row).
+- The sweep (`_180partygirl_500int.dat`) ran with `integration_time = 500` (0.5 s per row, 293 rows, 146.5 s); its filename is correct. Evidence: its within-row channel scatter is 4.95 %, against 3.49 % in the three 1 s captures (ratio sqrt(2)), and its N_eff of 408.8 per row equals about 0.5 s x 814 Hz.
+- `..._050450_Dogu_100.dat` used `integration_time = 100` (0.1 s per row); its name also states its integration setting correctly.
 - Azimuths were read from two phone compasses at the time of each static pointing. Elevation (30°) was estimated by the observer and was not instrumented. The horn rested on its narrow (80 mm) wall with the N-connector axis horizontal (E-plane horizontal), not hand-held. The sweep capture has no angle log at all; it moved through pointings manually with pauses and is qualitative only (its azimuth is not recoverable and its effective bandwidth cannot be estimated by row differencing).
 
 ### Assumed quantities
@@ -54,7 +54,7 @@ These values are assumed rather than measured; they are marked `ASSUMED` in `sof
 | elevation | 30° | observer-stated; no positioner or encoder on the mount | dominant systematic on `l`, `b` and the motion correction |
 | site | 41.0 N, 29.0 E, 100 m | no GPS fix logged | below 0.01 km/s on the motion correction |
 | local time offset | UTC+3 | filenames carry local time | 1 h error would shift the motion correction by about 1 km/s |
-| row cadence | 1.0 s per row (0.1 s for `..._050450_Dogu_100.dat`) | `integration_time` supplied by the observer; not stored in the `.dat` files | sets the time axis and the averaging-noise scaling |
+| row cadence | 1.0 s per row (0.5 s for the sweep `..._500int.dat`, 0.1 s for `..._050450_Dogu_100.dat`) | `integration_time` supplied by the observer; not stored in the `.dat` files | sets the time axis and the averaging-noise scaling |
 
 In addition to the five captures in `captures.csv`, `data/` contains 21 earlier `.dat` files with no direction suffix (plain `mergen21_spec_20260429_HHMMSS.dat`). These are earlier test and commissioning captures; their acquisition settings were not recorded and they are not included in `captures.csv`.
 
