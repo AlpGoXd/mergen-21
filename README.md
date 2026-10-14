@@ -153,7 +153,7 @@ pip install -r software/requirements.txt
 
 > CST, AWR, and Autodesk Inventor are only needed to re-run simulations or edit CAD. All exported results (S-parameters, STEP, Gerbers, PDFs) are already in the repo.
 
-**Total system cost:** ~$413–$513 USD (see [`docs/bom.md`](docs/bom.md) for full breakdown).
+**Dedicated hardware:** about US$804 in 2026 (horn replacement cost estimated), excluding the host computer and shared laboratory instruments; see [`docs/bom.md`](docs/bom.md).
 
 ---
 
