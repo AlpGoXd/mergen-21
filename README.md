@@ -6,6 +6,8 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23239045.svg)](https://doi.org/10.5281/zenodo.23239045)
 
+The IEEE AP Magazine article cites version v1.1-apm: https://doi.org/10.5281/zenodo.23375674
+
 A radio telescope I built for my EE401 graduation project at Ozyegin University. It listens at 1420.405 MHz (the hydrogen line), and I used it to detect hydrogen emission from the Milky Way at several pointings. Mapping its rotation is future work.
 
 **Science goal (future work):** a Galactic rotation curve via the tangent-point method, observed from Istanbul, Turkey. The released results are first-light hydrogen-line detections with pointing dependence (south/east/west); velocity/rotation-curve analysis is not yet complete (see "Reproducing the paper" below).
@@ -63,7 +65,7 @@ Here's what the GNU Radio receiver flowgraph looks like:
 | GNU Radio flowgraphs | Complete | `receiver.grc` (main) + `21cm synth/` test flowgraphs |
 | Analysis software | Complete | `mergen21_hi_analysis.py` and `first_light_and_averaging.py` reproduce the manuscript's line fits and averaging-noise tables; see "Reproducing the paper" below and `software/analysis/outputs/VERIFICATION.md` |
 | First-light observations | Complete | South/east/west pointings, 2026-04-29; data in `observations/data/`. The sweep appears only as a qualitative waterfall (Fig. 7(c), 0.5 s rows); its azimuth mapping and the rotation-curve analysis are not part of the released results (see `docs/analysis/PROVENANCE_ADDENDUM.md`) |
-| Open-source release | Released as v1.0-apm | Tagged release for the IEEE AP Magazine submission |
+| Open-source release | Released as v1.1-apm (supersedes v1.0-apm) | Tagged release for the IEEE AP Magazine submission |
 
 ---
 
