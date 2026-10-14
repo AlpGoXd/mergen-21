@@ -56,13 +56,13 @@ Here's what the GNU Radio receiver flowgraph looks like:
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| Hardware (antenna, RF chain, LDO) | Complete | Fully characterized; measurement data available |
+| Hardware (antenna, RF chain, LDO) | Complete | Characterized (horn S11; receiver gain, noise figure and OIP3; radiation pattern simulated only); measurement data available |
 | Power supply board | Complete | Gerbers ready; BOM in `hardware/ldo-regulator/bom.pdf` |
 | Simulations (CST, AWR) | Complete | Exported results in `hardware/simulation/` |
 | Measurements (VNA, IP3, NF) | Complete | 39.5 +/- 0.5 dB gain, 1.5 dB NF (cable-corrected), OIP3 +29.5 dBm (cascade) |
 | GNU Radio flowgraphs | Complete | `receiver.grc` (main) + `21cm synth/` test flowgraphs |
 | Analysis software | Complete | `mergen21_hi_analysis.py` and `first_light_and_averaging.py` reproduce the manuscript's line fits and averaging-noise tables; see "Reproducing the paper" below and `software/analysis/outputs/VERIFICATION.md` |
-| First-light observations | Complete | South/east/west pointings, 2026-04-29; data in `observations/data/`. Azimuth sweep and rotation-curve analysis are not part of the released results (see `docs/analysis/PROVENANCE_ADDENDUM.md`) |
+| First-light observations | Complete | South/east/west pointings, 2026-04-29; data in `observations/data/`. The sweep appears only as a qualitative waterfall (Fig. 7(c), 0.5 s rows); its azimuth mapping and the rotation-curve analysis are not part of the released results (see `docs/analysis/PROVENANCE_ADDENDUM.md`) |
 | Open-source release | Released as v1.0-apm | Tagged release for the IEEE AP Magazine submission |
 
 ---
@@ -71,7 +71,7 @@ Here's what the GNU Radio receiver flowgraph looks like:
 
 ### RF Receiver
 - **Cascade gain:** 39.5 dB +/- 0.5 dB (measured via ZNB8; the VNA cascade file has ~42.5 MHz point spacing and has no sample at 1420.405 MHz, the nearest points being 1402.50835 MHz and 1445.0083 MHz)
-- **Cascade NF:** about 1.5 dB (1.54 dB, cable-corrected gain-method estimate: measured output noise density -133.46 dBm/Hz, +0.6 dB +/-0.2 dB estimated output-cable correction, minus the -173.9 dBm/Hz thermal floor, minus the 39.5 dB gain; add +/-0.5 dB from gain uncertainty). Friis-formula prediction: 0.81 dB with VNA stage gains (0.77 dB with datasheet gains). Design requirement: 0.96 dB.
+- **Cascade NF:** about 1.5 dB (1.54 dB, cable-corrected gain-method estimate: measured output noise density -133.46 dBm/Hz, +0.6 dB +/-0.2 dB measured output-cable loss (IP3 setup), minus the -173.9 dBm/Hz thermal floor, minus the 39.5 dB gain; add +/-0.5 dB from gain uncertainty). Friis-formula prediction: 0.81 dB with VNA stage gains (0.77 dB with datasheet gains). Design requirement: 0.96 dB.
 - **Cascade OIP3:** +29.54 dBm, output-referred (−12 dBm total two-tone input, i.e. −15 dBm per tone; TOI spread 0.3 dB)
 - Measurements traceable to R&S ZNB8 VNA & FSVA3044 spectrum analyzer
 

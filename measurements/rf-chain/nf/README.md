@@ -6,7 +6,7 @@
 - **Design requirement:** 0.96 dB
 
 The measured value is referenced to the device plane (before the output
-cable) via an estimated cable correction; it is not a direct match to the
+cable) via the measured output-cable loss; it is not a direct match to the
 Friis prediction, and the gap is discussed below rather than rounded away.
 
 ## Key Finding
@@ -29,9 +29,10 @@ NF = P_out + CABLE_LOSS - KT0 - GAIN
    = 1.54 dB
 ```
 
-where `CABLE_LOSS` = 0.6 dB +/- 0.2 dB is an estimated correction for the
-output cable between the receiver and the spectrum analyzer (see "Cable
-Loss" below), `KT0` = -173.9 dBm/Hz is the thermal noise floor at the
+where `CABLE_LOSS` = 0.6 dB +/- 0.2 dB is the measured loss of the
+output cable between the receiver and the spectrum analyzer (0.61 dB
+reference-path loss in the IP3 setup, same cable; not re-measured during the
+NF test; see "Cable Loss" below), `KT0` = -173.9 dBm/Hz is the thermal noise floor at the
 measured ambient temperature, and `GAIN` = 39.5 dB +/- 0.5 dB is the
 cascade gain from the VNA measurement. Adding the cable correction moves
 the result further from, not closer to, the Friis prediction -- see below.
@@ -75,9 +76,9 @@ data currently in this repository:
   Friis prediction only to 0.81 dB. (The larger 2.2 dB figure in
   `../ip3/README.md` is the IP3 tone-level gain, which includes the test
   cables.)
-- The 0.6 dB +/- 0.2 dB output-cable correction is itself an estimate
-  carried over from the IP3 measurements, not a value measured
-  simultaneously with this NF test.
+- The 0.6 dB +/- 0.2 dB output-cable loss is a measured value (0.61 dB
+  reference-path loss in the IP3 setup, same cable). It was not re-measured
+  during this NF test.
 - The method used here is the gain method (output noise density of the
   chain with its input terminated in 50 ohm, minus the known gain; see
   "Measurement Method" above). It is not a Y-factor (noise-source ENR)
@@ -102,7 +103,7 @@ The complete receiver chain was measured by connecting the **50 ohm matched load
 
 ### Cable Loss
 
-The cable loss was measured at approximately **0.6 dB**, consistent with the value observed during the IP3 measurements. This value is used as the `CABLE_LOSS` correction in the cable-corrected NF calculation above (a +/-0.2 dB uncertainty is carried through to the final result).
+The output-cable loss is **0.6 dB +/- 0.2 dB**, measured: the IP3 setup, with the same cable, gave a 0.61 dB reference-path loss. It was not re-measured during the NF test. This value is used as the `CABLE_LOSS` correction in the cable-corrected NF calculation above (a +/-0.2 dB uncertainty is carried through to the final result).
 
 ---
 
@@ -125,7 +126,7 @@ The cable loss was measured at approximately **0.6 dB**, consistent with the val
 
 | File | Description |
 |------|-------------|
-| `cable_loss.DAT` / `cable_loss.PNG` | Cable insertion loss measurement |
+| `cable_loss.DAT` / `cable_loss.PNG` | Cable loss measurement files. `cable_loss.DAT` holds a spectrum trace with a +1.42 dBm CW tone at 1420 MHz; `cable_loss.PNG` is a different capture, with a -20.52 dBm marker. The 0.6 dB value is the IP3-setup reference-path loss (see "Cable Loss" above), not derived from these two files alone. |
 | `match noise.DAT` / `match noise again.PNG` | 50 ohm matched load baseline (analyzer noise floor) |
 | `just cooked reciver.DAT` / `just cooked reciver.PNG` | Full receiver chain output noise measurement |
 | `setup/` | Measurement setup photos |

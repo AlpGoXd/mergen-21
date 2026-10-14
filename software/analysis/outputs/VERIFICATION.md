@@ -80,8 +80,9 @@ uses 0.5 s sweep rows (`TAU_ROW_SWEEP_S`). Regenerating changed:
   of `mergen21_hi_measurements.csv`. No static-pointing number changes.
   `reference_outputs/mergen21_capture_metadata.csv` (hand-maintained) was
   updated to the same SW row as `observations/captures.csv`.
-- **Manifest.** `software/gnuradio/receiver.grc` (comment text only) has a new
-  sha256 in `mergen21_data_manifest.csv`.
+- **Manifest.** `software/gnuradio/receiver.grc` (comment text only) and
+  `measurements/rf-chain/nf/README.md` (cable-loss wording: measured, not
+  estimated) have new sha256 values in `mergen21_data_manifest.csv`.
 - Every other output is unchanged (`mergen21_hi_line_parameters.csv`,
   `stage_gains.csv`).
 
